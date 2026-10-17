@@ -42,13 +42,15 @@
         .hero-image { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; display: block; }
         .image-note { position: absolute; bottom: 22px; left: -28px; background: var(--paper); border-left: 1px solid var(--lime); padding: 13px 18px; font: 19px var(--serif); }
         .image-index { position: absolute; right: 16px; top: 16px; color: white; font-size: 10px; letter-spacing: 1px; text-shadow: 0 1px 8px #333; }
-        .photo-edit { position: absolute; inset: 0; display: block; width: 100%; height: 100%; overflow: hidden; padding: 0; border: 0; background: transparent; cursor: pointer; text-align: left; }
+        .photo-edit { position: absolute; inset: 0; display: block; width: 100%; height: 100%; overflow: hidden; padding: 0; border: 0; background: transparent; cursor: default; pointer-events: none; text-align: left; }
         .photo-edit img { transition: transform .35s ease; }
         .photo-edit:hover img, .photo-edit:focus-visible img { transform: scale(1.025); }
         .photo-edit:focus-visible { outline: 2px solid var(--lime); outline-offset: 4px; }
-        .photo-edit-label { position: absolute; right: 14px; bottom: 14px; padding: 10px 13px; background: rgba(27, 48, 38, .94); color: white; font-size: 10px; letter-spacing: .7px; text-transform: uppercase; }
-        .public-site .photo-edit { pointer-events: none; cursor: default; }
-        .public-site .photo-edit-label, .public-site .photo-status { display: none; }
+        .photo-edit-label, .photo-status { display: none; }
+        .local-preview .photo-edit { cursor: pointer; pointer-events: auto; }
+        .local-preview .photo-edit-label { position: absolute; right: 14px; bottom: 14px; display: block; padding: 10px 13px; background: rgba(27, 48, 38, .94); color: white; font-size: 10px; letter-spacing: .7px; text-transform: uppercase; }
+        .local-preview .photo-status { display: block; }
+        .local-preview .photo-status:empty { display: none; }
         .image-note, .image-index { pointer-events: none; z-index: 1; }
         .ticker { background: var(--green-deep); color: #f4f0e8; display: flex; justify-content: center; gap: 24px; padding: 17px; font: 9px var(--sans); letter-spacing: 1.4px; text-transform: uppercase; }
         .ticker span { color: var(--lime); }
