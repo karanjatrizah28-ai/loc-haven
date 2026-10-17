@@ -22,7 +22,7 @@
             <a href="#services">Services</a>
             <a href="#journey">Your journey</a>
             <a href="#faq">FAQ</a>
-            <a class="nav-cta" href="#booking">Begin your inquiry <span>↗</span></a>
+            <a class="nav-cta" href="#booking" data-service="Sisterlocks consultation">Begin your inquiry <span>↗</span></a>
         </nav>
     </header>
 
@@ -31,16 +31,16 @@
             <div class="hero-copy">
                 <div class="eyebrow">Sisterlocks studio</div>
                 <h1>Your roots,<br>your rhythm.<br><em>your locs.</em></h1>
-                <p>A thoughtful home for your Sisterlocks journey. Come as you are; leave with a care practice that feels like you.</p>
+                <p>Affordable Sisterlocks, thoughtful care, and a journey shaped around you. Visit us in Ruaka or ask about a house call.</p>
                 <div class="hero-actions">
-                    <a class="button button-dark" href="#booking">Start with a consultation <span>↗</span></a>
+                    <a class="button button-dark" href="#booking" data-service="Sisterlocks consultation">Start with a consultation <span>↗</span></a>
                     <a class="text-link" href="#services">Explore the studio</a>
                 </div>
             </div>
             <div class="hero-image-wrap">
                 <button class="photo-edit" type="button" data-photo-edit="hero" aria-label="Change the hero photo">
                     <img class="hero-image" data-studio-image="hero" alt="Portrait celebrating natural beauty and textured hair" fetchpriority="high">
-                    <span class="photo-edit-label">Change photo</span>
+                    <span class="photo-edit-label">Select / change photo</span>
                 </button>
                 <input class="photo-input" type="file" accept="image/*" data-photo-input="hero" hidden>
                 <div class="image-note">Room to grow, beautifully.</div>
@@ -73,13 +73,32 @@
                 <article class="service-row"><span class="service-num">03</span><h3>Retightening &amp; maintenance</h3><p>Ongoing care to support healthy growth and help your locs feel like you, season after season.</p><a class="service-arrow" href="#booking" data-service="Retightening &amp; maintenance" aria-label="Ask about retightening and maintenance">↗</a></article>
                 <article class="service-row"><span class="service-num">04</span><h3>Loc care guidance</h3><p>Practical support for your at-home routine, with space for the questions that come along the way.</p><a class="service-arrow" href="#booking" data-service="Loc care guidance" aria-label="Ask about loc care guidance">↗</a></article>
             </div>
+            <div class="service-finder">
+                <div class="section-label">A gentle place to begin</div>
+                <h3>What brings you here?</h3>
+                <p>Choose the answer that feels closest. You can always change your mind.</p>
+                <div class="service-choices" role="group" aria-label="Choose what brings you to Loc Haven">
+                    <button type="button" data-recommendation="Sisterlocks consultation" aria-pressed="false">I'm curious about Sisterlocks</button>
+                    <button type="button" data-recommendation="Sisterlocks establishment" aria-pressed="false">I'm ready to begin</button>
+                    <button type="button" data-recommendation="Retightening &amp; maintenance" aria-pressed="false">I already have locs</button>
+                    <button type="button" data-recommendation="Loc care guidance" aria-pressed="false">I want help with my routine</button>
+                </div>
+                <div class="service-recommendation" id="service-recommendation" aria-live="polite" hidden>
+                    <div>
+                        <span class="recommendation-label">A lovely next step</span>
+                        <h4 id="recommendation-title"></h4>
+                        <p id="recommendation-description"></p>
+                    </div>
+                    <a class="button button-dark" id="recommendation-link" href="#booking">Ask us about it <span>↗</span></a>
+                </div>
+            </div>
         </section>
 
         <section class="quote-band">
             <div class="quote-image-wrap">
                 <button class="photo-edit" type="button" data-photo-edit="quote" aria-label="Change the quote photo">
                     <img class="quote-image" data-studio-image="quote" alt="A woman in a quiet, sunlit moment" loading="lazy">
-                    <span class="photo-edit-label">Change photo</span>
+                    <span class="photo-edit-label">Select / change photo</span>
                 </button>
                 <input class="photo-input" type="file" accept="image/*" data-photo-input="quote" hidden>
             </div>
@@ -94,7 +113,7 @@
             <div class="journey-image-wrap">
                 <button class="photo-edit" type="button" data-photo-edit="journey" aria-label="Change the journey photo">
                     <img class="journey-image" data-studio-image="journey" alt="A relaxed portrait in warm natural light" loading="lazy">
-                    <span class="photo-edit-label">Change photo</span>
+                    <span class="photo-edit-label">Select / change photo</span>
                 </button>
                 <input class="photo-input" type="file" accept="image/*" data-photo-input="journey" hidden>
             </div>
@@ -115,16 +134,34 @@
                 <div>
                     <div class="section-label">Your next step</div>
                     <h2>Let's start with a hello.</h2>
-                    <p class="booking-intro">Share a little about what you're looking for. Your email app will open with a prepared inquiry for you to send to the studio.</p>
-                    <a class="button button-dark" href="https://wa.me/254723116262?text=Hello%20Loc%20Haven%2C%20I%27d%20like%20to%20ask%20about%20Sisterlocks." target="_blank" rel="noopener noreferrer">Chat on WhatsApp <span>↗</span></a>
+                    <p class="booking-intro">Visit our pickup point at Starmall, shop B7 in Ruaka, or ask us about a house call. Tell us what you need and we'll prepare a booking message for WhatsApp.</p>
+                    <a class="booking-location" href="https://www.google.com/maps/search/?api=1&amp;query=Starmall%2C%20Ruaka%2C%20Kenya" target="_blank" rel="noopener noreferrer">Get directions to Starmall, Ruaka ↗</a>
+                    <div class="booking-contacts">
+                        <a class="button button-dark" href="https://wa.me/254723116262?text=Hello%20Loc%20Haven%2C%20I%27d%20like%20to%20ask%20about%20Sisterlocks.">Chat on WhatsApp <span>↗</span></a>
+                        <div class="booking-phone-links">
+                            <a href="tel:+254723116262">Call or text +254 723 116 262</a>
+                            <a href="tel:+254710888430">Call or text +254 710 888 430</a>
+                        </div>
+                        <div class="booking-social-links" aria-label="Follow Loc Haven">
+                            <a class="button booking-social-link" href="https://www.instagram.com/sheilas_sisterlocs_studio/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+                            <a class="button booking-social-link" href="https://www.tiktok.com/@the.loc.haven3" target="_blank" rel="noopener noreferrer">TikTok ↗</a>
+                            <a class="button booking-social-link" id="share-site-link" href="#" target="_blank" rel="noopener noreferrer" hidden>Share this website on WhatsApp ↗</a>
+                        </div>
+                    </div>
                 </div>
                 <form class="booking-form" id="booking-form">
                     <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required></div>
-                    <div class="field"><label for="email">Your email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+                    <div class="field"><label for="email">Your email (optional)</label><input id="email" name="email" type="email" autocomplete="email"></div>
                     <div class="field field-wide"><label for="service">I'm interested in</label><select id="service" name="service" required><option value="" disabled selected>Choose a service</option><option>Sisterlocks consultation</option><option>Sisterlocks establishment</option><option>Retightening &amp; maintenance</option><option>Loc care guidance</option><option>I'm not sure yet</option></select></div>
+                    <fieldset class="field field-wide visit-preference">
+                        <legend>Where would you like your appointment?</legend>
+                        <label><input type="radio" name="visit" value="Starmall, shop B7 in Ruaka"> Starmall, shop B7 in Ruaka</label>
+                        <label><input type="radio" name="visit" value="A house call"> A house call</label>
+                        <label><input type="radio" name="visit" value="I'd like to discuss options"> I'd like to discuss options</label>
+                    </fieldset>
                     <div class="field field-wide"><label for="message">Anything you'd like us to know?</label><textarea id="message" name="message" placeholder="Your goals, questions, or preferred timing"></textarea></div>
-                    <button class="button" type="submit">Prepare my inquiry <span>↗</span></button>
-                    <p class="form-note">This opens your email app; you can add the studio's email address before sending.</p>
+                    <button class="button" type="submit">Continue to WhatsApp <span>↗</span></button>
+                    <p class="form-note">Your message will be prepared for WhatsApp. Review it there before sending.</p>
                 </form>
             </div>
         </section>
@@ -145,7 +182,7 @@
                 <a href="#services">Services</a>
                 <a href="#faq">FAQ</a>
                 <a href="#booking">Get in touch ↗</a>
-                <a href="https://wa.me/254723116262?text=Hello%20Loc%20Haven%2C%20I%27d%20like%20to%20ask%20about%20Sisterlocks." target="_blank" rel="noopener noreferrer">WhatsApp ↗</a>
+                <a href="tel:+254723116262">Call or text ↗</a>
                 <a href="https://www.instagram.com/sheilas_sisterlocs_studio/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
                 <a href="https://www.tiktok.com/@the.loc.haven3" target="_blank" rel="noopener noreferrer">TikTok ↗</a>
             </div>

@@ -44,8 +44,7 @@
         .photo-edit img { transition: transform .35s ease; }
         .photo-edit:hover img, .photo-edit:focus-visible img { transform: scale(1.025); }
         .photo-edit:focus-visible { outline: 2px solid var(--lime); outline-offset: 4px; }
-        .photo-edit-label { position: absolute; right: 14px; bottom: 14px; padding: 9px 12px; background: rgba(27, 48, 38, .88); color: white; font-size: 9px; letter-spacing: .8px; text-transform: uppercase; opacity: 0; transform: translateY(4px); transition: opacity .2s, transform .2s; }
-        .photo-edit:hover .photo-edit-label, .photo-edit:focus-visible .photo-edit-label { opacity: 1; transform: translateY(0); }
+        .photo-edit-label { position: absolute; right: 14px; bottom: 14px; padding: 10px 13px; background: rgba(27, 48, 38, .94); color: white; font-size: 10px; letter-spacing: .7px; text-transform: uppercase; }
         .image-note, .image-index { pointer-events: none; z-index: 1; }
         .ticker { background: var(--green-deep); color: #f4f0e8; display: flex; justify-content: center; gap: 24px; padding: 17px; font: 9px var(--sans); letter-spacing: 1.4px; text-transform: uppercase; }
         .ticker span { color: var(--lime); }
@@ -66,6 +65,18 @@
         .service-row h3 { font: 27px var(--serif); margin: 0; }
         .service-row p { font-size: 12px; line-height: 1.7; color: #676a62; max-width: 330px; margin: 0; }
         .service-arrow { font-size: 16px; color: #8b754f; }
+        .service-finder { margin-top: 58px; padding: 34px; background: var(--paper); }
+        .service-finder h3 { font: 34px var(--serif); margin: 13px 0 8px; }
+        .service-finder > p { color: #686b61; font-size: 12px; line-height: 1.7; margin-bottom: 22px; }
+        .service-choices { display: flex; flex-wrap: wrap; gap: 10px; }
+        .service-choices button { border: 1px solid var(--line); padding: 12px 15px; background: transparent; color: var(--ink); cursor: pointer; font-size: 11px; transition: background .2s, color .2s, border-color .2s; }
+        .service-choices button:hover, .service-choices button:focus-visible, .service-choices button[aria-pressed="true"] { background: var(--green-deep); border-color: var(--green-deep); color: var(--paper); }
+        .service-choices button:focus-visible, .service-recommendation a:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+        .service-recommendation[hidden] { display: none; }
+        .service-recommendation { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 25px; padding-top: 22px; border-top: 1px solid var(--line); }
+        .recommendation-label { color: #8b754f; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; }
+        .service-recommendation h4 { font: 24px var(--serif); margin: 7px 0; }
+        .service-recommendation p { color: #686b61; font-size: 11px; line-height: 1.7; margin: 0; }
         .quote-band { display: grid; grid-template-columns: 1fr 1fr; min-height: 420px; background: var(--green-deep); color: var(--paper); }
         .quote-image-wrap { position: relative; min-height: 420px; height: 100%; }
         .quote-image { display: block; width: 100%; height: 100%; min-height: 420px; object-fit: cover; object-position: center 35%; }
@@ -86,6 +97,16 @@
         .booking-inner { display: grid; grid-template-columns: .8fr 1.2fr; gap: 12%; max-width: 1100px; margin: auto; }
         .booking h2 { max-width: 390px; }
         .booking-intro { color: #493f3a; font-size: 13px; line-height: 1.8; max-width: 340px; }
+        .booking-contacts { display: flex; align-items: flex-start; flex-direction: column; gap: 16px; }
+        .booking-location { display: inline-block; margin: 0 0 20px; border-bottom: 1px solid var(--line); padding-bottom: 4px; font-size: 11px; }
+        .booking-location:hover { color: #6b806a; }
+        .booking-phone-links { display: grid; gap: 8px; font-size: 11px; }
+        .booking-phone-links a { width: fit-content; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
+        .booking-phone-links a:hover { color: #6b806a; }
+        .booking-social-links { display: flex; flex-wrap: wrap; gap: 10px; }
+        .booking-social-link { font-size: 9px; padding: 11px 14px; }
+        .booking-social-link:hover { background: var(--green-deep); border-color: var(--green-deep); color: white; }
+        .booking-social-link[hidden] { display: none; }
         .booking-form { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 18px; padding-top: 9px; }
         .field { display: flex; flex-direction: column; gap: 8px; }
         .field-wide { grid-column: 1 / -1; }
@@ -93,6 +114,10 @@
         .field input, .field select, .field textarea { width: 100%; border: 0; border-bottom: 1px solid rgba(32,43,35,.55); border-radius: 0; padding: 10px 0; color: var(--ink); outline: 0; background: transparent; font-size: 13px; }
         .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--green-deep); border-bottom-width: 2px; }
         .field textarea { min-height: 65px; resize: vertical; }
+        .visit-preference { border: 0; padding: 0; margin: 0; }
+        .visit-preference legend { margin-bottom: 8px; font-size: 10px; letter-spacing: .9px; text-transform: uppercase; }
+        .visit-preference label { display: inline-flex; align-items: center; gap: 7px; margin: 4px 14px 4px 0; color: #493f3a; font-size: 11px; cursor: pointer; }
+        .visit-preference input { accent-color: var(--green); }
         .booking-form .button { cursor: pointer; background: var(--green-deep); color: white; border-color: var(--green-deep); grid-column: 1 / -1; justify-self: start; }
         .booking-form .button:hover { background: var(--ink); }
         .form-note { font-size: 10px; line-height: 1.5; color: #564842; grid-column: 1 / -1; margin: -9px 0 0; }
@@ -136,6 +161,8 @@
             .service-row h3 { font-size: 21px; }
             .service-row p { grid-column: 2; grid-row: 2; }
             .service-arrow { grid-column: 3; grid-row: 1; }
+            .service-finder { margin-top: 38px; padding: 25px 20px; }
+            .service-recommendation { align-items: flex-start; flex-direction: column; gap: 16px; }
             .quote-band { grid-template-columns: 1fr; }
             .quote-image-wrap { min-height: 320px; height: 320px; }
             .quote-copy { padding: 54px 8%; }
@@ -145,7 +172,6 @@
             .booking-form { margin-top: 17px; }
             .footer-main { flex-direction: column; padding-bottom: 35px; }
             .footer-links { flex-wrap: wrap; gap: 18px; }
-            .photo-edit-label { opacity: 1; transform: none; }
         }
         @media (max-width: 430px) {
             .topline { font-size: 9px; letter-spacing: 1px; }
