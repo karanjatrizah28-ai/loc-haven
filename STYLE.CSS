@@ -19,11 +19,13 @@
         .site-header { height: 82px; display: flex; align-items: center; justify-content: space-between; padding: 0 6.5%; border-bottom: 1px solid var(--line); position: relative; z-index: 5; background: var(--paper); }
         .brand { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; letter-spacing: 1.7px; }
         .brand-mark { width: 29px; height: 29px; border: 1px solid var(--green); border-radius: 50%; display: grid; place-items: center; font-family: var(--serif); font-size: 17px; font-weight: 500; }
+        .mobile-menu { display: flex; align-items: center; }
         .nav-links { display: flex; align-items: center; gap: 32px; font-size: 11px; }
         .nav-links a:not(.nav-cta):hover { color: #6b806a; }
         .nav-cta, .button { display: inline-flex; align-items: center; justify-content: center; gap: 13px; border: 1px solid var(--ink); padding: 14px 20px; font-size: 10px; letter-spacing: .7px; text-transform: uppercase; transition: background .2s, color .2s; }
         .nav-cta:hover, .button:hover { background: var(--ink); color: var(--paper); }
-        .menu-toggle { display: none; background: none; border: 0; color: var(--ink); font-size: 22px; cursor: pointer; }
+        .menu-toggle { display: none; background: none; border: 0; color: var(--ink); font-size: 22px; cursor: pointer; list-style: none; }
+        .menu-toggle::-webkit-details-marker { display: none; }
         .hero { min-height: 680px; display: grid; grid-template-columns: 1fr .9fr; padding: 68px 6.5% 78px; gap: 5%; align-items: center; overflow: hidden; }
         .hero-copy { padding: 12px 0 24px; max-width: 580px; animation: rise .7s ease both; }
         .eyebrow { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #687668; display: flex; align-items: center; gap: 11px; }
@@ -132,6 +134,23 @@
         .faq summary::after { content: "+"; font: 18px var(--sans); }
         .faq details[open] summary::after { content: "-"; }
         .faq details p { font-size: 12px; line-height: 1.8; color: #686b61; max-width: 680px; margin: 17px 30px 0 0; }
+        .page-intro { padding: 92px 9% 72px; background: var(--sage); }
+        .page-intro h1 { font-size: clamp(58px, 8vw, 92px); margin: 20px 0; }
+        .page-intro > p { max-width: 560px; color: #5f655c; font-size: 14px; line-height: 1.85; margin: 0; }
+        .catalog-section { padding: 78px 9% 100px; }
+        .catalog-section .section-heading { margin-bottom: 34px; }
+        .catalog-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+        .catalog-card { position: relative; min-height: 210px; padding: 28px; background: #eeefe9; display: flex; flex-direction: column; align-items: flex-start; }
+        .catalog-number { color: #9a8155; font: 15px var(--serif); }
+        .catalog-card h3 { font: 27px var(--serif); margin: 18px 0 4px; }
+        .catalog-card p { color: #686b61; font-size: 12px; margin-bottom: 16px; }
+        .catalog-price { margin-top: auto; color: var(--green); font-size: 14px; font-weight: 700; }
+        .catalog-cta { margin-top: 56px; padding: 34px; background: var(--green-deep); color: var(--paper); display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+        .catalog-cta .section-label { color: var(--lime); }
+        .catalog-cta h2 { font-size: 38px; margin: 10px 0; }
+        .catalog-cta p { color: #d0d1c8; font-size: 12px; line-height: 1.7; max-width: 460px; margin: 0; }
+        .catalog-cta .button { flex-shrink: 0; border-color: var(--paper); }
+        .catalog-cta .button:hover { background: var(--paper); color: var(--green-deep); }
         footer { background: var(--green-deep); color: var(--paper); padding: 55px 6.5% 24px; }
         .footer-main { display: flex; justify-content: space-between; align-items: start; padding-bottom: 48px; gap: 30px; }
         .footer-brand { font: 31px var(--serif); }
@@ -145,15 +164,19 @@
         @media (max-width: 760px) {
             .site-header { height: 70px; padding: 0 6%; }
             .menu-toggle { display: block; }
+            .mobile-menu { position: static; }
             .nav-links { display: none; position: absolute; top: 69px; left: 0; right: 0; background: var(--paper); padding: 22px 6% 28px; border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; gap: 20px; }
-            .nav-links.open { display: flex; }
+            .mobile-menu[open] .nav-links { display: flex; }
             .nav-cta { align-self: flex-start; }
             .hero { grid-template-columns: 1fr; padding: 54px 7% 56px; gap: 42px; }
             h1 { font-size: 66px; }
             .hero-image-wrap { justify-self: stretch; height: min(112vw, 480px); max-width: none; margin-left: 8px; }
             .image-note { left: -9px; }
             .ticker { gap: 13px; font-size: 13px; flex-wrap: wrap; }
-            .section, .services { padding: 78px 7%; }
+            .section, .services, .catalog-section { padding: 78px 7%; }
+            .page-intro { padding: 70px 7% 55px; }
+            .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .catalog-cta { align-items: flex-start; flex-direction: column; padding: 28px 22px; }
             h2 { font-size: 43px; }
             .intro, .journey, .booking-inner { grid-template-columns: 1fr; gap: 24px; }
             .intro-copy { padding-top: 0; }
@@ -180,6 +203,8 @@
             .hero-actions { align-items: flex-start; flex-direction: column; gap: 13px; }
             .booking-form { grid-template-columns: 1fr; }
             .field-wide, .booking-form .button, .form-note { grid-column: auto; }
+            .catalog-grid { grid-template-columns: 1fr; }
+            .catalog-card { min-height: 180px; }
             .footer-bottom { flex-direction: column; gap: 10px; }
         }
         @media (prefers-reduced-motion: reduce) {

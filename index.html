@@ -16,14 +16,18 @@
     <div class="topline">A softer start to your loc journey</div>
     <header class="site-header">
         <a class="brand" href="#home" aria-label="Loc Haven home"><span class="brand-mark">L</span> LOC HAVEN</a>
-        <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
-        <nav class="nav-links" aria-label="Main navigation">
-            <a href="#story">Our approach</a>
-            <a href="#services">Services</a>
-            <a href="#journey">Your journey</a>
-            <a href="#faq">FAQ</a>
-            <a class="nav-cta" href="#booking" data-service="Sisterlocks consultation">Begin your inquiry <span>↗</span></a>
-        </nav>
+        <details class="mobile-menu">
+            <summary class="menu-toggle" aria-label="Open navigation">☰</summary>
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="index.html" aria-current="page">Main page</a>
+                <a href="services.html">Services</a>
+                <a href="products.html">Products</a>
+                <a href="#story">Our approach</a>
+                <a href="#journey">Your journey</a>
+                <a href="#faq">FAQ</a>
+                <a class="nav-cta" href="#booking" data-service="Sisterlocks consultation">Begin your inquiry <span>↗</span></a>
+            </nav>
+        </details>
     </header>
 
     <main>
@@ -39,7 +43,7 @@
             </div>
             <div class="hero-image-wrap">
                 <button class="photo-edit" type="button" data-photo-edit="hero" aria-label="Change the hero photo">
-                    <img class="hero-image" data-studio-image="hero" alt="Close-up of Sisterlocks styled over one shoulder" fetchpriority="high">
+                    <img class="hero-image" src="assets/hero.jpg" data-studio-image="hero" alt="Close-up of Sisterlocks styled over one shoulder" fetchpriority="high">
                     <span class="photo-edit-label">Select / change photo</span>
                 </button>
                 <input class="photo-input" type="file" accept="image/*" data-photo-input="hero" hidden>
@@ -97,7 +101,7 @@
         <section class="quote-band">
             <div class="quote-image-wrap">
                 <button class="photo-edit" type="button" data-photo-edit="quote" aria-label="Change the quote photo">
-                    <img class="quote-image" data-studio-image="quote" alt="Finished loc style lifted to show its neat parting" loading="lazy">
+                    <img class="quote-image" src="assets/quote.jpg" data-studio-image="quote" alt="Finished loc style lifted to show its neat parting" loading="lazy">
                     <span class="photo-edit-label">Select / change photo</span>
                 </button>
                 <input class="photo-input" type="file" accept="image/*" data-photo-input="quote" hidden>
@@ -112,7 +116,7 @@
         <section class="section journey" id="journey">
             <div class="journey-image-wrap">
                 <button class="photo-edit" type="button" data-photo-edit="journey" aria-label="Change the journey photo">
-                    <img class="journey-image" data-studio-image="journey" alt="Portrait from behind showing shoulder-length locs" loading="lazy">
+                    <img class="journey-image" src="assets/journey.jpg" data-studio-image="journey" alt="Portrait from behind showing shoulder-length locs" loading="lazy">
                     <span class="photo-edit-label">Select / change photo</span>
                 </button>
                 <input class="photo-input" type="file" accept="image/*" data-photo-input="journey" hidden>
@@ -137,7 +141,7 @@
                     <p class="booking-intro">Visit our pickup point at Starmall, shop B7 in Ruaka, or ask us about a house call. Tell us what you need and we'll prepare a booking message for WhatsApp.</p>
                     <a class="booking-location" href="https://www.google.com/maps/search/?api=1&amp;query=Starmall%2C%20Ruaka%2C%20Kenya" target="_blank" rel="noopener noreferrer">Get directions to Starmall, Ruaka ↗</a>
                     <div class="booking-contacts">
-                        <a class="button button-dark" href="https://wa.me/254723116262?text=Hello%20Loc%20Haven%2C%20I%27d%20like%20to%20ask%20about%20Sisterlocks.">Chat on WhatsApp <span>↗</span></a>
+                        <a class="button button-dark" href="https://api.whatsapp.com/send?phone=254723116262&amp;text=Hello%20Loc%20Haven%2C%20I%27d%20like%20to%20ask%20about%20Sisterlocks.">Ask on WhatsApp <span>↗</span></a>
                         <div class="booking-phone-links">
                             <a href="tel:+254723116262">Call or text +254 723 116 262</a>
                             <a href="tel:+254710888430">Call or text +254 710 888 430</a>
@@ -179,7 +183,8 @@
             <a class="footer-brand" href="#home">Loc Haven<small>Sisterlocks Studio</small></a>
             <div class="footer-links">
                 <a href="#story">Our approach</a>
-                <a href="#services">Services</a>
+                <a href="products.html">Products</a>
+                <a href="services.html">Services &amp; prices</a>
                 <a href="#faq">FAQ</a>
                 <a href="#booking">Get in touch ↗</a>
                 <a href="tel:+254723116262">Call or text ↗</a>
