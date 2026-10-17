@@ -1,7 +1,7 @@
 const defaultStudioImages = {
-    hero: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=1200&q=90",
-    quote: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=85",
-    journey: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1000&q=85"
+    hero: "assets/hero.jpg",
+    quote: "assets/quote.jpg",
+    journey: "assets/journey.jpg"
 };
 
 const photoStoragePrefix = "loc-haven-photo-";
