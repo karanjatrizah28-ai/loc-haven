@@ -209,8 +209,6 @@ if (!isPublishedSite) {
     });
 });
 
-const menuButton = document.querySelector(".menu-toggle");
-const navigation = document.querySelector(".nav-links");
 const bookingForm = document.querySelector("#booking-form");
 const serviceSelect = document.querySelector("#service");
 const shareSiteLink = document.querySelector("#share-site-link");
@@ -222,45 +220,11 @@ const isPublicHttpPage = (window.location.protocol === "http:" || window.locatio
 if (isPublicHttpPage) {
     const siteUrl = `${window.location.origin}${window.location.pathname}`;
     const shareMessage = `Take a look at Loc Haven: ${siteUrl}`;
-    shareSiteLink.href = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
-    shareSiteLink.hidden = false;
-}
-
-function closeNavigation() {
-    navigation.classList.remove("open");
-    menuButton.setAttribute("aria-expanded", "false");
-    menuButton.setAttribute("aria-label", "Open navigation");
-    menuButton.textContent = "☰";
-}
-
-menuButton.addEventListener("click", () => {
-    const isOpen = navigation.classList.toggle("open");
-
-    menuButton.setAttribute("aria-expanded", String(isOpen));
-    menuButton.setAttribute(
-        "aria-label",
-        isOpen ? "Close navigation" : "Open navigation"
-    );
-    menuButton.textContent = isOpen ? "×" : "☰";
-});
-
-navigation.addEventListener("click", (event) => {
-    if (event.target.closest("a")) {
-        closeNavigation();
+    if (shareSiteLink) {
+        shareSiteLink.href = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
+        shareSiteLink.hidden = false;
     }
-});
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-        closeNavigation();
-    }
-});
-
-document.querySelectorAll("[data-service]").forEach((link) => {
-    link.addEventListener("click", () => {
-        serviceSelect.value = link.dataset.service;
-    });
-});
+}
 
 const recommendations = {
     "Sisterlocks consultation": "Start with a one-to-one conversation about your hair, your routine, and the questions on your mind.",
@@ -273,38 +237,50 @@ const recommendationTitle = document.querySelector("#recommendation-title");
 const recommendationDescription = document.querySelector("#recommendation-description");
 const recommendationLink = document.querySelector("#recommendation-link");
 
-recommendationLink.addEventListener("click", () => {
-    serviceSelect.value = recommendationLink.dataset.service;
-});
-
-document.querySelectorAll("[data-recommendation]").forEach((button) => {
-    button.addEventListener("click", () => {
-        const service = button.dataset.recommendation;
-
-        document.querySelectorAll("[data-recommendation]").forEach((choice) => {
-            choice.setAttribute("aria-pressed", String(choice === button));
+if (serviceSelect) {
+    document.querySelectorAll("[data-service]").forEach((link) => {
+        link.addEventListener("click", () => {
+            serviceSelect.value = link.dataset.service;
         });
-
-        recommendationTitle.textContent = service;
-        recommendationDescription.textContent = recommendations[service];
-        recommendationLink.dataset.service = service;
-        recommendationPanel.hidden = false;
     });
-});
+}
 
-bookingForm.addEventListener("submit", (event) => {
-    event.preventDefault();
+if (recommendationLink && recommendationPanel) {
+    recommendationLink.addEventListener("click", () => {
+        serviceSelect.value = recommendationLink.dataset.service;
+    });
 
-    const formData = new FormData(bookingForm);
-    const message = [
-        "Hello Loc Haven, I'd like to ask about booking.",
-        `Name: ${formData.get("name")}`,
-        formData.get("email") ? `Email: ${formData.get("email")}` : null,
-        `Interested in: ${formData.get("service")}`,
-        `Appointment location: ${formData.get("visit") || "I'd like to discuss options."}`,
-        `Message: ${formData.get("message") || "No additional details."}`
-    ].filter(Boolean).join("\n");
+    document.querySelectorAll("[data-recommendation]").forEach((button) => {
+        button.addEventListener("click", () => {
+            const service = button.dataset.recommendation;
 
-    const body = encodeURIComponent(message);
-    window.location.href = `https://wa.me/254723116262?text=${body}`;
-});
+            document.querySelectorAll("[data-recommendation]").forEach((choice) => {
+                choice.setAttribute("aria-pressed", String(choice === button));
+            });
+
+            recommendationTitle.textContent = service;
+            recommendationDescription.textContent = recommendations[service];
+            recommendationLink.dataset.service = service;
+            recommendationPanel.hidden = false;
+        });
+    });
+}
+
+if (bookingForm) {
+    bookingForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(bookingForm);
+        const message = [
+            "Hello Loc Haven, I'd like to ask about booking.",
+            `Name: ${formData.get("name")}`,
+            formData.get("email") ? `Email: ${formData.get("email")}` : null,
+            `Interested in: ${formData.get("service")}`,
+            `Appointment location: ${formData.get("visit") || "I'd like to discuss options."}`,
+            `Message: ${formData.get("message") || "No additional details."}`
+        ].filter(Boolean).join("\n");
+
+        const body = encodeURIComponent(message);
+        window.location.href = `https://wa.me/254723116262?text=${body}`;
+    });
+}
