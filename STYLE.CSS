@@ -45,6 +45,8 @@
         .photo-edit:hover img, .photo-edit:focus-visible img { transform: scale(1.025); }
         .photo-edit:focus-visible { outline: 2px solid var(--lime); outline-offset: 4px; }
         .photo-edit-label { position: absolute; right: 14px; bottom: 14px; padding: 10px 13px; background: rgba(27, 48, 38, .94); color: white; font-size: 10px; letter-spacing: .7px; text-transform: uppercase; }
+        .public-site .photo-edit { pointer-events: none; cursor: default; }
+        .public-site .photo-edit-label, .public-site .photo-status { display: none; }
         .image-note, .image-index { pointer-events: none; z-index: 1; }
         .ticker { background: var(--green-deep); color: #f4f0e8; display: flex; justify-content: center; gap: 24px; padding: 17px; font: 9px var(--sans); letter-spacing: 1.4px; text-transform: uppercase; }
         .ticker span { color: var(--lime); }
