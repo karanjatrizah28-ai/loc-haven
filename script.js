@@ -8,6 +8,9 @@ const photoStoragePrefix = "loc-haven-photo-";
 const photoDatabaseName = "loc-haven";
 const photoStoreName = "studio-photos";
 const photoStatus = document.querySelector("#photo-status");
+const isPublishedSite = window.location.hostname === "karanjatrizah28-ai.github.io";
+
+document.body.classList.toggle("public-site", isPublishedSite);
 
 function openPhotoDatabase() {
     return new Promise((resolve, reject) => {
@@ -110,13 +113,15 @@ document.querySelectorAll("[data-studio-image]").forEach(async (image) => {
     const revision = photoRevisions.get(photoName);
     image.src = defaultStudioImages[photoName];
 
-    try {
-        const savedPhoto = await getSavedPhoto(photoName);
-        if (savedPhoto && photoRevisions.get(photoName) === revision) {
-            image.src = savedPhoto;
+    if (!isPublishedSite) {
+        try {
+            const savedPhoto = await getSavedPhoto(photoName);
+            if (savedPhoto && photoRevisions.get(photoName) === revision) {
+                image.src = savedPhoto;
+            }
+        } catch (error) {
+            showPhotoStatus(error.message);
         }
-    } catch (error) {
-        showPhotoStatus(error.message);
     }
 });
 
@@ -153,52 +158,54 @@ function compressPhoto(file) {
     });
 }
 
-document.querySelectorAll("[data-photo-edit]").forEach((button) => {
-    const photoName = button.dataset.photoEdit;
-    const fileInput = document.querySelector(`[data-photo-input="${photoName}"]`);
-    const image = document.querySelector(`[data-studio-image="${photoName}"]`);
+if (!isPublishedSite) {
+    document.querySelectorAll("[data-photo-edit]").forEach((button) => {
+        const photoName = button.dataset.photoEdit;
+        const fileInput = document.querySelector(`[data-photo-input="${photoName}"]`);
+        const image = document.querySelector(`[data-studio-image="${photoName}"]`);
 
-    button.addEventListener("click", () => fileInput.click());
+        button.addEventListener("click", () => fileInput.click());
 
-    fileInput.addEventListener("change", async () => {
-        const file = fileInput.files[0];
+        fileInput.addEventListener("change", async () => {
+            const file = fileInput.files[0];
 
-        if (!file) {
-            return;
-        }
-
-        const revision = (photoRevisions.get(photoName) || 0) + 1;
-        photoRevisions.set(photoName, revision);
-
-        try {
-            const photoData = await compressPhoto(file);
-            if (photoRevisions.get(photoName) !== revision) {
+            if (!file) {
                 return;
             }
 
-            image.src = photoData;
+            const revision = (photoRevisions.get(photoName) || 0) + 1;
+            photoRevisions.set(photoName, revision);
 
             try {
-                await writeStoredPhoto(photoName, photoData);
-                try {
-                    localStorage.removeItem(`${photoStoragePrefix}${photoName}`);
-                } catch {
-                    // A stale legacy photo does not override the IndexedDB copy.
+                const photoData = await compressPhoto(file);
+                if (photoRevisions.get(photoName) !== revision) {
+                    return;
                 }
-                showPhotoStatus("Photo updated and saved in this browser.");
-            } catch (storageError) {
-                try {
-                    localStorage.setItem(`${photoStoragePrefix}${photoName}`, photoData);
-                    showPhotoStatus("Photo saved in this browser's fallback storage.");
-                } catch {
-                    throw new Error(`Photo changed for this visit, but could not be saved: ${storageError.message}`);
-                }
-            }
-        } catch (error) {
-            showPhotoStatus(error.message);
-        }
 
-        fileInput.value = "";
+                image.src = photoData;
+
+                try {
+                    await writeStoredPhoto(photoName, photoData);
+                    try {
+                        localStorage.removeItem(`${photoStoragePrefix}${photoName}`);
+                    } catch {
+                        // A stale legacy photo does not override the IndexedDB copy.
+                    }
+                    showPhotoStatus("Photo updated and saved in this browser.");
+                } catch (storageError) {
+                    try {
+                        localStorage.setItem(`${photoStoragePrefix}${photoName}`, photoData);
+                        showPhotoStatus("Photo saved in this browser's fallback storage.");
+                    } catch {
+                        throw new Error(`Photo changed for this visit, but could not be saved: ${storageError.message}`);
+                    }
+                }
+            } catch (error) {
+                showPhotoStatus(error.message);
+            }
+
+            fileInput.value = "";
+        });
     });
 });
 
