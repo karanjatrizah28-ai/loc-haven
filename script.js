@@ -5,13 +5,92 @@ const defaultStudioImages = {
 };
 
 const photoStoragePrefix = "loc-haven-photo-";
+const photoDatabaseName = "loc-haven";
+const photoStoreName = "studio-photos";
 const photoStatus = document.querySelector("#photo-status");
 
-function getSavedPhoto(photoName) {
+function openPhotoDatabase() {
+    return new Promise((resolve, reject) => {
+        if (!window.indexedDB) {
+            reject(new Error("Persistent photo storage is not available in this browser."));
+            return;
+        }
+
+        const request = window.indexedDB.open(photoDatabaseName, 1);
+        request.onupgradeneeded = () => {
+            request.result.createObjectStore(photoStoreName);
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error || new Error("Could not open photo storage."));
+        request.onblocked = () => reject(new Error("Photo storage is blocked by another browser tab."));
+    });
+}
+
+async function readStoredPhoto(photoName) {
+    const database = await openPhotoDatabase();
+
+    return new Promise((resolve, reject) => {
+        const transaction = database.transaction(photoStoreName, "readonly");
+        const request = transaction.objectStore(photoStoreName).get(photoName);
+        let photoData = null;
+
+        request.onsuccess = () => {
+            photoData = request.result || null;
+        };
+        transaction.oncomplete = () => {
+            database.close();
+            resolve(photoData);
+        };
+        transaction.onerror = () => {
+            database.close();
+            reject(transaction.error || new Error("Could not read the saved photo."));
+        };
+        transaction.onabort = () => {
+            database.close();
+            reject(transaction.error || new Error("Could not read the saved photo."));
+        };
+    });
+}
+
+async function writeStoredPhoto(photoName, photoData) {
+    const database = await openPhotoDatabase();
+
+    return new Promise((resolve, reject) => {
+        const transaction = database.transaction(photoStoreName, "readwrite");
+        transaction.objectStore(photoStoreName).put(photoData, photoName);
+        transaction.oncomplete = () => {
+            database.close();
+            resolve();
+        };
+        transaction.onerror = () => {
+            database.close();
+            reject(transaction.error || new Error("Could not save the photo."));
+        };
+        transaction.onabort = () => {
+            database.close();
+            reject(transaction.error || new Error("Could not save the photo."));
+        };
+    });
+}
+
+function getLegacyPhoto(photoName) {
     try {
         return localStorage.getItem(`${photoStoragePrefix}${photoName}`);
     } catch {
         return null;
+    }
+}
+
+async function getSavedPhoto(photoName) {
+    try {
+        const savedPhoto = await readStoredPhoto(photoName);
+        return savedPhoto || getLegacyPhoto(photoName);
+    } catch (error) {
+        const legacyPhoto = getLegacyPhoto(photoName);
+        if (legacyPhoto) {
+            return legacyPhoto;
+        }
+        throw error;
     }
 }
 
@@ -23,9 +102,22 @@ function showPhotoStatus(message) {
     }, 3500);
 }
 
-document.querySelectorAll("[data-studio-image]").forEach((image) => {
+const photoRevisions = new Map();
+
+document.querySelectorAll("[data-studio-image]").forEach(async (image) => {
     const photoName = image.dataset.studioImage;
-    image.src = getSavedPhoto(photoName) || defaultStudioImages[photoName];
+    photoRevisions.set(photoName, 0);
+    const revision = photoRevisions.get(photoName);
+    image.src = defaultStudioImages[photoName];
+
+    try {
+        const savedPhoto = await getSavedPhoto(photoName);
+        if (savedPhoto && photoRevisions.get(photoName) === revision) {
+            image.src = savedPhoto;
+        }
+    } catch (error) {
+        showPhotoStatus(error.message);
+    }
 });
 
 function compressPhoto(file) {
@@ -75,15 +167,32 @@ document.querySelectorAll("[data-photo-edit]").forEach((button) => {
             return;
         }
 
+        const revision = (photoRevisions.get(photoName) || 0) + 1;
+        photoRevisions.set(photoName, revision);
+
         try {
             const photoData = await compressPhoto(file);
+            if (photoRevisions.get(photoName) !== revision) {
+                return;
+            }
+
             image.src = photoData;
 
             try {
-                localStorage.setItem(`${photoStoragePrefix}${photoName}`, photoData);
+                await writeStoredPhoto(photoName, photoData);
+                try {
+                    localStorage.removeItem(`${photoStoragePrefix}${photoName}`);
+                } catch {
+                    // A stale legacy photo does not override the IndexedDB copy.
+                }
                 showPhotoStatus("Photo updated and saved in this browser.");
-            } catch {
-                showPhotoStatus("Photo updated for this visit, but could not be saved.");
+            } catch (storageError) {
+                try {
+                    localStorage.setItem(`${photoStoragePrefix}${photoName}`, photoData);
+                    showPhotoStatus("Photo saved in this browser's fallback storage.");
+                } catch {
+                    throw new Error(`Photo changed for this visit, but could not be saved: ${storageError.message}`);
+                }
             }
         } catch (error) {
             showPhotoStatus(error.message);
@@ -97,6 +206,18 @@ const menuButton = document.querySelector(".menu-toggle");
 const navigation = document.querySelector(".nav-links");
 const bookingForm = document.querySelector("#booking-form");
 const serviceSelect = document.querySelector("#service");
+const shareSiteLink = document.querySelector("#share-site-link");
+
+const isPublicHttpPage = (window.location.protocol === "http:" || window.location.protocol === "https:")
+    && window.location.hostname !== "localhost"
+    && !window.location.hostname.endsWith(".localhost");
+
+if (isPublicHttpPage) {
+    const siteUrl = `${window.location.origin}${window.location.pathname}`;
+    const shareMessage = `Take a look at Loc Haven: ${siteUrl}`;
+    shareSiteLink.href = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
+    shareSiteLink.hidden = false;
+}
 
 function closeNavigation() {
     navigation.classList.remove("open");
@@ -134,19 +255,49 @@ document.querySelectorAll("[data-service]").forEach((link) => {
     });
 });
 
+const recommendations = {
+    "Sisterlocks consultation": "Start with a one-to-one conversation about your hair, your routine, and the questions on your mind.",
+    "Sisterlocks establishment": "Talk through a considered start and the foundation that fits your hair and lifestyle.",
+    "Retightening & maintenance": "Explore ongoing care to support healthy growth and keep your locs feeling like you.",
+    "Loc care guidance": "Get practical support for your at-home routine and the questions that come along the way."
+};
+const recommendationPanel = document.querySelector("#service-recommendation");
+const recommendationTitle = document.querySelector("#recommendation-title");
+const recommendationDescription = document.querySelector("#recommendation-description");
+const recommendationLink = document.querySelector("#recommendation-link");
+
+recommendationLink.addEventListener("click", () => {
+    serviceSelect.value = recommendationLink.dataset.service;
+});
+
+document.querySelectorAll("[data-recommendation]").forEach((button) => {
+    button.addEventListener("click", () => {
+        const service = button.dataset.recommendation;
+
+        document.querySelectorAll("[data-recommendation]").forEach((choice) => {
+            choice.setAttribute("aria-pressed", String(choice === button));
+        });
+
+        recommendationTitle.textContent = service;
+        recommendationDescription.textContent = recommendations[service];
+        recommendationLink.dataset.service = service;
+        recommendationPanel.hidden = false;
+    });
+});
+
 bookingForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const formData = new FormData(bookingForm);
     const message = [
+        "Hello Loc Haven, I'd like to ask about booking.",
         `Name: ${formData.get("name")}`,
-        `Email: ${formData.get("email")}`,
+        formData.get("email") ? `Email: ${formData.get("email")}` : null,
         `Interested in: ${formData.get("service")}`,
+        `Appointment location: ${formData.get("visit") || "I'd like to discuss options."}`,
         `Message: ${formData.get("message") || "No additional details."}`
-    ].join("\n");
+    ].filter(Boolean).join("\n");
 
-    const subject = encodeURIComponent("Loc Haven appointment inquiry");
     const body = encodeURIComponent(message);
-
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    window.location.href = `https://wa.me/254723116262?text=${body}`;
 });
