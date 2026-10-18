@@ -218,8 +218,9 @@ const isPublicHttpPage = (window.location.protocol === "http:" || window.locatio
     && !window.location.hostname.endsWith(".localhost");
 
 if (isPublicHttpPage) {
-    const siteUrl = `${window.location.origin}${window.location.pathname}`;
-    const shareMessage = `Take a look at Loc Haven: ${siteUrl}`;
+    const siteUrl = new URL(window.location.pathname, window.location.origin);
+    siteUrl.searchParams.set("share", "starmall-nairobi");
+    const shareMessage = `Take a look at Loc Haven: ${siteUrl.toString()}`;
     if (shareSiteLink) {
         shareSiteLink.href = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
         shareSiteLink.hidden = false;
