@@ -1,210 +1,2256 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#f4f0e8">
-    <meta name="description" content="Loc Haven offers Sisterlocks care in Nairobi, with a pickup point at Starmall, shop B7.">
-    <meta property="og:title" content="Loc Haven | Sisterlocks Studio">
-    <meta property="og:description" content="Loc Haven offers Sisterlocks care in Nairobi, with a pickup point at Starmall, shop B7.">
-    <meta property="og:type" content="website">
-    <title>Loc Haven | Sisterlocks Studio</title>
-    <script>
-        if (location.protocol === "file:" || location.hostname === "localhost" || location.hostname.endsWith(".localhost")) {
-            document.documentElement.classList.add("local-preview");
-        }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="STYLE.CSS?v=4">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <meta name="description" content="DataGlow makes data analysis simple. Explore spreadsheets, discover patterns, and create charts without code.">
+  <title>DataGlow — data, made clear</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20233a;
+      --muted: #686d82;
+      --subtle: #f7f8fc;
+      --surface: #fff;
+      --surface-soft: #fbfbfd;
+      --line: #eceef5;
+      --purple: #7257ef;
+      --purple-dark: #5c42da;
+      --purple-soft: #f0edff;
+      --text-soft: #555a70;
+      --table-hover: #fbfaff;
+      --chart-grid: #f0f1f6;
+      --chart-label: #707589;
+      --teal: #18a991;
+      --orange: #f2a34a;
+      --blue: #5a9bea;
+      --pink: #e887a4;
+      --shadow: 0 12px 35px rgba(40, 43, 76, .055);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #f2efff;
+      --muted: #b9b5cd;
+      --subtle: #171624;
+      --surface: #211f31;
+      --surface-soft: #262438;
+      --line: #38364b;
+      --purple: #a696ff;
+      --purple-dark: #c0b5ff;
+      --purple-soft: #332d50;
+      --text-soft: #d0ccdf;
+      --table-hover: #2a273e;
+      --chart-grid: #39364c;
+      --chart-label: #b0abc2;
+      --shadow: 0 12px 35px rgba(5, 4, 15, .2);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--subtle); font-size: 14px; transition: background .25s ease, color .25s ease; }
+    button, input, select, textarea { font: inherit; }
+    button { color: inherit; }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid rgba(114, 87, 239, .3); outline-offset: 2px;
+    }
+    .skip-link { position: fixed; top: 8px; left: 8px; z-index: 20; transform: translateY(-150%); border-radius: 8px; padding: 9px 12px; color: #fff; background: var(--purple-dark); font-size: 11px; font-weight: 700; text-decoration: none; }
+    .skip-link:focus { transform: translateY(0); }
+    .loading-indicator { display: none; align-items: center; gap: 9px; margin-top: 10px; border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; color: var(--text-soft); background: var(--surface); font-size: 10px; }
+    .loading-indicator.visible { display: flex; }
+    .loading-spinner { width: 15px; height: 15px; flex: 0 0 15px; border: 2px solid var(--purple-soft); border-top-color: var(--purple); border-radius: 50%; animation: dataglow-spin .7s linear infinite; }
+    @keyframes dataglow-spin { to { transform: rotate(360deg); } }
+    .app { min-height: 100vh; }
+    .sidebar {
+      position: fixed; inset: 0 auto 0 0; z-index: 5; display: flex; width: 236px; flex-direction: column;
+      border-right: 1px solid var(--line); background: var(--surface); padding: 26px 16px 18px; transition: background .25s ease, border-color .25s ease;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; padding: 0 10px; color: var(--ink); text-decoration: none; }
+    .brand-mark { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 12px; color: #fff; background: linear-gradient(145deg, #947cff, #6248e6); box-shadow: 0 5px 12px #7257ef38; }
+    .brand-mark svg { width: 20px; height: 20px; }
+    .brand-name { font-size: 18px; font-weight: 760; letter-spacing: -.7px; }
+    .brand-name span { color: var(--purple); }
+    .workspace { margin: 36px 4px 25px; padding: 11px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); }
+    .workspace-label { margin: 0 0 8px 2px; color: var(--muted); font-size: 10px; font-weight: 750; letter-spacing: 1px; text-transform: uppercase; }
+    .workspace-name { display: flex; align-items: center; gap: 9px; font-size: 12px; font-weight: 650; }
+    .workspace-avatar { display: grid; width: 26px; height: 26px; place-items: center; border-radius: 8px; color: #6d54e4; background: #f0edff; font-size: 11px; font-weight: 800; }
+    .nav-label { margin: 0 0 10px 10px; color: var(--muted); font-size: 10px; font-weight: 750; letter-spacing: 1px; text-transform: uppercase; }
+    .nav-list { display: grid; gap: 5px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px; width: 100%; border: 0; border-radius: 9px; padding: 11px 12px;
+      color: var(--text-soft); background: transparent; text-align: left; cursor: pointer; font-size: 13px; font-weight: 580; transition: color .18s ease, background .18s ease, transform .18s ease;
+    }
+    .nav-item svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .nav-item:hover { color: var(--ink); background: var(--surface-soft); transform: translateX(2px); }
+    .nav-item.active { color: var(--purple-dark); background: var(--purple-soft); font-weight: 690; }
+    .nav-badge { margin-left: auto; border-radius: 6px; padding: 3px 6px; color: #7e6ae2; background: #e5dfff; font-size: 9px; font-weight: 750; }
+    .sidebar-spacer { flex: 1; }
+    .privacy-note { margin: 0 4px 14px; border: 1px solid #e9e6ff; border-radius: 11px; padding: 12px; background: #fbfaff; }
+    .privacy-note strong { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; font-size: 11px; }
+    .privacy-note strong svg { width: 15px; height: 15px; color: var(--purple); }
+    .privacy-note p { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
+    .profile { display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--line); padding: 16px 5px 0; }
+    .profile-avatar { display: grid; width: 32px; height: 32px; place-items: center; border-radius: 50%; color: #8b4e22; background: #fbe6cd; font-size: 11px; font-weight: 800; }
+    .profile strong { display: block; font-size: 11px; }
+    .profile small { color: var(--muted); font-size: 10px; }
+    .main { min-height: 100vh; margin-left: 236px; }
+    .topbar { display: flex; height: 69px; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 0 38px; background: var(--surface); transition: background .25s ease, border-color .25s ease; }
+    .breadcrumb { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 12px; }
+    .breadcrumb strong { color: #454960; font-weight: 640; }
+    .top-actions { display: flex; align-items: center; gap: 10px; }
+    .local-badge { display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; }
+    .local-dot { width: 7px; height: 7px; border-radius: 50%; background: #34bd96; box-shadow: 0 0 0 3px #34bd961c; }
+    .icon-button { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--line); border-radius: 9px; color: #767b90; background: var(--surface); cursor: pointer; transition: color .18s ease, border-color .18s ease, background .18s ease, transform .18s ease; }
+    .icon-button:hover { color: var(--purple-dark); border-color: #d9d4fb; transform: translateY(-1px); }
+    .icon-button svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .content { width: min(1240px, 100%); margin: 0 auto; padding: 34px 38px 60px; }
+    .page-heading { margin-bottom: 22px; }
+    .page-heading h1 { margin: 0; font-size: clamp(24px, 3vw, 31px); letter-spacing: -.8px; }
+    .page-heading p:last-child { margin: 7px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .page-view[hidden] { display: none !important; }
+    .welcome { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+    .welcome-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .eyebrow { margin: 0 0 8px; color: var(--purple); font-size: 10px; font-weight: 780; letter-spacing: 1.25px; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(25px, 3vw, 33px); font-weight: 720; letter-spacing: -1.2px; line-height: 1.2; }
+    .welcome-copy { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+    .dashboard-welcome { margin-bottom: 23px; }
+    .dashboard-welcome h1 { font-size: clamp(27px, 3vw, 36px); }
+    .dashboard-welcome .welcome-copy { font-size: 14px; }
+    .overview-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; margin-bottom: 17px; }
+    .overview-stat { display: flex; min-width: 0; align-items: center; gap: 13px; border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--surface); box-shadow: var(--shadow); transition: transform .2s ease, box-shadow .2s ease, background .25s ease; }
+    .overview-stat:hover { transform: translateY(-2px); box-shadow: 0 15px 36px rgba(40, 43, 76, .09); }
+    .overview-stat-icon { display: grid; width: 39px; height: 39px; flex: 0 0 39px; place-items: center; border-radius: 11px; color: var(--purple); background: var(--purple-soft); }
+    .overview-stat-icon svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .overview-stat:nth-child(2) .overview-stat-icon { color: var(--teal); background: #e7f8f4; }
+    .overview-stat:nth-child(3) .overview-stat-icon { color: var(--blue); background: #eaf3ff; }
+    .overview-stat-label { color: var(--muted); font-size: 10px; }
+    .overview-stat-value { margin-top: 4px; font-size: 23px; font-weight: 730; letter-spacing: -.7px; }
+    .dashboard-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(270px, .85fr); gap: 14px; margin-bottom: 3px; }
+    .dashboard-card { min-width: 0; border: 1px solid var(--line); border-radius: 12px; padding: 17px; background: var(--surface); box-shadow: var(--shadow); transition: background .25s ease, border-color .25s ease; }
+    .dashboard-card h2 { margin: 0; font-size: 13px; font-weight: 700; }
+    .dashboard-card-subtitle { margin: 5px 0 13px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+    .quick-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+    .quick-action { display: flex; min-height: 85px; flex-direction: column; align-items: flex-start; justify-content: center; gap: 9px; border: 1px solid var(--line); border-radius: 10px; padding: 11px; color: var(--text-soft); background: var(--surface-soft); text-align: left; cursor: pointer; transition: transform .18s ease, border-color .18s ease, background .18s ease; }
+    .quick-action:hover { transform: translateY(-2px); border-color: #d8d0ff; background: var(--purple-soft); }
+    .quick-action svg { width: 17px; height: 17px; color: var(--purple); stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .quick-action span { font-size: 10px; font-weight: 650; }
+    .history-list { display: grid; gap: 8px; }
+    .history-item { display: flex; min-width: 0; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 9px; padding: 9px 10px; background: var(--surface-soft); }
+    .history-icon { display: grid; width: 29px; height: 29px; flex: 0 0 29px; place-items: center; border-radius: 8px; color: var(--purple); background: var(--purple-soft); }
+    .history-icon svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .history-details { min-width: 0; flex: 1; }
+    .history-details strong { display: block; overflow: hidden; font-size: 10px; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+    .history-details small { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; }
+    .history-empty { border: 1px dashed var(--line); border-radius: 9px; padding: 15px 12px; color: var(--muted); font-size: 10px; line-height: 1.55; text-align: center; }
+    .history-empty button { display: block; margin: 9px auto 0; border: 0; padding: 0; color: var(--purple-dark); background: transparent; font-size: 10px; font-weight: 680; cursor: pointer; }
+    .empty-dataset { display: none; margin-top: 10px; border: 1px dashed #ccc6f4; border-radius: 10px; padding: 14px; color: var(--muted); background: #fcfbff; font-size: 10px; line-height: 1.55; text-align: center; }
+    .empty-dataset.visible { display: block; }
+    .dataset-file-card { display: none; align-items: center; gap: 10px; margin: 0 0 13px; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--surface); }
+    .dataset-file-card.visible { display: flex; }
+    .dataset-file-icon { display: grid; width: 31px; height: 31px; flex: 0 0 31px; place-items: center; border-radius: 8px; color: var(--purple); background: var(--purple-soft); }
+    .dataset-file-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .dataset-file-info { min-width: 0; flex: 1; }
+    .dataset-file-name { overflow: hidden; font-size: 10px; font-weight: 680; text-overflow: ellipsis; white-space: nowrap; }
+    .dataset-file-meta { margin-top: 3px; color: var(--muted); font-size: 9px; }
+    .dataset-format { border-radius: 6px; padding: 4px 7px; color: var(--purple-dark); background: var(--purple-soft); font-size: 8px; font-weight: 750; letter-spacing: .45px; text-transform: uppercase; }
+    .statistics-intro { margin: -5px 0 14px; color: var(--muted); font-size: 10px; line-height: 1.6; }
+    .statistics-list { display: grid; gap: 13px; }
+    .statistics-card { overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); box-shadow: var(--shadow); }
+    .statistics-card-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding: 13px 16px; }
+    .statistics-card-header h3 { overflow: hidden; margin: 0; font-size: 12px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+    .statistics-card-header p { margin: 4px 0 0; color: var(--muted); font-size: 9px; }
+    .statistics-badge { flex: 0 0 auto; border-radius: 6px; padding: 4px 7px; color: #6c55d6; background: var(--purple-soft); font-size: 8px; font-weight: 700; }
+    .statistics-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .statistic { min-width: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 11px 13px; }
+    .statistic:nth-child(4n) { border-right: 0; }
+    .statistic:nth-last-child(-n+4) { border-bottom: 0; }
+    .statistic-label { color: var(--muted); font-size: 9px; font-weight: 620; }
+    .statistic-value { overflow: hidden; margin-top: 5px; font-size: 15px; font-weight: 700; letter-spacing: -.2px; text-overflow: ellipsis; white-space: nowrap; }
+    .statistic-explanation { display: block; overflow: hidden; margin-top: 3px; color: var(--muted); font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+    .distribution { padding: 12px 15px 14px; }
+    .distribution h4 { margin: 0 0 3px; font-size: 10px; font-weight: 700; }
+    .distribution > p { margin: 0 0 8px; color: var(--muted); font-size: 9px; line-height: 1.5; }
+    .distribution-table { width: 100%; border-collapse: collapse; white-space: normal; }
+    .distribution-table th, .distribution-table td { position: static; border-bottom: 1px solid var(--line); padding: 7px 8px; font-size: 9px; }
+    .distribution-table th { color: var(--muted); background: var(--surface-soft); font-weight: 650; }
+    .distribution-table td:last-child, .distribution-table th:last-child { text-align: right; }
+    .distribution-table tr:last-child td { border-bottom: 0; }
+    .statistics-empty { border: 1px dashed #ccc6f4; border-radius: 11px; padding: 18px; color: var(--muted); background: #fcfbff; font-size: 10px; line-height: 1.6; text-align: center; }
+    .cleaning-panel { padding: 17px; }
+    .cleaning-overview { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
+    .cleaning-stat { border: 1px solid var(--line); border-radius: 9px; padding: 11px 13px; background: var(--surface-soft); }
+    .cleaning-stat strong { display: block; font-size: 18px; font-weight: 730; }
+    .cleaning-stat span { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; }
+    .cleaning-columns { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+    .cleaning-column-badge { border: 1px solid var(--line); border-radius: 7px; padding: 6px 8px; color: var(--text-soft); background: var(--surface); font-size: 9px; }
+    .cleaning-column-badge strong { color: var(--purple-dark); }
+    .cleaning-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 9px; border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface-soft); }
+    .cleaning-fields { display: contents; }
+    .cleaning-field { display: grid; min-width: 150px; flex: 1; gap: 5px; color: var(--muted); font-size: 9px; font-weight: 650; }
+    .cleaning-field select, .cleaning-field input { width: 100%; min-height: 34px; border: 1px solid var(--line); border-radius: 8px; padding: 0 9px; color: var(--text-soft); background: var(--surface); font-size: 10px; }
+    .cleaning-field[hidden] { display: none; }
+    .cleaning-toolbar .button { min-height: 34px; }
+    .cleaning-note { margin: 10px 1px 0; color: var(--muted); font-size: 9px; line-height: 1.55; }
+    .cleaning-message { min-height: 0; margin-top: 10px; border-radius: 8px; padding: 0; color: #a13e48; background: transparent; font-size: 10px; line-height: 1.5; }
+    .cleaning-message.show { padding: 9px 11px; background: #fff0f0; }
+    .cleaning-message.success { color: #25765f; background: #eaf8f2; }
+    .cleaning-preview { display: none; margin-top: 13px; border: 1px solid var(--line); border-radius: 10px; padding: 13px; background: var(--surface); }
+    .cleaning-preview.show { display: block; }
+    .cleaning-preview-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 11px; }
+    .cleaning-preview-head strong { font-size: 11px; }
+    .cleaning-preview-head span { color: var(--muted); font-size: 9px; }
+    .cleaning-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .cleaning-table-wrap { min-width: 0; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+    .cleaning-table-label { margin: 0; padding: 8px 9px; color: var(--muted); font-size: 9px; font-weight: 680; }
+    .cleaning-table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+    .cleaning-table th, .cleaning-table td { max-width: 145px; overflow: hidden; border-top: 1px solid var(--line); padding: 7px 8px; text-align: left; text-overflow: ellipsis; font-size: 9px; }
+    .cleaning-table th { color: var(--muted); background: var(--surface-soft); font-weight: 650; }
+    .cleaning-preview-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 11px; }
+    :root[data-theme="dark"] .cleaning-stat,
+    :root[data-theme="dark"] .cleaning-toolbar,
+    :root[data-theme="dark"] .cleaning-table th { border-color: var(--line); background: var(--surface-soft); }
+    :root[data-theme="dark"] .cleaning-column-badge,
+    :root[data-theme="dark"] .cleaning-table-wrap { border-color: var(--line); background: var(--surface); }
+    :root[data-theme="dark"] .cleaning-column-badge strong { color: var(--purple-dark); }
+    :root[data-theme="dark"] .cleaning-field select,
+    :root[data-theme="dark"] .cleaning-field input { border-color: var(--line); color: var(--text-soft); background: var(--surface); }
+    :root[data-theme="dark"] .cleaning-table th,
+    :root[data-theme="dark"] .cleaning-table td { border-color: var(--line); color: var(--text-soft); }
+    :root[data-theme="dark"] .cleaning-message.show { color: #f3a6aa; background: #3d292f; }
+    :root[data-theme="dark"] .cleaning-message.success { color: #87d9bd; background: #203b38; }
+    :root[data-theme="dark"] .statistics-card { border-color: var(--line); background: var(--surface); }
+    :root[data-theme="dark"] .statistics-card-header { border-color: var(--line); }
+    :root[data-theme="dark"] .statistic { border-color: var(--line); }
+    :root[data-theme="dark"] .statistics-badge { color: var(--purple-dark); background: var(--purple-soft); }
+    :root[data-theme="dark"] .distribution-table th,
+    :root[data-theme="dark"] .distribution-table td { border-color: var(--line); color: var(--text-soft); }
+    :root[data-theme="dark"] .distribution-table th { background: var(--surface-soft); }
+    :root[data-theme="dark"] .statistics-empty { border-color: #554987; color: var(--muted); background: #242137; }
+    .button { display: inline-flex; min-height: 39px; align-items: center; justify-content: center; gap: 8px; border: 1px solid transparent; border-radius: 9px; padding: 0 14px; font-size: 11px; font-weight: 680; text-decoration: none; cursor: pointer; transition: .18s ease; }
+    .button-primary { color: #fff; background: var(--purple); box-shadow: 0 4px 10px #7257ef2a; }
+    .button-primary:hover { background: var(--purple-dark); transform: translateY(-1px); }
+    .button-secondary { border-color: var(--line); color: #676d82; background: var(--surface); }
+    .button-secondary:hover { border-color: #d9d4fb; color: var(--purple-dark); background: #fbfaff; }
+    .button:disabled { opacity: .5; cursor: not-allowed; }
+    .button svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .dropzone { display: flex; align-items: center; gap: 17px; border: 1px dashed #ccc6f4; border-radius: 13px; padding: 16px 19px; background: #fcfbff; transition: .2s; }
+    .dropzone.dragover { border-color: var(--purple); background: #f4f1ff; box-shadow: 0 0 0 3px #7257ef12; }
+    .upload-icon { display: grid; width: 41px; height: 41px; flex: 0 0 41px; place-items: center; border-radius: 11px; color: var(--purple); background: #eeeaff; }
+    .upload-icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .drop-copy { min-width: 0; flex: 1; }
+    .drop-copy strong { font-size: 12px; font-weight: 680; }
+    .drop-copy p { margin: 4px 0 0; color: var(--muted); font-size: 10px; }
+    .drop-actions { display: flex; gap: 8px; }
+    .file-label { position: relative; }
+    .file-label input { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+    .file-label:focus-within { outline: 3px solid rgba(114, 87, 239, .3); outline-offset: 2px; border-radius: 9px; }
+    .message { display: none; margin-top: 10px; border-radius: 8px; padding: 10px 12px; color: #a13e48; background: #fff0f0; font-size: 11px; line-height: 1.5; }
+    .message.show { display: block; }
+    .message.success { color: #25765f; background: #eaf8f2; }
+    .section-head { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin: 28px 0 14px; }
+    .section-head h2 { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: -.25px; }
+    .section-head p { margin: 4px 0 0; color: var(--muted); font-size: 10px; }
+    .range-select, .control-select {
+      min-height: 33px; border: 1px solid var(--line); border-radius: 8px; padding: 0 30px 0 10px; color: #676c80; background-color: var(--surface); font-size: 10px; cursor: pointer;
+    }
+    .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 13px; }
+    .metric-card { min-width: 0; border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--surface); box-shadow: var(--shadow); transition: transform .2s ease, box-shadow .2s ease, background .25s ease; }
+    .metric-card:hover { transform: translateY(-2px); box-shadow: 0 15px 36px rgba(40, 43, 76, .09); }
+    .metric-label { display: flex; align-items: center; justify-content: space-between; gap: 7px; color: #777c90; font-size: 10px; font-weight: 570; }
+    .metric-symbol { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 8px; }
+    .metric-symbol svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .symbol-purple { color: #7257ef; background: #f0edff; }
+    .symbol-teal { color: #18a991; background: #e7f8f4; }
+    .symbol-blue { color: #5a9bea; background: #eaf3ff; }
+    .symbol-orange { color: #e89b3f; background: #fff4e6; }
+    .metric-value { overflow: hidden; margin-top: 10px; font-size: 25px; font-weight: 730; letter-spacing: -.8px; text-overflow: ellipsis; white-space: nowrap; }
+    .metric-foot { display: flex; align-items: center; gap: 5px; margin-top: 6px; color: var(--muted); font-size: 9px; }
+    .metric-foot .positive { color: #1caa85; font-weight: 650; }
+    .panel { min-width: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); box-shadow: var(--shadow); transition: background .25s ease, border-color .25s ease; }
+    .analysis-grid { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(230px, .88fr); gap: 14px; }
+    .chart-panel { padding: 18px 18px 12px; }
+    .panel-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+    .panel-title-row h3 { margin: 0; font-size: 12px; font-weight: 700; }
+    .panel-title-row p { margin: 4px 0 0; color: var(--muted); font-size: 9px; }
+    .chart-controls { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+    .chart-controls .control-select { min-height: 29px; padding-left: 8px; font-size: 9px; }
+    .chart-control { display: grid; gap: 3px; }
+    .chart-control > span { color: var(--muted); font-size: 8px; font-weight: 650; }
+    .chart-control .control-select:disabled { opacity: .55; cursor: not-allowed; }
+    .chart-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px 12px; margin: 4px 5px 6px; }
+    .chart-legend-item { display: inline-flex; max-width: 170px; align-items: center; gap: 5px; color: var(--text-soft); font-size: 8px; }
+    .chart-legend-item span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .chart-legend-swatch { width: 8px; height: 8px; flex: 0 0 8px; border-radius: 3px; }
+    .chart-wrap { position: relative; min-height: 250px; margin-top: 14px; }
+    .chart-wrap svg { display: block; width: 100%; height: 250px; overflow: visible; }
+    .chart-empty { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; padding: 25px; color: var(--muted); text-align: center; font-size: 11px; line-height: 1.6; }
+    .chart-empty.show { display: flex; }
+    .chart-tooltip { position: absolute; z-index: 2; display: none; border: 1px solid #e9e7f3; border-radius: 7px; padding: 7px 9px; color: #fff; background: #282942; box-shadow: 0 4px 12px #20233a30; font-size: 9px; pointer-events: none; white-space: nowrap; }
+    .insight-panel { padding: 18px; }
+    .insight-heading { display: flex; align-items: center; gap: 8px; }
+    .insight-heading .spark { display: grid; width: 25px; height: 25px; place-items: center; border-radius: 7px; color: var(--purple); background: var(--purple-soft); }
+    .insight-heading svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .insight-heading h3 { margin: 0; font-size: 12px; }
+    .insight-intro { margin: 12px 0 14px; color: var(--muted); font-size: 10px; line-height: 1.6; }
+    .insight-card { margin-top: 9px; border: 1px solid #eeecf7; border-radius: 9px; padding: 11px; background: #fcfbff; }
+    .insight-card-top { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; font-size: 9px; font-weight: 690; }
+    .insight-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+    .insight-card p { margin: 0; color: #71768b; font-size: 9px; line-height: 1.55; }
+    .quality-title { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 7px; color: #777c90; font-size: 9px; }
+    .quality-title strong { color: #41465c; font-size: 10px; }
+    .progress { height: 5px; overflow: hidden; border-radius: 5px; background: #efeff6; }
+    .progress span { display: block; width: 100%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #18a991, #73d6bd); transition: width .25s ease; }
+    .table-panel { overflow: hidden; }
+    .table-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding: 13px 16px; }
+    .table-toolbar h3 { margin: 0; font-size: 12px; }
+    .table-toolbar small { margin-left: 7px; color: var(--muted); font-size: 9px; font-weight: 450; }
+    .table-tools { display: flex; align-items: center; gap: 7px; }
+    .table-options { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; border-bottom: 1px solid var(--line); padding: 10px 15px; }
+    .table-options-label { color: var(--muted); font-size: 9px; font-weight: 650; }
+    .table-options .control-select { min-height: 29px; max-width: 190px; font-size: 9px; }
+    .column-picker { position: relative; }
+    .column-picker summary { display: inline-flex; min-height: 29px; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 8px; padding: 0 9px; color: var(--text-soft); background: var(--surface); cursor: pointer; font-size: 9px; list-style: none; }
+    .column-picker summary::-webkit-details-marker { display: none; }
+    .column-picker summary::after { content: "⌄"; color: var(--muted); }
+    .column-picker[open] summary { border-color: #d9d4fb; color: var(--purple-dark); }
+    .column-picker-menu { position: absolute; top: calc(100% + 5px); left: 0; z-index: 4; display: grid; min-width: 180px; max-height: 220px; gap: 2px; overflow: auto; border: 1px solid var(--line); border-radius: 9px; padding: 7px; background: var(--surface); box-shadow: var(--shadow); }
+    .column-choice { display: flex; align-items: center; gap: 7px; border-radius: 6px; padding: 6px; color: var(--text-soft); cursor: pointer; font-size: 9px; }
+    .column-choice:hover { background: var(--surface-soft); }
+    .column-choice input { accent-color: var(--purple); }
+    .column-type { display: inline-block; margin-left: 5px; border-radius: 5px; padding: 2px 4px; color: #5d4bc2; background: #f0edff; font-size: 7px; font-weight: 700; letter-spacing: .2px; vertical-align: 1px; }
+    .column-type.text { color: #4b7888; background: #eaf6f7; }
+    .sort-button { border: 0; padding: 0; color: inherit; background: transparent; font: inherit; text-align: left; cursor: pointer; }
+    .sort-button:hover { color: var(--purple-dark); }
+    .search-wrap { position: relative; }
+    .search-wrap svg { position: absolute; top: 8px; left: 9px; width: 13px; height: 13px; color: #a0a4b4; stroke: currentColor; fill: none; stroke-width: 1.8; pointer-events: none; }
+    .search-input { width: 155px; height: 30px; border: 1px solid var(--line); border-radius: 7px; padding: 0 8px 0 27px; color: var(--ink); background: var(--surface); font-size: 9px; }
+    .table-scroll { overflow: auto; max-height: 340px; }
+    table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; }
+    th { position: sticky; top: 0; z-index: 1; border-bottom: 1px solid var(--line); padding: 10px 14px; color: #858a9e; background: var(--surface-soft); font-size: 9px; font-weight: 680; }
+    td { border-bottom: 1px solid var(--line); padding: 10px 14px; color: var(--text-soft); font-size: 10px; }
+    tbody tr:hover { background: var(--table-hover); }
+    .table-empty { padding: 25px 14px; color: var(--muted); text-align: center; font-size: 10px; }
+    .table-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px solid var(--line); padding: 10px 15px; color: #959aab; font-size: 9px; }
+    .pagination { display: flex; align-items: center; gap: 5px; }
+    .pagination button { min-width: 25px; height: 24px; border: 1px solid var(--line); border-radius: 6px; color: #797e90; background: #fff; font-size: 9px; cursor: pointer; }
+    .pagination button:disabled { opacity: .4; cursor: not-allowed; }
+    .pagination .page-current { border-color: #e7e1ff; color: var(--purple-dark); background: #f4f1ff; }
+    .footer-note { margin: 22px 0 0; color: var(--muted); text-align: center; font-size: 9px; }
+    .theme-icon-sun { display: block; }
+    .theme-icon-moon { display: none; }
+    :root[data-theme="dark"] .theme-icon-sun { display: none; }
+    :root[data-theme="dark"] .theme-icon-moon { display: block; }
+    :root[data-theme="dark"] .sidebar,
+    :root[data-theme="dark"] .topbar,
+    :root[data-theme="dark"] .workspace,
+    :root[data-theme="dark"] .metric-card,
+    :root[data-theme="dark"] .panel,
+    :root[data-theme="dark"] .icon-button,
+    :root[data-theme="dark"] .button-secondary,
+    :root[data-theme="dark"] .range-select,
+    :root[data-theme="dark"] .control-select,
+    :root[data-theme="dark"] .search-input,
+    :root[data-theme="dark"] .pagination button,
+    :root[data-theme="dark"] dialog { color: var(--ink); background-color: var(--surface); }
+    :root[data-theme="dark"] .sidebar { border-color: var(--line); }
+    :root[data-theme="dark"] .topbar { border-color: var(--line); }
+    :root[data-theme="dark"] .nav-item { color: #aaa6c0; }
+    :root[data-theme="dark"] .loading-indicator { border-color: var(--line); color: var(--text-soft); background: var(--surface); }
+    :root[data-theme="dark"] .nav-item.active { color: var(--purple-dark); }
+    :root[data-theme="dark"] .nav-item:hover { color: var(--ink); background: var(--surface-soft); }
+    :root[data-theme="dark"] .workspace { border-color: var(--line); }
+    :root[data-theme="dark"] .workspace-avatar,
+    :root[data-theme="dark"] .symbol-purple,
+    :root[data-theme="dark"] .symbol-teal,
+    :root[data-theme="dark"] .symbol-blue,
+    :root[data-theme="dark"] .symbol-orange { background: #38334f; }
+    :root[data-theme="dark"] .privacy-note { border-color: var(--line); background: #28253b; }
+    :root[data-theme="dark"] .privacy-note strong,
+    :root[data-theme="dark"] .privacy-note p,
+    :root[data-theme="dark"] .profile small,
+    :root[data-theme="dark"] .metric-label,
+    :root[data-theme="dark"] .metric-foot,
+    :root[data-theme="dark"] .section-head p,
+    :root[data-theme="dark"] .panel-title-row p,
+    :root[data-theme="dark"] .table-footer,
+    :root[data-theme="dark"] .footer-note { color: var(--muted); }
+    :root[data-theme="dark"] .profile { border-color: var(--line); }
+    :root[data-theme="dark"] .dropzone { border-color: #554987; background: #242137; }
+    :root[data-theme="dark"] .dropzone.dragover { border-color: var(--purple); background: #302a4a; }
+    :root[data-theme="dark"] .upload-icon,
+    :root[data-theme="dark"] .insight-heading .spark { color: var(--purple-dark); background: var(--purple-soft); }
+    :root[data-theme="dark"] .button-secondary { border-color: var(--line); color: var(--text-soft); }
+    :root[data-theme="dark"] .button-secondary:hover { border-color: #655a91; color: var(--purple-dark); background: var(--surface-soft); }
+    :root[data-theme="dark"] .chart-controls .control-select,
+    :root[data-theme="dark"] .range-select,
+    :root[data-theme="dark"] .search-input,
+    :root[data-theme="dark"] .pagination button { border-color: var(--line); color: var(--text-soft); }
+    :root[data-theme="dark"] .insight-card { border-color: var(--line); background: var(--surface-soft); }
+    :root[data-theme="dark"] .insight-card p,
+    :root[data-theme="dark"] .insight-intro { color: var(--muted); }
+    :root[data-theme="dark"] .quality-title { color: var(--muted); }
+    :root[data-theme="dark"] .quality-title strong { color: var(--ink); }
+    :root[data-theme="dark"] .progress { background: #3a374d; }
+    :root[data-theme="dark"] .table-toolbar { border-color: var(--line); }
+    :root[data-theme="dark"] th { color: var(--muted); }
+    :root[data-theme="dark"] td { color: var(--text-soft); }
+    :root[data-theme="dark"] .table-empty { color: var(--muted); }
+    :root[data-theme="dark"] .pagination .page-current { border-color: #514776; color: var(--purple-dark); background: var(--purple-soft); }
+    :root[data-theme="dark"] textarea { border-color: var(--line); color: var(--text-soft); background: var(--surface-soft); }
+    :root[data-theme="dark"] .dialog-close { color: var(--muted); background: var(--surface-soft); }
+    :root[data-theme="dark"] .chart-wrap svg line { stroke: var(--chart-grid); }
+    :root[data-theme="dark"] .chart-wrap svg text { fill: var(--chart-label); }
+    :root[data-theme="dark"] .metric-card:hover { box-shadow: 0 15px 36px rgba(5, 4, 15, .3); }
+    :root[data-theme="dark"] .overview-stat,
+    :root[data-theme="dark"] .dashboard-card { border-color: var(--line); background: var(--surface); }
+    :root[data-theme="dark"] .overview-stat:hover { box-shadow: 0 15px 36px rgba(5, 4, 15, .3); }
+    :root[data-theme="dark"] .overview-stat:nth-child(2) .overview-stat-icon { color: #63d6bd; background: #263f3d; }
+    :root[data-theme="dark"] .overview-stat:nth-child(3) .overview-stat-icon { color: #8abaff; background: #29394f; }
+    :root[data-theme="dark"] .quick-action,
+    :root[data-theme="dark"] .history-item { border-color: var(--line); color: var(--text-soft); background: var(--surface-soft); }
+    :root[data-theme="dark"] .quick-action:hover { border-color: #655a91; background: var(--purple-soft); }
+    :root[data-theme="dark"] .history-empty { border-color: var(--line); color: var(--muted); }
+    :root[data-theme="dark"] .empty-dataset { border-color: #554987; color: var(--muted); background: #242137; }
+    :root[data-theme="dark"] .overview-stat-icon { color: var(--purple-dark); background: var(--purple-soft); }
+    :root[data-theme="dark"] .dataset-file-card { border-color: var(--line); background: var(--surface); }
+    :root[data-theme="dark"] .table-options { border-color: var(--line); }
+    :root[data-theme="dark"] .column-picker summary,
+    :root[data-theme="dark"] .column-picker-menu { border-color: var(--line); color: var(--text-soft); background: var(--surface); }
+    :root[data-theme="dark"] .column-choice { color: var(--text-soft); }
+    :root[data-theme="dark"] .column-choice:hover { background: var(--surface-soft); }
+    :root[data-theme="dark"] .column-type { color: #c0b5ff; background: #38334f; }
+    :root[data-theme="dark"] .column-type.text { color: #9cd3d6; background: #263f43; }
+    dialog { width: min(600px, calc(100% - 32px)); border: 1px solid var(--line); border-radius: 15px; padding: 0; color: var(--ink); box-shadow: 0 25px 80px #20233a35; }
+    dialog::backdrop { background: #20233a66; backdrop-filter: blur(3px); }
+    .dialog-inner { padding: 21px; }
+    .dialog-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .dialog-header h2 { margin: 0; font-size: 17px; }
+    .dialog-header p { margin: 5px 0 0; color: var(--muted); font-size: 10px; }
+    .dialog-close { display: grid; width: 29px; height: 29px; place-items: center; border: 0; border-radius: 7px; color: #888da0; background: #f5f5f9; cursor: pointer; font-size: 17px; }
+    textarea { display: block; width: 100%; min-height: 220px; resize: vertical; margin: 17px 0 12px; border: 1px solid var(--line); border-radius: 9px; padding: 12px; color: #4c5166; font: 11px/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .dialog-actions { display: flex; justify-content: space-between; gap: 10px; }
+    .dialog-error { min-height: 17px; color: #a13e48; font-size: 10px; }
+    .mobile-brand { display: none; }
+    @media (max-width: 1080px) {
+      .sidebar { width: 205px; }
+      .main { margin-left: 205px; }
+      .content { padding-right: 25px; padding-left: 25px; }
+      .topbar { padding-right: 25px; padding-left: 25px; }
+      .analysis-grid { grid-template-columns: minmax(0, 1.55fr) minmax(210px, .9fr); }
+      .chart-controls .control-select { max-width: 110px; }
+      .dashboard-grid { grid-template-columns: minmax(0, 1fr) minmax(230px, .85fr); }
+    }
+    @media (max-width: 820px) {
+      .sidebar { width: 64px; align-items: center; padding-right: 9px; padding-left: 9px; }
+      .brand { padding: 0; }
+      .brand-name, .workspace, .nav-label, .nav-item span, .nav-badge, .privacy-note, .profile > div:last-child { display: none; }
+      .nav-list { width: 100%; margin-top: 32px; }
+      .nav-item { justify-content: center; padding: 12px 8px; }
+      .nav-item svg { width: 19px; height: 19px; }
+      .profile { width: 100%; justify-content: center; padding-top: 13px; }
+      .main { margin-left: 64px; }
+      .analysis-grid { grid-template-columns: 1fr; }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .insight-panel { display: grid; grid-template-columns: 1fr 1fr; column-gap: 12px; }
+      .insight-heading, .insight-intro, .quality-title, .progress { grid-column: 1 / -1; }
+      .insight-card { margin-top: 0; }
+    }
+    @media (max-width: 600px) {
+      .topbar { height: 57px; padding: 0 16px; }
+      .breadcrumb { font-size: 10px; }
+      .local-badge { font-size: 0; }
+      .top-actions { gap: 9px; }
+      .content { padding: 25px 15px 40px; }
+      .welcome { align-items: flex-start; flex-direction: column; gap: 15px; }
+      .welcome-actions { width: 100%; }
+      .welcome-actions .button { min-width: 0; flex: 1; align-self: stretch; padding: 0 9px; }
+      .dropzone { align-items: flex-start; flex-wrap: wrap; padding: 13px; }
+      .drop-copy { padding-top: 3px; }
+      .drop-actions { width: 100%; padding-left: 58px; }
+      .drop-actions .button { flex: 1; }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+      .statistics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cleaning-comparison { grid-template-columns: 1fr; }
+      .statistic:nth-child(4n) { border-right: 1px solid var(--line); }
+      .statistic:nth-child(2n) { border-right: 0; }
+      .statistic:nth-last-child(-n+4) { border-bottom: 1px solid var(--line); }
+      .statistic:nth-last-child(-n+2) { border-bottom: 0; }
+      .overview-stats { gap: 8px; }
+      .overview-stat { align-items: flex-start; flex-direction: column; gap: 9px; padding: 11px; }
+      .overview-stat-icon { width: 32px; height: 32px; flex-basis: 32px; }
+      .overview-stat-value { font-size: 20px; }
+      .quick-actions { gap: 6px; }
+      .quick-action { min-height: 79px; padding: 9px; }
+      .metric-card { padding: 12px; }
+      .metric-value { font-size: 22px; }
+      .section-head { margin-top: 23px; }
+      .chart-panel { padding: 14px 12px 8px; }
+      .panel-title-row { flex-direction: column; }
+      .chart-controls { width: 100%; justify-content: flex-start; }
+      .chart-controls .control-select { max-width: none; flex: 1; }
+      .chart-wrap, .chart-wrap svg { min-height: 220px; height: 220px; }
+      .insight-panel { display: block; }
+      .insight-card { margin-top: 9px; }
+      .table-toolbar { align-items: flex-start; flex-direction: column; }
+      .table-tools { width: 100%; }
+      .search-wrap { flex: 1; }
+      .search-input { width: 100%; }
+      .table-tools .button { white-space: nowrap; }
+      .table-options { gap: 6px; padding: 9px 10px; }
+      .table-options .control-select { max-width: 125px; }
+      #filter-value { min-width: 95px; flex: 1; }
+      .table-footer { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
 </head>
 <body>
-    <div class="topline">A softer start to your loc journey</div>
-    <header class="site-header">
-        <a class="brand" href="#home" aria-label="Loc Haven home"><span class="brand-mark">L</span> LOC HAVEN</a>
-        <details class="mobile-menu">
-            <summary class="menu-toggle" aria-label="Open menu with Home, Services, and Products">☰</summary>
-            <nav class="nav-links" aria-label="Main navigation">
-                <a href="index.html" aria-current="page">Home</a>
-                <a href="services.html">Services</a>
-                <a href="products.html">Products</a>
-                <a href="#story">Our approach</a>
-                <a href="#journey">Your journey</a>
-                <a href="#faq">FAQ</a>
-                <a class="nav-cta" href="#booking" data-service="Sisterlocks consultation">Begin your inquiry <span>↗</span></a>
-            </nav>
-        </details>
-    </header>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div class="app">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#" aria-label="DataGlow home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.8 14.4 9l6.3 3-6.3 2.7L12 21.2l-2.4-6.5L3.3 12l6.3-3z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"/><path d="m18.7 3.8.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" fill="currentColor"/></svg></span>
+        <span class="brand-name">Data<span>Glow</span></span>
+      </a>
+      <div class="workspace">
+        <p class="workspace-label">Workspace</p>
+        <div class="workspace-name"><span class="workspace-avatar">D</span> My workspace <span aria-hidden="true" style="margin-left:auto;color:#a0a4b4">⌄</span></div>
+      </div>
+      <p class="nav-label">Workspace</p>
+      <nav class="nav-list">
+        <button class="nav-item active" type="button" data-page-nav="dashboard" aria-label="Dashboard" aria-current="page"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg><span>Dashboard</span></button>
+        <button class="nav-item" type="button" data-page-nav="data" aria-label="My data"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12v7c0 1.7 3.6 3 8 3 1.4 0 2.8-.2 4-.5"/></svg><span>My data</span><span class="nav-badge">1</span></button>
+        <button class="nav-item" type="button" data-page-nav="cleaning" aria-label="Clean data"><svg viewBox="0 0 24 24"><path d="m14 4 6 6M3 21l9.5-9.5M13 5l6 6M7 17l-3-3m5-5 6 6"/><path d="M3 21h8"/></svg><span>Clean data</span></button>
+        <button class="nav-item" type="button" data-page-nav="statistics" aria-label="Statistics"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16"/><path d="M8 15v-3m4 3V7m4 8V9"/></svg><span>Statistics</span></button>
+        <button class="nav-item" type="button" data-page-nav="visualize" aria-label="Visualize"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h17"/><path d="m7 15 4-4 3 2 5-6"/></svg><span>Visualize</span></button>
+        <button class="nav-item" type="button" data-page-nav="reports" aria-label="Reports"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M14 3v5h5M8 12h8M8 16h8"/></svg><span>Reports</span></button>
+        <button class="nav-item" type="button" data-action="paste" aria-label="Paste a table"><svg viewBox="0 0 24 24"><path d="M8 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><rect x="8" y="2.5" width="8" height="4" rx="1.5"/><path d="M8 12h8M8 16h5"/></svg><span>Paste a table</span></button>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="privacy-note"><strong><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Your data stays yours</strong><p>Files are read in your browser and never uploaded to a server.</p></div>
+      <div class="profile"><span class="profile-avatar">DG</span><div><strong>Guest analyst</strong><small>Free workspace</small></div></div>
+    </aside>
 
-    <main>
-        <section class="hero" id="home">
-            <div class="hero-copy">
-                <div class="eyebrow">Sisterlocks studio</div>
-                <h1>Your roots,<br>your rhythm.<br><em>your locs.</em></h1>
-                <p>Affordable Sisterlocks, thoughtful care, and a journey shaped around you. Visit us in Nairobi or ask about a house call.</p>
-                <div class="hero-actions">
-                    <a class="button button-dark" href="#booking" data-service="Sisterlocks consultation">Start with a consultation <span>↗</span></a>
-                    <a class="button" href="https://api.whatsapp.com/send?phone=254723116262&amp;text=Hello%20Loc%20Haven%2C%20I%27d%20like%20to%20ask%20a%20question%20about%20your%20services.">Chat on WhatsApp <span>↗</span></a>
-                    <a class="text-link" href="#services">Explore the studio</a>
-                </div>
-            </div>
-            <div class="hero-image-wrap">
-                <button class="photo-edit" type="button" data-photo-edit="hero" aria-label="Change the hero photo">
-                    <img class="hero-image" src="assets/hero.jpg" data-studio-image="hero" alt="Close-up of Sisterlocks styled over one shoulder" fetchpriority="high">
-                    <span class="photo-edit-label">Select / change photo</span>
-                </button>
-                <input class="photo-input" type="file" accept="image/*" data-photo-input="hero" hidden>
-                <div class="image-note">Room to grow, beautifully.</div>
-                <div class="image-index">01 / YOUR NEXT CHAPTER</div>
-            </div>
-        </section>
-
-        <div class="ticker" aria-label="Studio values"><span>·</span> intentional care <span>·</span> healthy foundations <span>·</span> your own kind of beautiful <span>·</span></div>
-
-        <section class="section intro" id="story">
-            <div>
-                <div class="section-label">A little about Loc Haven</div>
-                <h2>Care that starts at the root.</h2>
-            </div>
-            <div class="intro-copy">
-                <p>Loc Haven is a space to slow down, ask questions, and feel at home in your hair. We believe a loc journey should be personal: shaped by your lifestyle, your goals, and the way you want to feel in your own skin.</p>
-                <p>From the first conversation through your ongoing care, each appointment is grounded in listening, education, and respect for your hair's natural story.</p>
-                <div class="signature">Come find your haven.</div>
-            </div>
-        </section>
-
-        <section class="services" id="services">
-            <div class="section-heading">
-                <div><div class="section-label">Made for your season</div><h2>Ways we can care for you.</h2></div>
-                <p>Not sure where to begin? A consultation is the best place to talk through your goals and find the right next step.</p>
-            </div>
-            <div class="service-list">
-                <article class="service-row"><span class="service-num">01</span><h3>Sisterlocks consultation</h3><p>A one-to-one conversation about your hair, your routine, and what to expect from the journey.</p><a class="service-arrow" href="#booking" data-service="Sisterlocks consultation" aria-label="Ask about a Sisterlocks consultation">↗</a></article>
-                <article class="service-row"><span class="service-num">02</span><h3>Sisterlocks establishment</h3><p>A considered start, with a foundation and care guidance tailored to your hair and lifestyle.</p><a class="service-arrow" href="#booking" data-service="Sisterlocks establishment" aria-label="Ask about Sisterlocks establishment">↗</a></article>
-                <article class="service-row"><span class="service-num">03</span><h3>Retightening &amp; maintenance</h3><p>Ongoing care to support healthy growth and help your locs feel like you, season after season.</p><a class="service-arrow" href="#booking" data-service="Retightening &amp; maintenance" aria-label="Ask about retightening and maintenance">↗</a></article>
-                <article class="service-row"><span class="service-num">04</span><h3>Loc care guidance</h3><p>Practical support for your at-home routine, with space for the questions that come along the way.</p><a class="service-arrow" href="#booking" data-service="Loc care guidance" aria-label="Ask about loc care guidance">↗</a></article>
-            </div>
-            <div class="service-finder">
-                <div class="section-label">A gentle place to begin</div>
-                <h3>What brings you here?</h3>
-                <p>Choose the answer that feels closest. You can always change your mind.</p>
-                <div class="service-choices" role="group" aria-label="Choose what brings you to Loc Haven">
-                    <button type="button" data-recommendation="Sisterlocks consultation" aria-pressed="false">I'm curious about Sisterlocks</button>
-                    <button type="button" data-recommendation="Sisterlocks establishment" aria-pressed="false">I'm ready to begin</button>
-                    <button type="button" data-recommendation="Retightening &amp; maintenance" aria-pressed="false">I already have locs</button>
-                    <button type="button" data-recommendation="Loc care guidance" aria-pressed="false">I want help with my routine</button>
-                </div>
-                <div class="service-recommendation" id="service-recommendation" aria-live="polite" hidden>
-                    <div>
-                        <span class="recommendation-label">A lovely next step</span>
-                        <h4 id="recommendation-title"></h4>
-                        <p id="recommendation-description"></p>
-                    </div>
-                    <a class="button button-dark" id="recommendation-link" href="#booking">Ask us about it <span>↗</span></a>
-                </div>
-            </div>
-        </section>
-
-        <section class="quote-band">
-            <div class="quote-image-wrap">
-                <button class="photo-edit" type="button" data-photo-edit="quote" aria-label="Change the quote photo">
-                    <img class="quote-image" src="assets/quote.jpg" data-studio-image="quote" alt="Finished loc style lifted to show its neat parting" loading="lazy">
-                    <span class="photo-edit-label">Select / change photo</span>
-                </button>
-                <input class="photo-input" type="file" accept="image/*" data-photo-input="quote" hidden>
-            </div>
-            <div class="quote-copy">
-                <div class="section-label">A practice in patience</div>
-                <blockquote>“The best kind of growth is the kind you get to make your own.”</blockquote>
-                <p>Your locs are more than a style. They're a relationship with yourself, unfolding in its own time.</p>
-            </div>
-        </section>
-
-        <section class="section journey" id="journey">
-            <div class="journey-image-wrap">
-                <button class="photo-edit" type="button" data-photo-edit="journey" aria-label="Change the journey photo">
-                    <img class="journey-image" src="assets/journey.jpg" data-studio-image="journey" alt="Portrait from behind showing shoulder-length locs" loading="lazy">
-                    <span class="photo-edit-label">Select / change photo</span>
-                </button>
-                <input class="photo-input" type="file" accept="image/*" data-photo-input="journey" hidden>
-            </div>
-            <div class="journey-copy">
-                <div class="section-label">The first few steps</div>
-                <h2>Easy does it.</h2>
-                <p class="journey-intro">No pressure to have it all figured out. We start with a conversation and take it from there.</p>
-                <div class="steps">
-                    <div class="step"><span class="step-number">01</span><div><strong>Tell us where you are</strong><p>Share your goals and what you're hoping to learn.</p></div></div>
-                    <div class="step"><span class="step-number">02</span><div><strong>Let's talk it through</strong><p>We'll connect about your hair, questions, and next steps.</p></div></div>
-                    <div class="step"><span class="step-number">03</span><div><strong>Begin when you're ready</strong><p>Move forward with a plan that feels right for you.</p></div></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="booking" id="booking">
-            <div class="booking-inner">
-                <div>
-                    <div class="section-label">Your next step</div>
-                    <h2>Book your appointment.</h2>
-                    <p class="booking-intro">Visit our pickup point at Starmall, shop B7 in Nairobi, or ask us about a house call. Tell us what you need and we'll prepare a booking message for WhatsApp.</p>
-                    <a class="booking-location" href="https://www.google.com/maps/search/?api=1&amp;query=Starmall%2C%20Nairobi%2C%20Kenya" target="_blank" rel="noopener noreferrer">Get directions to Starmall, Nairobi ↗</a>
-                    <a class="booking-location" href="https://api.whatsapp.com/send?phone=254723116262&amp;text=Hello%20Loc%20Haven%2C%20could%20you%20please%20send%20me%20directions%20to%20your%20studio%20at%20Starmall%2C%20shop%20B7%2C%20Nairobi%3F">Ask for directions on WhatsApp ↗</a>
-                    <div class="booking-contacts">
-                        <a class="button button-dark" href="https://api.whatsapp.com/send?phone=254723116262&amp;text=Hello%20Loc%20Haven%2C%20I%27d%20like%20to%20ask%20about%20Sisterlocks.">Ask on WhatsApp <span>↗</span></a>
-                        <div class="booking-phone-links">
-                            <a href="tel:+254723116262">Call or text +254 723 116 262</a>
-                            <a href="tel:+254710888430">Call or text +254 710 888 430</a>
-                        </div>
-                        <div class="booking-social-links" aria-label="Follow Loc Haven">
-                            <a class="button booking-social-link" href="https://www.instagram.com/sheilas_sisterlocs_studio/">Instagram ↗</a>
-                            <a class="button booking-social-link" href="https://www.tiktok.com/@the.loc.haven3">TikTok ↗</a>
-                            <a class="button booking-social-link" id="share-site-link" href="#" target="_blank" rel="noopener noreferrer" hidden>Share this website on WhatsApp ↗</a>
-                        </div>
-                    </div>
-                </div>
-                <form class="booking-form" id="booking-form">
-                    <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required></div>
-                    <div class="field"><label for="email">Your email (optional)</label><input id="email" name="email" type="email" autocomplete="email"></div>
-                    <div class="field field-wide"><label for="service">I'm interested in</label><select id="service" name="service" required><option value="" disabled selected>Choose a service</option><option>Sisterlocks consultation</option><option>Sisterlocks establishment</option><option>Retightening &amp; maintenance</option><option>Loc care guidance</option><option>I'm not sure yet</option></select></div>
-                    <fieldset class="field field-wide visit-preference">
-                        <legend>Where would you like your appointment?</legend>
-                        <label><input type="radio" name="visit" value="Starmall, shop B7 in Nairobi"> Starmall, shop B7 in Nairobi</label>
-                        <label><input type="radio" name="visit" value="A house call"> A house call</label>
-                        <label><input type="radio" name="visit" value="I'd like to discuss options"> I'd like to discuss options</label>
-                    </fieldset>
-                    <div class="field field-wide"><label for="message">Anything you'd like us to know?</label><textarea id="message" name="message" placeholder="Your goals, questions, or preferred timing"></textarea></div>
-                    <button class="button" type="submit">Continue to WhatsApp <span>↗</span></button>
-                    <p class="form-note">Your message will be prepared for WhatsApp. Review it there before sending.</p>
-                </form>
-            </div>
-        </section>
-
-        <section class="section faq" id="faq">
-            <div class="section-heading"><div><div class="section-label">A few things you might wonder</div><h2>Good to know.</h2></div></div>
-            <details><summary>Do I need to know everything before I reach out?</summary><p>Not at all. A consultation is a space to ask questions, talk through your goals, and understand what the process could look like for you.</p></details>
-            <details><summary>How do I know which service is right for me?</summary><p>Tell us a little about your hair and what you're hoping for in the inquiry form. We can help you find a useful place to begin.</p></details>
-            <details><summary>What should I include in my first inquiry?</summary><p>Your name, the service you're curious about, and any questions or timing preferences are a lovely start. You don't need to have a whole plan yet.</p></details>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-main">
-            <a class="footer-brand" href="#home">Loc Haven<small>Sisterlocks Studio</small></a>
-            <div class="footer-links">
-                <a href="#story">Our approach</a>
-                <a href="products.html">Products</a>
-                <a href="services.html">Services &amp; prices</a>
-                <a href="#faq">FAQ</a>
-                <a href="#booking">Get in touch ↗</a>
-                <a href="tel:+254723116262">Call or text ↗</a>
-                <a href="https://www.instagram.com/sheilas_sisterlocs_studio/">Instagram ↗</a>
-                <a href="https://www.tiktok.com/@the.loc.haven3">TikTok ↗</a>
-            </div>
+    <main class="main" id="main" tabindex="-1">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><span aria-hidden="true">/</span><strong id="breadcrumb-title">Dashboard</strong></div>
+        <div class="top-actions">
+          <span class="local-badge"><span class="local-dot"></span> Private workspace</span>
+          <button class="icon-button" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode" aria-pressed="false">
+            <svg class="theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+            <svg class="theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.7 8.7 0 0 1 9.7 3.5 8.8 8.8 0 1 0 20.5 14.3Z"/></svg>
+          </button>
+          <button class="icon-button" type="button" data-action="help" aria-label="Show beginner instructions" title="Show beginner instructions"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.7 9a2.4 2.4 0 1 1 4.2 1.6c-1.2 1-1.9 1.4-1.9 3M12 17h.01"/></svg></button>
         </div>
-        <div class="photo-status" id="photo-status" role="status" aria-live="polite"></div>
-        <div class="footer-bottom"><span>LOC HAVEN · SISTERLOCKS STUDIO</span><span>Rooted in care. Made to last.</span></div>
-    </footer>
-    <script src="script.js?v=3" defer></script>
+      </header>
+
+      <div class="content" id="overview">
+        <div class="page-view" id="dashboard-page" data-page-view="dashboard">
+        <section class="welcome dashboard-welcome">
+          <div><p class="eyebrow">Your personal data workspace</p><h1>Welcome to DataGlow</h1><p class="welcome-copy">Turn your data into meaningful insights.</p></div>
+          <div class="welcome-actions">
+            <button class="button button-primary" type="button" data-action="upload"><svg viewBox="0 0 24 24"><path d="M12 16V4m-4 4 4-4 4 4M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>Upload data</button>
+            <button class="button button-secondary" id="reset-analysis-button" type="button" data-action="reset-analysis" title="Clear the current dataset and its analysis" disabled>Clear analysis</button>
+          </div>
+        </section>
+
+        <section class="overview-stats" aria-label="Analysis overview">
+          <article class="overview-stat"><span class="overview-stat-icon"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 10h16M4 15h16M4 20h16M7 3v18m10-18v18"/></svg></span><div><div class="overview-stat-label">Datasets analyzed</div><div class="overview-stat-value" id="history-datasets">0</div></div></article>
+          <article class="overview-stat"><span class="overview-stat-icon"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 10h16M4 15h16M4 20h16"/></svg></span><div><div class="overview-stat-label">Total rows analyzed</div><div class="overview-stat-value" id="history-rows">0</div></div></article>
+          <article class="overview-stat"><span class="overview-stat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11"/></svg></span><div><div class="overview-stat-label">Columns in current dataset</div><div class="overview-stat-value" id="current-columns">0</div></div></article>
+        </section>
+
+        <section class="dashboard-grid" aria-label="Quick access and recent analyses">
+          <article class="dashboard-card">
+            <h2>Quick access</h2><p class="dashboard-card-subtitle">Jump straight into your next step.</p>
+            <div class="quick-actions">
+              <button class="quick-action" type="button" data-action="upload"><svg viewBox="0 0 24 24"><path d="M12 16V4m-4 4 4-4 4 4M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg><span>Upload data</span></button>
+              <button class="quick-action" type="button" data-page-nav="reports"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h17"/><path d="m7 15 4-4 3 2 5-6"/></svg><span>View reports</span></button>
+              <button class="quick-action" type="button" data-action="sample"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 10h16M4 15h16M4 20h16M7 3v18m10-18v18"/></svg><span>Explore student sample</span></button>
+            </div>
+          </article>
+          <article class="dashboard-card" id="history-section">
+            <h2>Recent analysis history</h2><p class="dashboard-card-subtitle">Pick up where you left off.</p>
+            <div class="history-list" id="history-list" aria-live="polite"></div>
+          </article>
+        </section>
+        </div>
+
+        <div class="page-view" id="data-page" data-page-view="data" hidden>
+        <div class="page-heading"><p class="eyebrow">Explore your dataset</p><h1>My data</h1><p>Upload or paste a file, then search, filter, sort, and choose columns to analyze.</p></div>
+        <section class="dropzone" id="dropzone" aria-label="Upload or import a CSV or Excel file">
+          <span class="upload-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m-4 4 4-4 4 4M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg></span>
+          <div class="drop-copy"><strong>Bring your data to life</strong><p>Start with the student sample or upload a CSV or Excel file. Then review your data, select columns, and explore statistics, charts, and cleaning tools. Files stay on this device.</p></div>
+          <div class="drop-actions">
+            <label class="file-label"><input id="file-input" type="file" accept=".csv,.xls,.xlsx,.xlsm,.xlsb,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"><span class="button button-primary">Upload data</span></label>
+            <button class="button button-secondary" type="button" data-action="paste">Paste data</button>
+          </div>
+        </section>
+        <div class="loading-indicator" id="loading-indicator" role="status" aria-live="polite" aria-hidden="true"><span class="loading-spinner" aria-hidden="true"></span><span id="loading-text">Processing your data…</span></div>
+        <div class="message" id="message" role="status" aria-live="polite"></div>
+
+        <section aria-labelledby="summary-heading">
+          <div class="section-head"><div><h2 id="summary-heading">Your dataset</h2><p id="dataset-description">Upload a dataset or explore a sample to see its summary.</p></div><select class="range-select" id="summary-mode" aria-label="Summary mode"><option value="all">All available data</option><option value="filtered">Current search results</option></select></div>
+          <div class="dataset-file-card" id="dataset-file-card" aria-live="polite"><span class="dataset-file-icon"><svg viewBox="0 0 24 24"><path d="M13 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10z"/><path d="M13 3v7h7M8 14h8M8 17h8"/></svg></span><div class="dataset-file-info"><div class="dataset-file-name" id="dataset-file-name"></div><div class="dataset-file-meta" id="dataset-file-meta"></div></div><span class="dataset-format" id="dataset-format"></span></div>
+          <div class="metric-grid">
+            <article class="metric-card"><div class="metric-label">Total rows <span class="metric-symbol symbol-purple"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 10h16M4 15h16M4 20h16M7 3v18m10-18v18"/></svg></span></div><div class="metric-value" id="metric-rows">—</div><div class="metric-foot" id="rows-foot">Records in your dataset</div></article>
+            <article class="metric-card"><div class="metric-label">Data fields <span class="metric-symbol symbol-teal"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11"/></svg></span></div><div class="metric-value" id="metric-fields">—</div><div class="metric-foot" id="fields-foot">Columns ready to explore</div></article>
+            <article class="metric-card"><div class="metric-label">Data completeness <span class="metric-symbol symbol-blue"><svg viewBox="0 0 24 24"><path d="M20 7 10 17l-5-5"/><path d="M20 12a8 8 0 1 1-4-6.9"/></svg></span></div><div class="metric-value" id="metric-quality">—</div><div class="metric-foot" id="quality-foot">Filled-in cells</div></article>
+            <article class="metric-card"><div class="metric-label"><span id="metric-total-label">Total of key values</span><span class="metric-symbol symbol-orange"><svg viewBox="0 0 24 24"><path d="M12 2v20m5-16H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span></div><div class="metric-value" id="metric-total">—</div><div class="metric-foot" id="total-foot">Sum of numeric values</div></article>
+          </div>
+          <div class="empty-dataset" id="dataset-empty">Your dashboard is ready for its first dataset. Upload a CSV or explore the student performance sample to see an interactive report.</div>
+        </section>
+        <section id="data-section" aria-labelledby="table-heading">
+          <div class="section-head"><div><h2 id="table-heading">Data preview</h2><p>Search, filter, sort, or export your current working copy.</p></div></div>
+          <article class="panel table-panel">
+            <div class="table-toolbar"><h3>Data preview <small id="table-count">0 rows · 0 columns</small></h3><div class="table-tools"><label class="search-wrap"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><input class="search-input" id="search-input" type="search" placeholder="Search your data..." aria-label="Search all data fields" title="Search every column; matching rows update the chart and report"></label><button class="button button-secondary" id="export-button" type="button" title="Export the current filtered table view as CSV"><svg viewBox="0 0 24 24"><path d="M12 3v12m-4-4 4 4 4-4M5 17v3h14v-3"/></svg>Export CSV</button></div></div>
+            <div class="table-options" aria-label="Table sorting, filtering, and column selection">
+              <span class="table-options-label">Analyze:</span>
+              <details class="column-picker" id="column-picker"><summary id="column-picker-label">All columns</summary><div class="column-picker-menu" id="column-picker-menu"></div></details>
+              <label class="table-options-label" for="sort-select">Sort:</label><select class="control-select" id="sort-select" aria-label="Sort rows by"><option value="">Original order</option></select>
+              <button class="icon-button" id="sort-direction" type="button" aria-label="Sort ascending" title="Sort ascending">↑</button>
+              <label class="table-options-label" for="filter-column">Filter:</label><select class="control-select" id="filter-column" aria-label="Filter column"><option value="">All columns</option></select>
+              <input class="search-input" id="filter-value" type="search" placeholder="Filter contains..." aria-label="Filter selected column">
+            </div>
+            <div class="table-scroll"><table><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div>
+            <div class="table-footer"><span id="table-status" aria-live="polite">Showing rows</span><div class="pagination"><button id="prev-page" type="button" aria-label="Previous page">‹</button><span id="page-status">1 / 1</span><button id="next-page" type="button" aria-label="Next page">›</button></div></div>
+          </article>
+        </section>
+        </div>
+
+        <div class="page-view" id="statistics-page" data-page-view="statistics" hidden>
+        <div class="page-heading"><p class="eyebrow">Understand your dataset</p><h1>Statistics</h1><p>Learn what your numeric columns reveal. Select columns in My data to adjust these results.</p></div>
+        <section id="statistics-section" aria-labelledby="statistics-heading">
+          <div class="section-head"><div><h2 id="statistics-heading">Understand your numbers</h2><p>Automatic statistics for selected numeric columns.</p></div></div>
+          <p class="statistics-intro">Missing cells are skipped in each calculation. Variance and standard deviation use the sample formula, dividing by one less than the number of values. Select numeric columns in the data table to choose what appears here.</p>
+          <div class="statistics-list" id="statistics-list" aria-live="polite"></div>
+        </section>
+        </div>
+
+        <div class="page-view" id="cleaning-page" data-page-view="cleaning" hidden>
+        <div class="page-heading"><p class="eyebrow">Prepare your dataset</p><h1>Clean data</h1><p>Choose an action, review the before-and-after preview, then apply it to your private working copy.</p></div>
+        <section id="cleaning-section" aria-labelledby="cleaning-heading">
+          <div class="section-head"><div><h2 id="cleaning-heading">Clean your data</h2><p>Review data quality, preview a change, and apply it to your working copy.</p></div></div>
+          <article class="panel cleaning-panel">
+            <div class="cleaning-overview" aria-live="polite">
+              <div class="cleaning-stat"><strong id="clean-missing-count">0</strong><span>Missing cells across your dataset</span></div>
+              <div class="cleaning-stat"><strong id="clean-duplicate-count">0</strong><span>Duplicate rows (keeping the first copy)</span></div>
+            </div>
+            <div class="cleaning-columns" id="cleaning-columns" aria-label="Missing values by column"></div>
+            <div class="cleaning-toolbar">
+              <label class="cleaning-field" for="clean-action" title="Choose one transformation to preview before applying it">Cleaning action
+                <select id="clean-action">
+                  <option value="remove-duplicates">Remove duplicate rows</option>
+                  <option value="remove-incomplete">Remove rows with missing values</option>
+                  <option value="fill-mean">Fill missing values with mean</option>
+                  <option value="fill-median">Fill missing values with median</option>
+                  <option value="filter-records">Remove records matching a filter</option>
+                  <option value="rename-column">Rename a column</option>
+                  <option value="sort-rows">Sort rows</option>
+                </select>
+              </label>
+              <div class="cleaning-fields" id="cleaning-fields"></div>
+              <button class="button button-secondary" id="clean-preview-button" type="button" title="Review the before-and-after preview before applying">Preview changes</button>
+              <button class="button button-secondary" id="clean-undo-button" type="button" title="Undo the most recently applied cleaning change" disabled>Undo last change</button>
+              <button class="button button-secondary" id="clean-export-button" type="button" title="Download every row and column in the current working copy" disabled>Download cleaned CSV</button>
+              <button class="button button-secondary" id="restore-sample-button" type="button" data-action="restore-sample" title="Replace the current dataset with the untouched student sample">Restore student sample</button>
+            </div>
+            <p class="cleaning-note">Your uploaded file is never modified. Changes apply only to DataGlow’s in-memory working copy; export the cleaned result separately from the data preview. The student sample includes missing values so you can try the cleaning tools. Restore it at any time to start over.</p>
+            <div class="cleaning-message" id="cleaning-message" role="status" aria-live="polite"></div>
+            <div class="cleaning-preview" id="cleaning-preview" aria-live="polite"></div>
+          </article>
+        </section>
+        </div>
+
+        <div class="page-view" id="visualize-page" data-page-view="visualize" hidden>
+        <div class="page-heading"><p class="eyebrow">Explore patterns</p><h1>Visualize</h1><p>Choose a suitable chart type and columns to explore your data visually.</p></div>
+        <section id="visualize" aria-labelledby="visualization-heading">
+          <div class="section-head"><div><h2 id="visualization-heading">See the shape of your data</h2><p>Pick a field and metric to create a chart instantly.</p></div></div>
+          <div class="analysis-grid">
+            <article class="panel chart-panel">
+              <div class="panel-title-row">
+                <div><h3 id="chart-title">Your data chart</h3><p id="chart-caption">Create a chart from your selected columns.</p></div>
+                <div class="chart-controls">
+                  <label class="chart-control"><span>Chart type</span><select class="control-select" id="chart-type" aria-label="Chart type"></select></label>
+                  <label class="chart-control"><span id="chart-x-label">Category</span><select class="control-select" id="group-select" aria-label="Chart category or X axis"></select></label>
+                  <label class="chart-control"><span id="chart-y-label">Value</span><select class="control-select" id="value-select" aria-label="Chart value or Y axis"></select></label>
+                </div>
+              </div>
+              <div class="chart-wrap"><svg id="chart" viewBox="0 0 700 290" role="img" aria-label="Data chart"></svg><div class="chart-empty" id="chart-empty">Add a dataset with a numeric field to see your chart.</div><div class="chart-tooltip" id="chart-tooltip"></div></div>
+              <div class="chart-legend" id="chart-legend" aria-label="Chart legend"></div>
+            </article>
+            <aside class="panel insight-panel" aria-labelledby="insights-heading">
+              <div class="insight-heading"><span class="spark"><svg viewBox="0 0 24 24"><path d="m12 2 2.3 7.1L21 12l-6.7 2.9L12 22l-2.3-7.1L3 12l6.7-2.9z"/></svg></span><h3 id="insights-heading">A few things to notice</h3></div>
+              <p class="insight-intro">A quick read of the patterns in your current dataset.</p>
+              <div class="insight-card"><div class="insight-card-top"><span class="insight-dot"></span>Top performer</div><p id="insight-top">Bring in your own dataset to discover your top performer.</p></div>
+              <div class="insight-card"><div class="insight-card-top"><span class="insight-dot" style="background:var(--orange)"></span>Worth a closer look</div><p id="insight-pattern">Your data insights will show up here.</p></div>
+              <div class="quality-title"><span>Overall completeness</span><strong id="quality-label">—</strong></div>
+              <div class="progress" aria-label="Data completeness"><span id="quality-progress"></span></div>
+            </aside>
+          </div>
+        </section>
+        </div>
+
+        <div class="page-view" id="reports-page" data-page-view="reports" hidden>
+        <div class="page-heading"><p class="eyebrow">Turn analysis into understanding</p><h1>Reports</h1><p>Review findings calculated from your current dataset and active table filters.</p></div>
+        <section id="reports-section" aria-labelledby="reports-heading">
+          <div class="section-head"><div><h2 id="reports-heading">Dataset insights and reports</h2><p>Findings calculated from your current dataset and active table filters.</p></div><button class="button button-secondary" id="download-report-button" type="button" title="Save the current rule-based findings as a text report">Download analysis report</button></div>
+          <article class="panel cleaning-panel">
+            <p class="cleaning-note" style="margin-top:0">These are rule-based summaries calculated from the data shown; no AI analysis is used. Correlation describes association, not causation.</p>
+            <div class="history-list" id="dataset-insights" aria-live="polite"></div>
+          </article>
+        </section>
+        </div>
+
+        <p class="footer-note">Made for curious minds. Your files stay on your device — always.</p>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="paste-dialog" aria-labelledby="paste-title">
+    <form class="dialog-inner" id="paste-form">
+      <div class="dialog-header"><div><h2 id="paste-title">Paste in your data</h2><p>Copy cells from a spreadsheet, then paste them below. CSV and tab-separated tables both work.</p></div><button class="dialog-close" type="button" data-action="close-dialog" aria-label="Close">×</button></div>
+      <textarea id="paste-input" aria-label="Paste CSV or tab-separated data" placeholder="Student ID,Mathematics Marks,English Marks&#10;STU001,88,81&#10;STU002,72,85"></textarea>
+      <div class="loading-indicator" id="paste-loading" role="status" aria-live="polite" aria-hidden="true"><span class="loading-spinner" aria-hidden="true"></span><span>Analyzing pasted data…</span></div>
+      <div class="dialog-error" id="dialog-error" role="alert"></div>
+      <div class="dialog-actions"><button class="button button-secondary" type="button" data-action="close-dialog">Cancel</button><button class="button button-primary" type="submit">Analyze my data</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="confirmation-dialog" aria-labelledby="confirmation-title" aria-describedby="confirmation-description">
+    <div class="dialog-inner">
+      <div class="dialog-header"><div><h2 id="confirmation-title">Confirm action</h2><p id="confirmation-description"></p></div><button class="dialog-close" id="confirmation-close" type="button" aria-label="Close confirmation">×</button></div>
+      <div class="dialog-actions" style="justify-content:flex-end;margin-top:18px"><button class="button button-secondary" id="confirmation-cancel" type="button">Cancel</button><button class="button button-primary" id="confirmation-accept" type="button">Confirm</button></div>
+    </div>
+  </dialog>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const sampleData = [
+        { "Student ID": "STU001", "Mathematics Marks": 88, "English Marks": 81, "Computer Applications Marks": 92, "Economics Marks": 76, "Attendance Percentage": 96 },
+        { "Student ID": "STU002", "Mathematics Marks": 72, "English Marks": 85, "Computer Applications Marks": 78, "Economics Marks": 80, "Attendance Percentage": 91 },
+        { "Student ID": "STU003", "Mathematics Marks": 95, "English Marks": 90, "Computer Applications Marks": 96, "Economics Marks": 88, "Attendance Percentage": 99 },
+        { "Student ID": "STU004", "Mathematics Marks": 64, "English Marks": 70, "Computer Applications Marks": 68, "Economics Marks": 73, "Attendance Percentage": 82 },
+        { "Student ID": "STU005", "Mathematics Marks": 81, "English Marks": 78, "Computer Applications Marks": 85, "Economics Marks": 79, "Attendance Percentage": 94 },
+        { "Student ID": "STU006", "Mathematics Marks": 77, "English Marks": "", "Computer Applications Marks": 83, "Economics Marks": 72, "Attendance Percentage": 88 },
+        { "Student ID": "STU007", "Mathematics Marks": 58, "English Marks": 66, "Computer Applications Marks": 61, "Economics Marks": 69, "Attendance Percentage": 76 },
+        { "Student ID": "STU008", "Mathematics Marks": 91, "English Marks": 87, "Computer Applications Marks": 89, "Economics Marks": 93, "Attendance Percentage": 98 },
+        { "Student ID": "STU009", "Mathematics Marks": 69, "English Marks": 74, "Computer Applications Marks": 72, "Economics Marks": 65, "Attendance Percentage": 84 },
+        { "Student ID": "STU010", "Mathematics Marks": 84, "English Marks": 92, "Computer Applications Marks": 88, "Economics Marks": 81, "Attendance Percentage": 97 },
+        { "Student ID": "STU011", "Mathematics Marks": 73, "English Marks": 68, "Computer Applications Marks": 79, "Economics Marks": 75, "Attendance Percentage": 89 },
+        { "Student ID": "STU012", "Mathematics Marks": 96, "English Marks": 94, "Computer Applications Marks": 98, "Economics Marks": 90, "Attendance Percentage": 100 },
+        { "Student ID": "STU013", "Mathematics Marks": 62, "English Marks": 71, "Computer Applications Marks": 67, "Economics Marks": 70, "Attendance Percentage": 80 },
+        { "Student ID": "STU014", "Mathematics Marks": 79, "English Marks": 83, "Computer Applications Marks": 81, "Economics Marks": 77, "Attendance Percentage": 92 },
+        { "Student ID": "STU015", "Mathematics Marks": 87, "English Marks": 80, "Computer Applications Marks": 91, "Economics Marks": 84, "Attendance Percentage": 95 },
+        { "Student ID": "STU016", "Mathematics Marks": 55, "English Marks": 61, "Computer Applications Marks": 58, "Economics Marks": 64, "Attendance Percentage": 73 },
+        { "Student ID": "STU017", "Mathematics Marks": 70, "English Marks": 76, "Computer Applications Marks": 74, "Economics Marks": 68, "Attendance Percentage": "" },
+        { "Student ID": "STU018", "Mathematics Marks": 92, "English Marks": 89, "Computer Applications Marks": 94, "Economics Marks": 86, "Attendance Percentage": 98 },
+        { "Student ID": "STU019", "Mathematics Marks": 66, "English Marks": 72, "Computer Applications Marks": 70, "Economics Marks": 74, "Attendance Percentage": 85 },
+        { "Student ID": "STU020", "Mathematics Marks": 83, "English Marks": 88, "Computer Applications Marks": 86, "Economics Marks": 80, "Attendance Percentage": 96 },
+        { "Student ID": "STU021", "Mathematics Marks": 76, "English Marks": 79, "Computer Applications Marks": 82, "Economics Marks": 71, "Attendance Percentage": 90 },
+        { "Student ID": "STU022", "Mathematics Marks": 89, "English Marks": 84, "Computer Applications Marks": 90, "Economics Marks": 87, "Attendance Percentage": 97 },
+        { "Student ID": "STU023", "Mathematics Marks": 60, "English Marks": 65, "Computer Applications Marks": 63, "Economics Marks": 67, "Attendance Percentage": 78 },
+        { "Student ID": "STU024", "Mathematics Marks": 98, "English Marks": 96, "Computer Applications Marks": 99, "Economics Marks": 94, "Attendance Percentage": 100 }
+      ];
+      const colors = ["#8068ee", "#34b99c", "#61a0ed", "#efa74c", "#e584a4", "#50bac8", "#9c85e9", "#7ec391"];
+      const state = { rows: [], headers: [], selectedColumns: [], page: 1, pageSize: 6, query: "", filterColumn: "", filterValue: "", sortColumn: "", sortDirection: "asc", chartType: "bar", datasetName: "", sample: false, fileFormat: "", sheetName: "", history: [], cleaningPreview: null, cleaningUndo: null };
+      const $ = (selector) => document.querySelector(selector);
+      const tableHead = $("#table-head");
+      const tableBody = $("#table-body");
+      const searchInput = $("#search-input");
+      const message = $("#message");
+      const dialog = $("#paste-dialog");
+      const confirmationDialog = $("#confirmation-dialog");
+      let pendingConfirmation = null;
+
+      function escapeHTML(value) {
+        return String(value).replace(/[&<>"']/g, (character) => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        })[character]);
+      }
+
+      function numericValue(value) {
+        if (value === null || value === undefined || String(value).trim() === "") return null;
+        const normalized = String(value).trim().replace(/[$£€¥,\s]/g, "").replace(/%$/, "");
+        if (!/^-?(?:\d+\.?\d*|\.\d+)$/.test(normalized)) return null;
+        const result = Number(normalized);
+        return Number.isFinite(result) ? result : null;
+      }
+
+      function getNumericHeaders(rows = state.rows, headers = state.headers) {
+        return headers.filter((header) => {
+          const values = rows.map((row) => row[header]).filter((value) => String(value ?? "").trim() !== "");
+          return values.length > 0 && values.filter((value) => numericValue(value) !== null).length / values.length >= 0.8;
+        });
+      }
+
+      function getColumnType(header, rows = state.rows) {
+        return getNumericHeaders(rows, [header]).includes(header) ? "numeric" : "text";
+      }
+
+      function analyzedHeaders() {
+        return state.headers.filter((header) => state.selectedColumns.includes(header));
+      }
+
+      function parseDelimited(text, delimiter) {
+        const rows = [];
+        let row = [];
+        let cell = "";
+        let quoted = false;
+        for (let index = 0; index < text.length; index += 1) {
+          const character = text[index];
+          if (quoted) {
+            if (character === '"' && text[index + 1] === '"') {
+              cell += '"';
+              index += 1;
+            } else if (character === '"') {
+              quoted = false;
+            } else {
+              cell += character;
+            }
+          } else if (character === '"' && cell === "") {
+            quoted = true;
+          } else if (character === delimiter) {
+            row.push(cell);
+            cell = "";
+          } else if (character === "\n" || character === "\r") {
+            if (character === "\r" && text[index + 1] === "\n") index += 1;
+            row.push(cell);
+            if (row.some((field) => field.trim() !== "")) rows.push(row);
+            row = [];
+            cell = "";
+          } else {
+            cell += character;
+          }
+        }
+        if (quoted) throw new Error("One of the quoted cells was not closed. Check the pasted data and try again.");
+        row.push(cell);
+        if (row.some((field) => field.trim() !== "")) rows.push(row);
+        return rows;
+      }
+
+      function parseData(text) {
+        const cleaned = text.replace(/^\uFEFF/, "").trim();
+        if (!cleaned) throw new Error("There is no data to analyze yet.");
+        const firstLine = cleaned.split(/\r?\n/, 1)[0];
+        const commas = (firstLine.match(/,/g) || []).length;
+        const tabs = (firstLine.match(/\t/g) || []).length;
+        const delimiter = tabs > commas ? "\t" : ",";
+        return parseMatrix(parseDelimited(cleaned, delimiter));
+      }
+
+      function parseMatrix(matrix) {
+        if (matrix.length < 2) throw new Error("Add a header row and at least one row of data.");
+        const headers = matrix[0].map((header, index) => String(header ?? "").trim() || `Column ${index + 1}`);
+        if (headers.length < 2) throw new Error("Your data needs at least two columns to analyze.");
+        if (new Set(headers).size !== headers.length) throw new Error("Some column names are repeated. Give each column a unique header and try again.");
+        const rows = matrix.slice(1).map((fields) => Object.fromEntries(headers.map((header, index) => [header, (fields[index] ?? "").trim()])));
+        if (rows.length > 100000) throw new Error("This file has more than 100,000 rows. Please use a smaller CSV for this browser-based preview.");
+        return { headers, rows };
+      }
+
+      function formatNumber(value, maximumFractionDigits = 0) {
+        return new Intl.NumberFormat(undefined, { maximumFractionDigits }).format(value);
+      }
+
+      function formatCompact(value) {
+        return new Intl.NumberFormat(undefined, { notation: "compact", maximumFractionDigits: 1 }).format(value);
+      }
+
+      function getMinMax(values) {
+        let min = Infinity;
+        let max = -Infinity;
+        values.forEach((value) => {
+          if (value < min) min = value;
+          if (value > max) max = value;
+        });
+        return { min, max };
+      }
+
+      function filteredRows() {
+        const query = state.query.toLocaleLowerCase();
+        const filter = state.filterValue.toLocaleLowerCase();
+        return state.rows.filter((row) => {
+          const matchesSearch = !query || state.headers.some((header) => String(row[header] ?? "").toLocaleLowerCase().includes(query));
+          const matchesFilter = !filter || state.headers
+            .filter((header) => !state.filterColumn || header === state.filterColumn)
+            .some((header) => String(row[header] ?? "").toLocaleLowerCase().includes(filter));
+          return matchesSearch && matchesFilter;
+        }).map((row, index) => ({ row, index }))
+          .sort((left, right) => {
+            if (!state.sortColumn) return left.index - right.index;
+            const a = String(left.row[state.sortColumn] ?? "").trim();
+            const b = String(right.row[state.sortColumn] ?? "").trim();
+            if (!a && !b) return left.index - right.index;
+            if (!a) return 1;
+            if (!b) return -1;
+            const aNumber = numericValue(a);
+            const bNumber = numericValue(b);
+            const comparison = aNumber !== null && bNumber !== null
+              ? aNumber - bNumber
+              : a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" });
+            return comparison === 0 ? left.index - right.index : comparison * (state.sortDirection === "asc" ? 1 : -1);
+          }).map((entry) => entry.row);
+      }
+
+      function renderMetrics() {
+        const rows = $("#summary-mode").value === "filtered" ? filteredRows() : state.rows;
+        const cellCount = rows.length * state.headers.length;
+        const filled = rows.reduce((total, row) => total + state.headers.filter((header) => String(row[header] ?? "").trim() !== "").length, 0);
+        const quality = cellCount ? Math.round((filled / cellCount) * 100) : 0;
+        const revenueHeader = state.headers.find((header) => /revenue|sales|amount|total|income/i.test(header)) || getNumericHeaders(rows)[0];
+        const total = revenueHeader ? rows.reduce((sum, row) => sum + (numericValue(row[revenueHeader]) || 0), 0) : null;
+        $("#metric-rows").textContent = formatNumber(rows.length);
+        $("#rows-foot").textContent = $("#summary-mode").value === "filtered" ? "Rows matching your search" : "Records in your dataset";
+        $("#metric-fields").textContent = formatNumber(state.headers.length);
+        $("#fields-foot").textContent = `${getNumericHeaders(rows).length} numeric · ${state.headers.length - getNumericHeaders(rows).length} other`;
+        $("#metric-quality").textContent = `${quality}%`;
+        $("#quality-foot").textContent = `${formatNumber(filled)} of ${formatNumber(cellCount)} cells filled`;
+        $("#metric-total").textContent = total === null ? "—" : formatCompact(total);
+        $("#metric-total-label").textContent = revenueHeader ? `Total ${revenueHeader}` : "Total of key values";
+        $("#total-foot").textContent = revenueHeader ? `Sum of ${revenueHeader}` : "No numeric fields found";
+        $("#quality-label").textContent = `${quality}%`;
+        $("#quality-progress").style.width = `${quality}%`;
+        $("#current-columns").textContent = formatNumber(state.headers.length);
+        $("#reset-analysis-button").disabled = !state.headers.length;
+        $("#dataset-empty").classList.toggle("visible", state.rows.length === 0);
+        $("#dataset-description").textContent = state.datasetName
+          ? `${state.datasetName}${state.sample ? " · sample dataset" : ` · ${formatNumber(state.rows.length)} rows ready to explore`}`
+          : "Upload a dataset or explore a sample to see its summary.";
+        const fileCard = $("#dataset-file-card");
+        fileCard.classList.toggle("visible", Boolean(state.datasetName));
+        $("#dataset-file-name").textContent = state.datasetName;
+        $("#dataset-file-meta").textContent = state.rows.length
+          ? `${formatNumber(state.rows.length)} rows · ${formatNumber(state.headers.length)} columns${state.sheetName ? ` · worksheet: ${state.sheetName}` : ""}`
+          : "No data loaded";
+        $("#dataset-format").textContent = state.fileFormat || "Sample";
+        renderInsights(rows, revenueHeader);
+        renderStatistics(filteredRows());
+      }
+
+      function renderHistory() {
+        const rowsAnalyzed = state.history.reduce((total, item) => total + item.rows, 0);
+        $("#history-datasets").textContent = formatNumber(state.history.length);
+        $("#history-rows").textContent = formatNumber(rowsAnalyzed);
+        const historyList = $("#history-list");
+        if (!state.history.length) {
+          historyList.innerHTML = `<div class="history-empty">Your recent analyses will appear here once you add a dataset.<button type="button" data-action="sample">Try the sample dataset</button></div>`;
+          historyList.querySelector("[data-action='sample']").addEventListener("click", chooseSampleDataset);
+          return;
+        }
+        historyList.innerHTML = state.history.slice(-3).reverse().map((item) => `<div class="history-item"><span class="history-icon"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 10h16M4 15h16M4 20h16"/></svg></span><div class="history-details"><strong>${escapeHTML(item.name)}</strong><small>${formatNumber(item.rows)} rows · ${formatNumber(item.columns)} columns · ${escapeHTML(item.time)}</small></div></div>`).join("");
+      }
+
+      function renderColumnChoices() {
+        const menu = $("#column-picker-menu");
+        menu.innerHTML = state.headers.map((header) => `<label class="column-choice"><input type="checkbox" value="${escapeHTML(header)}" ${state.selectedColumns.includes(header) ? "checked" : ""}><span>${escapeHTML(header)}</span><span class="column-type ${getColumnType(header) === "text" ? "text" : ""}">${getColumnType(header)}</span></label>`).join("");
+        $("#column-picker-label").textContent = state.selectedColumns.length === state.headers.length
+          ? `All columns (${state.headers.length})`
+          : `${state.selectedColumns.length} of ${state.headers.length} columns`;
+        const sortSelect = $("#sort-select");
+        const filterColumn = $("#filter-column");
+        const oldSort = state.sortColumn;
+        const oldFilter = state.filterColumn;
+        sortSelect.innerHTML = `<option value="">Original order</option>${state.headers.map((header) => `<option value="${escapeHTML(header)}">${escapeHTML(header)} (${getColumnType(header)})</option>`).join("")}`;
+        filterColumn.innerHTML = `<option value="">All columns</option>${state.headers.map((header) => `<option value="${escapeHTML(header)}">${escapeHTML(header)} (${getColumnType(header)})</option>`).join("")}`;
+        sortSelect.value = state.headers.includes(oldSort) ? oldSort : "";
+        filterColumn.value = state.headers.includes(oldFilter) ? oldFilter : "";
+        state.sortColumn = sortSelect.value;
+        state.filterColumn = filterColumn.value;
+      }
+
+      function missingValue(value) {
+        return value === null || value === undefined || String(value).trim() === "";
+      }
+
+      function cleaningQuality() {
+        const missingByColumn = state.headers.map((header) => [
+          header,
+          state.rows.reduce((count, row) => count + (missingValue(row[header]) ? 1 : 0), 0)
+        ]);
+        const seen = new Set();
+        let duplicateRows = 0;
+        state.rows.forEach((row) => {
+          const signature = JSON.stringify(state.headers.map((header) => String(row[header] ?? "")));
+          if (seen.has(signature)) duplicateRows += 1;
+          else seen.add(signature);
+        });
+        return { missingByColumn, missingCount: missingByColumn.reduce((sum, [, count]) => sum + count, 0), duplicateRows };
+      }
+
+      function renderCleaningControls() {
+        const action = $("#clean-action").value;
+        const columnOptions = (headers) => headers.map((header) => `<option value="${escapeHTML(header)}">${escapeHTML(header)}</option>`).join("");
+        const columnField = (headers, label = "Column") => `<label class="cleaning-field">${label}<select id="clean-column">${columnOptions(headers)}</select></label>`;
+        const numericHeaders = getNumericHeaders();
+        let fields = "";
+        if (action === "fill-mean" || action === "fill-median") {
+          fields = numericHeaders.length
+            ? columnField(numericHeaders, "Numeric column")
+            : `<div class="cleaning-field">Numeric column<select disabled><option>No numeric columns found</option></select></div>`;
+        } else if (action === "filter-records") {
+          fields = `${columnField(state.headers)}<label class="cleaning-field">Condition<select id="clean-filter-operator"><option value="equals">equals</option><option value="not-equals">does not equal</option><option value="contains">contains</option><option value="not-contains">does not contain</option><option value="empty">is empty</option><option value="not-empty">is not empty</option></select></label><label class="cleaning-field" id="clean-filter-value-wrap">Value<input id="clean-filter-value" type="text" placeholder="Value to match"></label>`;
+        } else if (action === "rename-column") {
+          fields = `${columnField(state.headers)}<label class="cleaning-field">New column name<input id="clean-new-name" type="text" maxlength="120" placeholder="Enter a unique name"></label>`;
+        } else if (action === "sort-rows") {
+          fields = `${columnField(state.headers)}<label class="cleaning-field">Order<select id="clean-sort-direction"><option value="asc">Ascending</option><option value="desc">Descending</option></select></label>`;
+        }
+        $("#cleaning-fields").innerHTML = fields;
+        const operator = $("#clean-filter-operator");
+        if (operator) operator.addEventListener("change", () => {
+          const valueWrap = $("#clean-filter-value-wrap");
+          valueWrap.hidden = operator.value === "empty" || operator.value === "not-empty";
+        });
+        $("#clean-preview-button").disabled = !state.rows.length || ((action === "fill-mean" || action === "fill-median") && !numericHeaders.length);
+      }
+
+      function renderCleaningTable(rows, headers) {
+        const columns = headers.slice(0, 5);
+        const tableRows = rows.slice(0, 5);
+        if (!tableRows.length) return `<p class="cleaning-table-label">No rows</p>`;
+        return `<table class="cleaning-table"><thead><tr>${columns.map((header) => `<th>${escapeHTML(header)}</th>`).join("")}</tr></thead><tbody>${tableRows.map((row) => `<tr>${columns.map((header) => `<td>${missingValue(row[header]) ? "—" : escapeHTML(row[header])}</td>`).join("")}</tr>`).join("")}</tbody></table>${rows.length > tableRows.length ? `<p class="cleaning-table-label">Showing 5 of ${formatNumber(rows.length)} rows</p>` : ""}`;
+      }
+
+      function renderCleaning() {
+        const quality = cleaningQuality();
+        $("#clean-missing-count").textContent = formatNumber(quality.missingCount);
+        $("#clean-duplicate-count").textContent = formatNumber(quality.duplicateRows);
+        $("#cleaning-columns").innerHTML = quality.missingByColumn.length
+          ? quality.missingByColumn.map(([header, count]) => `<span class="cleaning-column-badge">${escapeHTML(header)} <strong>${formatNumber(count)} missing</strong></span>`).join("")
+          : `<span class="cleaning-column-badge">Load a dataset to inspect its columns.</span>`;
+        $("#clean-undo-button").disabled = !state.cleaningUndo;
+        $("#clean-export-button").disabled = !state.headers.length;
+        const preview = $("#cleaning-preview");
+        if (!state.cleaningPreview) {
+          preview.classList.remove("show");
+          preview.innerHTML = "";
+          return;
+        }
+        const change = state.cleaningPreview;
+        preview.innerHTML = `<div class="cleaning-preview-head"><strong>Review before applying</strong><span>${escapeHTML(change.description)}</span></div><div class="cleaning-comparison"><div class="cleaning-table-wrap"><p class="cleaning-table-label">Before · first 5 rows</p>${renderCleaningTable(state.rows, state.headers)}</div><div class="cleaning-table-wrap"><p class="cleaning-table-label">After · first 5 rows</p>${renderCleaningTable(change.rows, change.headers)}</div></div><div class="cleaning-preview-actions"><button class="button button-secondary" id="clean-cancel-button" type="button">Cancel preview</button><button class="button button-primary" id="clean-apply-button" type="button">Apply to working copy</button></div>`;
+        preview.classList.add("show");
+        $("#clean-cancel-button").addEventListener("click", () => {
+          state.cleaningPreview = null;
+          renderCleaning();
+        });
+        $("#clean-apply-button").addEventListener("click", applyCleaningPreview);
+      }
+
+      function showCleaningMessage(text, success = false) {
+        const element = $("#cleaning-message");
+        element.textContent = text;
+        element.classList.toggle("success", success);
+        element.classList.toggle("show", Boolean(text));
+      }
+
+      function makeCleaningPreview() {
+        if (!state.rows.length) {
+          showCleaningMessage("Load a dataset before cleaning data.");
+          return;
+        }
+        setProcessing(true, "Preparing your cleaning preview…");
+        $("#clean-preview-button").disabled = true;
+        window.requestAnimationFrame(() => {
+          try {
+            buildCleaningPreview();
+          } catch (error) {
+            showCleaningMessage(error instanceof Error ? error.message : "Could not prepare that preview. Review the selected options and try again.");
+          } finally {
+            setProcessing(false);
+            renderCleaningControls();
+          }
+        });
+      }
+
+      function buildCleaningPreview() {
+        const action = $("#clean-action").value;
+        let rows = state.rows.map((row) => ({ ...row }));
+        let headers = [...state.headers];
+        let selectedColumns = [...state.selectedColumns];
+        let renamedColumn = null;
+        let sortApplied = false;
+        let description = "";
+        if (action === "remove-duplicates") {
+          const seen = new Set();
+          const uniqueRows = rows.filter((row) => {
+            const signature = JSON.stringify(headers.map((header) => String(row[header] ?? "")));
+            if (seen.has(signature)) return false;
+            seen.add(signature);
+            return true;
+          });
+          description = `Remove ${formatNumber(rows.length - uniqueRows.length)} duplicate row${rows.length - uniqueRows.length === 1 ? "" : "s"}; keep the first occurrence.`;
+          rows = uniqueRows;
+        } else if (action === "remove-incomplete") {
+          const completeRows = rows.filter((row) => headers.every((header) => !missingValue(row[header])));
+          description = `Remove ${formatNumber(rows.length - completeRows.length)} row${rows.length - completeRows.length === 1 ? "" : "s"} with one or more missing cells.`;
+          rows = completeRows;
+        } else if (action === "fill-mean" || action === "fill-median") {
+          const column = $("#clean-column")?.value;
+          if (!column || !headers.includes(column)) {
+            showCleaningMessage("Choose a numeric column to fill.");
+            return;
+          }
+          const values = rows.map((row) => numericValue(row[column])).filter((value) => value !== null);
+          if (!values.length) {
+            showCleaningMessage(`There are no numeric values in ${column} to calculate a fill value.`);
+            return;
+          }
+          const sorted = [...values].sort((a, b) => a - b);
+          const middle = Math.floor(sorted.length / 2);
+          const fillValue = action === "fill-mean"
+            ? values.reduce((sum, value) => sum + value, 0) / values.length
+            : (sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2);
+          let filled = 0;
+          rows.forEach((row) => {
+            if (missingValue(row[column])) {
+              row[column] = String(fillValue);
+              filled += 1;
+            }
+          });
+          description = `Fill ${formatNumber(filled)} missing value${filled === 1 ? "" : "s"} in ${column} with the ${action === "fill-mean" ? "mean" : "median"} (${formatNumber(fillValue, 4)}).`;
+        } else if (action === "filter-records") {
+          const column = $("#clean-column")?.value;
+          const operator = $("#clean-filter-operator").value;
+          const value = $("#clean-filter-value")?.value ?? "";
+          if (!column || !headers.includes(column)) {
+            showCleaningMessage("Choose a column for the filter.");
+            return;
+          }
+          if (!["empty", "not-empty"].includes(operator) && !value.trim()) {
+            showCleaningMessage("Enter a value for this filter condition.");
+            return;
+          }
+          const normalizedValue = value.trim().toLocaleLowerCase();
+          const matches = (row) => {
+            const cell = String(row[column] ?? "");
+            const normalizedCell = cell.toLocaleLowerCase();
+            if (operator === "empty") return missingValue(cell);
+            if (operator === "not-empty") return !missingValue(cell);
+            if (operator === "equals") return normalizedCell === normalizedValue;
+            if (operator === "not-equals") return normalizedCell !== normalizedValue;
+            if (operator === "contains") return normalizedCell.includes(normalizedValue);
+            return !normalizedCell.includes(normalizedValue);
+          };
+          const keptRows = rows.filter((row) => !matches(row));
+          description = `Remove ${formatNumber(rows.length - keptRows.length)} record${rows.length - keptRows.length === 1 ? "" : "s"} where ${column} ${$("#clean-filter-operator").selectedOptions[0].textContent.toLowerCase()}${value.trim() ? ` “${value.trim()}”` : ""}.`;
+          rows = keptRows;
+        } else if (action === "rename-column") {
+          const column = $("#clean-column")?.value;
+          const newName = $("#clean-new-name").value.trim();
+          if (!column || !headers.includes(column) || !newName) {
+            showCleaningMessage("Choose a column and enter a new name.");
+            return;
+          }
+          if (newName !== column && headers.includes(newName)) {
+            showCleaningMessage("That column name is already in use. Enter a unique name.");
+            return;
+          }
+          selectedColumns = selectedColumns.map((header) => header === column ? newName : header);
+          renamedColumn = { from: column, to: newName };
+          headers = headers.map((header) => header === column ? newName : header);
+          rows.forEach((row, index) => {
+            rows[index] = Object.fromEntries(headers.map((header) => [header, row[header === newName ? column : header]]));
+          });
+          description = `Rename column ${column} to ${newName}.`;
+        } else if (action === "sort-rows") {
+          const column = $("#clean-column")?.value;
+          const direction = $("#clean-sort-direction").value;
+          if (!column || !headers.includes(column)) {
+            showCleaningMessage("Choose a column to sort by.");
+            return;
+          }
+          const sign = direction === "asc" ? 1 : -1;
+          sortApplied = true;
+          rows.sort((a, b) => {
+            const left = String(a[column] ?? "").trim();
+            const right = String(b[column] ?? "").trim();
+            if (!left && !right) return 0;
+            if (!left) return 1;
+            if (!right) return -1;
+            const leftNumber = numericValue(left);
+            const rightNumber = numericValue(right);
+            const comparison = leftNumber !== null && rightNumber !== null
+              ? leftNumber - rightNumber
+              : left.localeCompare(right, undefined, { numeric: true, sensitivity: "base" });
+            return comparison * sign;
+          });
+          description = `Sort all ${formatNumber(rows.length)} rows by ${column} (${direction === "asc" ? "ascending" : "descending"}).`;
+        }
+        const unchanged = JSON.stringify(headers) === JSON.stringify(state.headers)
+          && JSON.stringify(rows.map((row) => headers.map((header) => row[header] ?? ""))) === JSON.stringify(state.rows.map((row) => state.headers.map((header) => row[header] ?? "")));
+        if (unchanged) {
+          state.cleaningPreview = null;
+          renderCleaning();
+          showCleaningMessage("No changes are needed for that operation.", true);
+          return;
+        }
+        state.cleaningPreview = { rows, headers, selectedColumns, renamedColumn, sortApplied, description };
+        showCleaningMessage("");
+        renderCleaning();
+      }
+
+      function applyCleaningPreview() {
+        if (!state.cleaningPreview) return;
+        state.cleaningUndo = {
+          rows: state.rows.map((row) => ({ ...row })),
+          headers: [...state.headers],
+          selectedColumns: [...state.selectedColumns],
+          sortColumn: state.sortColumn,
+          sortDirection: state.sortDirection,
+          filterColumn: state.filterColumn,
+          filterValue: state.filterValue
+        };
+        const change = state.cleaningPreview;
+        state.rows = state.cleaningPreview.rows;
+        state.headers = state.cleaningPreview.headers;
+        state.selectedColumns = state.cleaningPreview.selectedColumns.filter((header) => state.headers.includes(header));
+        if (!state.selectedColumns.length) state.selectedColumns = [...state.headers];
+        if (change.renamedColumn) {
+          if (state.sortColumn === change.renamedColumn.from) state.sortColumn = change.renamedColumn.to;
+          if (state.filterColumn === change.renamedColumn.from) state.filterColumn = change.renamedColumn.to;
+        }
+        if (change.sortApplied) state.sortColumn = "";
+        if (state.sortColumn && !state.headers.includes(state.sortColumn)) state.sortColumn = "";
+        if (state.filterColumn && !state.headers.includes(state.filterColumn)) state.filterColumn = "";
+        $("#filter-value").value = state.filterValue;
+        $("#sort-direction").textContent = state.sortDirection === "asc" ? "↑" : "↓";
+        $("#sort-direction").setAttribute("aria-label", `Sort ${state.sortDirection === "asc" ? "ascending" : "descending"}`);
+        state.cleaningPreview = null;
+        state.page = 1;
+        renderCleaningControls();
+        renderColumnChoices();
+        renderTable();
+        showCleaningMessage("Change applied to the working copy. Your uploaded file remains unchanged; use Export CSV to save the cleaned data.", true);
+      }
+
+      function undoCleaningChange() {
+        if (!state.cleaningUndo) return;
+        state.rows = state.cleaningUndo.rows;
+        state.headers = state.cleaningUndo.headers;
+        state.selectedColumns = state.cleaningUndo.selectedColumns;
+        state.sortColumn = state.cleaningUndo.sortColumn;
+        state.sortDirection = state.cleaningUndo.sortDirection;
+        state.filterColumn = state.cleaningUndo.filterColumn;
+        state.filterValue = state.cleaningUndo.filterValue;
+        $("#filter-value").value = state.filterValue;
+        state.cleaningUndo = null;
+        state.cleaningPreview = null;
+        state.page = 1;
+        renderCleaningControls();
+        renderColumnChoices();
+        renderTable();
+        showCleaningMessage("The most recent cleaning change was undone.", true);
+      }
+
+      function calculateStatistics(values) {
+        const count = values.length;
+        if (!count) return null;
+        const sum = values.reduce((total, value) => total + value, 0);
+        const sorted = [...values].sort((a, b) => a - b);
+        const middle = Math.floor(count / 2);
+        const median = count % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+        const frequencies = new Map();
+        values.forEach((value) => frequencies.set(value, (frequencies.get(value) || 0) + 1));
+        const highestFrequency = [...frequencies.values()].reduce((highest, frequency) => Math.max(highest, frequency), 0);
+        const modes = highestFrequency > 1
+          ? [...frequencies.entries()].filter(([, frequency]) => frequency === highestFrequency).map(([value]) => value).sort((a, b) => a - b)
+          : [];
+        const mean = sum / count;
+        const squaredDifferences = values.reduce((total, value) => total + ((value - mean) ** 2), 0);
+        const variance = count > 1 ? squaredDifferences / (count - 1) : null;
+        const distribution = [...frequencies.entries()].sort((a, b) => b[1] - a[1] || a[0] - b[0]);
+        return {
+          count,
+          sum,
+          mean,
+          median,
+          modes,
+          minimum: sorted[0],
+          maximum: sorted[count - 1],
+          range: sorted[count - 1] - sorted[0],
+          variance,
+          standardDeviation: variance === null ? null : Math.sqrt(variance),
+          distribution
+        };
+      }
+
+      function renderStatistics(rows) {
+        const list = $("#statistics-list");
+        const numericColumns = getNumericHeaders(state.rows, analyzedHeaders());
+        if (!state.rows.length) {
+          list.innerHTML = `<div class="statistics-empty">Upload a dataset or explore the sample to see statistics for its numeric columns.</div>`;
+          return;
+        }
+        if (!rows.length) {
+          list.innerHTML = `<div class="statistics-empty">No rows match the current search or filter. Adjust them to see statistics.</div>`;
+          return;
+        }
+        if (!numericColumns.length) {
+          list.innerHTML = `<div class="statistics-empty">${rows.length ? "Select at least one numeric column in the data table to calculate statistics." : "No rows match the current search or filter. Adjust them to see statistics."}</div>`;
+          return;
+        }
+        const measures = [
+          ["Mean (average)", (stats) => formatNumber(stats.mean, 4), "The total divided evenly across values."],
+          ["Median", (stats) => formatNumber(stats.median, 4), "The middle value after sorting."],
+          ["Mode", (stats) => stats.modes.length ? stats.modes.map((value) => formatNumber(value, 4)).join(", ") : "No mode", "The most repeated value, if one repeats."],
+          ["Minimum", (stats) => formatNumber(stats.minimum, 4), "The smallest recorded value."],
+          ["Maximum", (stats) => formatNumber(stats.maximum, 4), "The largest recorded value."],
+          ["Range", (stats) => formatNumber(stats.range, 4), "The maximum minus the minimum."],
+          ["Variance", (stats) => stats.variance === null ? "Not available" : formatNumber(stats.variance, 4), "How spread out values are (sample variance)."],
+          ["Std. deviation", (stats) => stats.standardDeviation === null ? "Not available" : formatNumber(stats.standardDeviation, 4), "Typical distance from the average."],
+          ["Sum", (stats) => formatNumber(stats.sum, 4), "All valid numeric values added together."],
+          ["Count", (stats) => formatNumber(stats.count), "Number of valid numeric values."]
+        ];
+        list.innerHTML = numericColumns.map((header) => {
+          const values = rows.map((row) => numericValue(row[header])).filter((value) => value !== null);
+          const stats = calculateStatistics(values);
+          if (!stats) return "";
+          const missing = rows.length - stats.count;
+          const hasUsefulDistribution = stats.distribution.length <= 20
+            && (stats.distribution.length <= 10 || stats.distribution.length < stats.count);
+          const distribution = hasUsefulDistribution
+            ? `<div class="distribution"><h4>Percentage distribution</h4><p>Each value’s share of the ${formatNumber(stats.count)} valid numbers in this column.</p><table class="distribution-table"><thead><tr><th scope="col">Value</th><th scope="col">Count</th><th scope="col">Share</th></tr></thead><tbody>${stats.distribution.map(([value, frequency]) => `<tr><td>${formatNumber(value, 4)}</td><td>${formatNumber(frequency)}</td><td>${formatNumber((frequency / stats.count) * 100, 1)}%</td></tr>`).join("")}</tbody></table></div>`
+            : `<div class="distribution"><h4>Percentage distribution</h4><p>${formatNumber(stats.distribution.length)} distinct numeric values. Use a histogram to understand the distribution of this many values.</p></div>`;
+          return `<article class="statistics-card"><header class="statistics-card-header"><div><h3>${escapeHTML(header)}</h3><p>${formatNumber(stats.count)} valid numeric values${missing ? ` · ${formatNumber(missing)} missing or non-numeric skipped` : ""}</p></div><span class="statistics-badge">NUMERIC</span></header><div class="statistics-grid">${measures.map(([label, value, explanation]) => `<div class="statistic"><div class="statistic-label">${label}</div><div class="statistic-value" title="${escapeHTML(value(stats))}">${escapeHTML(value(stats))}</div><small class="statistic-explanation" title="${escapeHTML(explanation)}">${escapeHTML(explanation)}</small></div>`).join("")}</div>${distribution}</article>`;
+        }).join("");
+      }
+
+      function renderInsights(rows, metricHeader) {
+        if (!rows.length || !metricHeader) {
+          $("#insight-top").textContent = !state.rows.length
+            ? "Upload a dataset or explore the sample to discover top performers."
+            : rows.length ? "Add a numeric field to discover the top performer." : "No rows match this search. Try another search.";
+          $("#insight-pattern").textContent = !state.rows.length
+            ? "Your first insights will appear here after you add data."
+            : "Add rows with numeric values to see a useful pattern.";
+          return;
+        }
+        const groupHeader = state.headers.find((header) => header !== metricHeader && !getNumericHeaders(rows).includes(header) && !/(date|time|day|month|year)/i.test(header))
+          || state.headers.find((header) => header !== metricHeader && !getNumericHeaders(rows).includes(header));
+        if (!groupHeader) {
+          $("#insight-top").textContent = `Your data adds up to ${formatNumber(rows.reduce((sum, row) => sum + (numericValue(row[metricHeader]) || 0), 0))} for ${metricHeader}.`;
+          $("#insight-pattern").textContent = `${formatNumber(rows.length)} rows are ready to explore in the chart and table below.`;
+          return;
+        }
+        const totals = new Map();
+        rows.forEach((row) => {
+          const label = String(row[groupHeader] || "(blank)");
+          totals.set(label, (totals.get(label) || 0) + (numericValue(row[metricHeader]) || 0));
+        });
+        const ranked = [...totals.entries()].sort((a, b) => b[1] - a[1]);
+        const [top, second] = ranked;
+        $("#insight-top").textContent = top ? `${top[0]} leads ${metricHeader} with ${formatNumber(top[1])}.` : "No numeric totals are available for the selected field.";
+        if (second && top[1] > 0) {
+          const difference = Math.round(((top[1] - second[1]) / top[1]) * 100);
+          $("#insight-pattern").textContent = `${top[0]} is ${difference}% ahead of ${second[0]} for ${metricHeader}.`;
+        } else {
+          $("#insight-pattern").textContent = `${ranked.length} distinct ${groupHeader.toLocaleLowerCase()} value${ranked.length === 1 ? "" : "s"} in your data.`;
+        }
+      }
+
+      function pearsonCorrelation(left, right) {
+        const count = left.length;
+        if (count < 3 || right.length !== count) return null;
+        const leftMean = left.reduce((sum, value) => sum + value, 0) / count;
+        const rightMean = right.reduce((sum, value) => sum + value, 0) / count;
+        const numerator = left.reduce((sum, value, index) => sum + (value - leftMean) * (right[index] - rightMean), 0);
+        const leftSquares = left.reduce((sum, value) => sum + ((value - leftMean) ** 2), 0);
+        const rightSquares = right.reduce((sum, value) => sum + ((value - rightMean) ** 2), 0);
+        const denominator = Math.sqrt(leftSquares * rightSquares);
+        return denominator ? numerator / denominator : null;
+      }
+
+      function datasetFindings(rows) {
+        const findings = [];
+        const report = [
+          `DataGlow analysis report: ${state.datasetName || "Untitled dataset"}`,
+          `Generated: ${new Date().toLocaleString()}`,
+          `Analysis uses ${rows.length} row${rows.length === 1 ? "" : "s"} currently matching the table search and filters.`,
+          `Columns analyzed for numeric insights: ${analyzedHeaders().join(", ") || "none selected"}.`,
+          "Method: rule-based calculations from the current in-browser dataset; no AI analysis was performed.",
+          ""
+        ];
+        if (!state.headers.length) {
+          const emptyMessage = "Upload a dataset or load the sample data to see rule-based insights.";
+          findings.push(emptyMessage);
+          report.push(emptyMessage);
+          return { findings, report: report.join("\n") };
+        }
+        if (!rows.length) {
+          const emptyMessage = "No rows match the current search or filter, so there are no findings to calculate.";
+          findings.push(emptyMessage);
+          report.push(emptyMessage);
+          return { findings, report: report.join("\n") };
+        }
+
+        const numericHeaders = getNumericHeaders(rows, analyzedHeaders());
+        const allNumericHeaders = getNumericHeaders(rows);
+        const categoryHeader = state.headers.find((header) => !allNumericHeaders.includes(header));
+        numericHeaders.forEach((header) => {
+          const values = rows.map((row) => numericValue(row[header]));
+          const valid = values.map((value, index) => ({ value, row: rows[index], index })).filter((entry) => entry.value !== null);
+          if (!valid.length) return;
+          const sorted = valid.map((entry) => entry.value).sort((a, b) => a - b);
+          const mean = sorted.reduce((sum, value) => sum + value, 0) / sorted.length;
+          const medianAt = Math.floor(sorted.length / 2);
+          const median = sorted.length % 2 ? sorted[medianAt] : (sorted[medianAt - 1] + sorted[medianAt]) / 2;
+          const lowest = valid.reduce((best, entry) => entry.value < best.value ? entry : best, valid[0]);
+          const highest = valid.reduce((best, entry) => entry.value > best.value ? entry : best, valid[0]);
+          const rowContext = (entry) => categoryHeader && String(entry.row[categoryHeader] ?? "").trim()
+            ? ` (${categoryHeader}: ${String(entry.row[categoryHeader]).trim()})`
+            : ` (row ${entry.index + 1})`;
+          const q1Index = (sorted.length - 1) * .25;
+          const q3Index = (sorted.length - 1) * .75;
+          const q1 = sorted[Math.floor(q1Index)] * (1 - (q1Index % 1)) + sorted[Math.ceil(q1Index)] * (q1Index % 1);
+          const q3 = sorted[Math.floor(q3Index)] * (1 - (q3Index % 1)) + sorted[Math.ceil(q3Index)] * (q3Index % 1);
+          const spread = q3 - q1;
+          const outlierCount = sorted.length >= 4
+            ? sorted.filter((value) => value < q1 - 1.5 * spread || value > q3 + 1.5 * spread).length
+            : null;
+          const statsFinding = `${header}: ${formatNumber(valid.length)} valid values; mean ${formatNumber(mean, 2)} and median ${formatNumber(median, 2)}.`;
+          const extremaFinding = `${header} ranges from ${formatNumber(lowest.value, 2)}${rowContext(lowest)} to ${formatNumber(highest.value, 2)}${rowContext(highest)}.`;
+          findings.push(statsFinding, extremaFinding);
+          report.push(statsFinding, extremaFinding);
+          if (outlierCount === null) {
+            report.push(`${header}: too few values to assess potential outliers with the 1.5×IQR rule.`);
+          } else if (outlierCount) {
+            const outlierFinding = `${header}: ${formatNumber(outlierCount)} possible outlier${outlierCount === 1 ? "" : "s"} outside the 1.5×IQR range (${formatNumber(q1 - 1.5 * spread, 2)} to ${formatNumber(q3 + 1.5 * spread, 2)}).`;
+            findings.push(outlierFinding);
+            report.push(outlierFinding);
+          } else {
+            const noOutlierFinding = `${header}: no possible outliers found using the 1.5×IQR rule.`;
+            findings.push(noOutlierFinding);
+            report.push(noOutlierFinding);
+          }
+        });
+
+        const dateHeaders = state.headers.filter((header) => /(date|time|day|month|year)/i.test(header));
+        const categoryHeaders = state.headers.filter((header) => !allNumericHeaders.includes(header) && !dateHeaders.includes(header));
+        categoryHeaders.forEach((header) => {
+          const counts = new Map();
+          rows.forEach((row) => {
+            const value = String(row[header] ?? "").trim();
+            if (value) counts.set(value, (counts.get(value) || 0) + 1);
+          });
+          const mostCommon = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
+          if (mostCommon && mostCommon[1] > 1) {
+            const finding = `${header}: “${mostCommon[0]}” is the most frequent value (${formatNumber(mostCommon[1])} of ${formatNumber(rows.length)} rows).`;
+            findings.push(finding);
+            report.push(finding);
+          }
+        });
+
+        let foundDateTrend = false;
+        for (const dateHeader of dateHeaders) {
+          for (const header of numericHeaders) {
+            const pairs = rows.map((row, index) => ({ date: Date.parse(row[dateHeader]), value: numericValue(row[header]), index }))
+              .filter((pair) => Number.isFinite(pair.date) && pair.value !== null)
+              .sort((a, b) => a.date - b.date || a.index - b.index);
+            if (pairs.length < 4 || new Set(pairs.map((pair) => pair.date)).size < 3) continue;
+            const correlation = pearsonCorrelation(pairs.map((pair, index) => index), pairs.map((pair) => pair.value));
+            if (correlation === null || Math.abs(correlation) < .65) continue;
+            const direction = correlation >= 0 ? "increasing" : "decreasing";
+            const finding = `${header} shows a clear ${direction} pattern across ${formatNumber(pairs.length)} date-ordered observations in ${dateHeader} (linear trend r = ${correlation.toFixed(2)}).`;
+            findings.push(finding);
+            report.push(finding);
+            foundDateTrend = true;
+          }
+        }
+        if (dateHeaders.length && !foundDateTrend) {
+          const trendNote = "No clear date-ordered numeric trend met the threshold (|r| ≥ 0.65) in the available rows.";
+          findings.push(trendNote);
+          report.push(trendNote);
+        } else if (!dateHeaders.length) {
+          report.push("No date/time column was found, so time-based trends were not assessed.");
+        }
+
+        const correlations = [];
+        for (let leftIndex = 0; leftIndex < numericHeaders.length; leftIndex += 1) {
+          for (let rightIndex = leftIndex + 1; rightIndex < numericHeaders.length; rightIndex += 1) {
+            const leftHeader = numericHeaders[leftIndex];
+            const rightHeader = numericHeaders[rightIndex];
+            const pairs = rows.map((row) => [numericValue(row[leftHeader]), numericValue(row[rightHeader])])
+              .filter(([left, right]) => left !== null && right !== null);
+            const correlation = pearsonCorrelation(pairs.map(([left]) => left), pairs.map(([, right]) => right));
+            if (correlation !== null) correlations.push({ leftHeader, rightHeader, correlation, count: pairs.length });
+          }
+        }
+        const strongest = correlations.filter((pair) => Math.abs(pair.correlation) >= .7)
+          .sort((a, b) => Math.abs(b.correlation) - Math.abs(a.correlation)).slice(0, 3);
+        if (strongest.length) {
+          strongest.forEach(({ leftHeader, rightHeader, correlation, count }) => {
+            const direction = correlation > 0 ? "positive" : "negative";
+            const finding = `${leftHeader} and ${rightHeader} have a strong ${direction} linear association (r = ${correlation.toFixed(2)} across ${formatNumber(count)} paired values); this does not imply causation.`;
+            findings.push(finding);
+            report.push(finding);
+          });
+        } else if (numericHeaders.length >= 2) {
+          const relationshipNote = correlations.length
+            ? "No strong linear relationship (|r| ≥ 0.70) was found between the selected numeric columns."
+            : "There are not enough paired numeric values to assess relationships between selected columns.";
+          findings.push(relationshipNote);
+          report.push(relationshipNote);
+        } else {
+          report.push("Select at least two numeric columns with paired values to assess numeric relationships.");
+        }
+
+        if (!findings.length) {
+          findings.push("Select numeric columns in the data preview to calculate statistical findings.");
+          report.push("No numeric columns were selected for statistical analysis.");
+        }
+        return { findings, report: report.join("\n") };
+      }
+
+      function renderDatasetInsights(rows) {
+        const result = datasetFindings(rows);
+        $("#dataset-insights").innerHTML = result.findings.map((finding) => `<div class="history-item"><span class="history-icon" aria-hidden="true">i</span><div class="history-details"><strong>${escapeHTML(finding)}</strong></div></div>`).join("");
+        $("#download-report-button").disabled = !state.rows.length;
+      }
+
+      function renderTable() {
+        const rows = filteredRows();
+        const pages = Math.max(1, Math.ceil(rows.length / state.pageSize));
+        state.page = Math.min(state.page, pages);
+        const start = (state.page - 1) * state.pageSize;
+        const visibleRows = rows.slice(start, start + state.pageSize);
+        const columns = analyzedHeaders();
+        $("#table-count").textContent = `${formatNumber(rows.length)} rows · ${formatNumber(columns.length)} of ${formatNumber(state.headers.length)} columns`;
+        tableHead.innerHTML = `<tr>${columns.map((header) => {
+          const type = getColumnType(header);
+          const sortMark = state.sortColumn === header ? (state.sortDirection === "asc" ? " ↑" : " ↓") : "";
+          return `<th scope="col"><button class="sort-button" type="button" data-sort-header="${escapeHTML(header)}" aria-label="Sort by ${escapeHTML(header)}">${escapeHTML(header)}${sortMark}</button><span class="column-type ${type === "text" ? "text" : ""}">${type}</span></th>`;
+        }).join("")}</tr>`;
+        if (!visibleRows.length) {
+          const emptyText = state.rows.length
+            ? "No matching rows. Try changing your search or filter."
+            : "No data to preview yet. Upload a CSV or explore the sample dataset to get started.";
+          tableBody.innerHTML = `<tr><td class="table-empty" colspan="${Math.max(columns.length, 1)}">${emptyText}</td></tr>`;
+        } else {
+          tableBody.innerHTML = visibleRows.map((row) => `<tr>${columns.map((header) => {
+            const value = String(row[header] ?? "").trim();
+            return value ? `<td>${escapeHTML(value)}</td>` : `<td><span class="missing-value" aria-label="Missing value">—</span></td>`;
+          }).join("")}</tr>`).join("");
+        }
+        $("#table-status").textContent = rows.length ? `Showing ${start + 1}–${Math.min(start + state.pageSize, rows.length)} of ${formatNumber(rows.length)} rows` : "No rows to show";
+        $("#page-status").textContent = `${state.page} / ${pages}`;
+        $("#prev-page").disabled = state.page <= 1;
+        $("#next-page").disabled = state.page >= pages;
+        $("#prev-page").classList.toggle("page-current", false);
+        $("#next-page").classList.toggle("page-current", false);
+        renderHistory();
+        renderMetrics();
+        renderChart();
+        renderCleaning();
+        renderDatasetInsights(rows);
+      }
+
+      function populateChartControls() {
+        const columns = analyzedHeaders();
+        const numericHeaders = getNumericHeaders(state.rows, columns);
+        const categoryHeaders = columns.filter((header) => !numericHeaders.includes(header));
+        const currentRows = filteredRows();
+        const pieMetricHeaders = numericHeaders.filter((header) => {
+          const values = currentRows.map((row) => numericValue(row[header])).filter((value) => value !== null);
+          return values.length > 0 && values.every((value) => value >= 0) && values.some((value) => value > 0);
+        });
+        const availableTypes = [];
+        if (categoryHeaders.length && numericHeaders.length) availableTypes.push(["bar", "Bar chart"], ["line", "Line chart"]);
+        if (categoryHeaders.length && pieMetricHeaders.length) availableTypes.push(["pie", "Pie chart"]);
+        if (numericHeaders.length) availableTypes.push(["histogram", "Histogram"]);
+        if (numericHeaders.length >= 2) availableTypes.push(["scatter", "Scatter plot"]);
+        const typeSelect = $("#chart-type");
+        const currentType = state.chartType;
+        typeSelect.innerHTML = availableTypes.length
+          ? availableTypes.map(([value, label]) => `<option value="${value}">${label}</option>`).join("")
+          : `<option value="">No suitable chart types</option>`;
+        state.chartType = availableTypes.some(([value]) => value === currentType) ? currentType : (availableTypes[0] || [""])[0];
+        typeSelect.value = state.chartType;
+        typeSelect.disabled = !availableTypes.length;
+        const groupSelect = $("#group-select");
+        const valueSelect = $("#value-select");
+        const oldGroup = groupSelect.value;
+        const oldValue = valueSelect.value;
+        const numericX = state.chartType === "histogram" || state.chartType === "scatter";
+        const xHeaders = numericX ? numericHeaders : categoryHeaders;
+        const defaultGroup = xHeaders[0] || "";
+        groupSelect.innerHTML = xHeaders.length
+          ? xHeaders.map((header) => `<option value="${escapeHTML(header)}">${escapeHTML(header)}</option>`).join("")
+          : `<option value="">No matching columns</option>`;
+        groupSelect.value = xHeaders.includes(oldGroup) ? oldGroup : defaultGroup;
+        const defaultValue = state.chartType === "scatter"
+          ? numericHeaders.find((header) => header !== groupSelect.value)
+          : numericHeaders.find((header) => /revenue|sales|amount|total|income/i.test(header)) || numericHeaders[0];
+        const valueHeaders = state.chartType === "scatter"
+          ? numericHeaders.filter((header) => header !== groupSelect.value)
+          : state.chartType === "pie" ? pieMetricHeaders
+          : state.chartType === "histogram" ? [] : numericHeaders;
+        valueSelect.innerHTML = state.chartType === "histogram"
+          ? `<option value="">Frequency</option>`
+          : valueHeaders.length
+            ? valueHeaders.map((header) => `<option value="${escapeHTML(header)}">${escapeHTML(header)}</option>`).join("")
+            : `<option value="">No matching columns</option>`;
+        valueSelect.value = valueHeaders.includes(oldValue)
+          ? oldValue
+          : valueHeaders.includes(defaultValue) ? defaultValue : (valueHeaders[0] || "");
+        valueSelect.disabled = state.chartType === "histogram" || !valueHeaders.length;
+        $("#chart-x-label").textContent = state.chartType === "histogram" ? "Numeric values" : state.chartType === "scatter" ? "X-axis" : "Category";
+        $("#chart-y-label").textContent = state.chartType === "histogram" ? "Y-axis" : state.chartType === "scatter" ? "Y-axis" : "Measure";
+        $("#chart-empty").classList.toggle("show", !availableTypes.length);
+      }
+
+      function renderChart() {
+        populateChartControls();
+        const svg = $("#chart");
+        const empty = $("#chart-empty");
+        const chartType = state.chartType;
+        const metric = $("#value-select").value;
+        const group = $("#group-select").value;
+        const rows = filteredRows();
+        const numericHeaders = getNumericHeaders(state.rows, analyzedHeaders());
+        const needsMetric = chartType !== "histogram";
+        if (!chartType || !group || (needsMetric && !metric) || !rows.length) {
+          svg.innerHTML = "";
+          $("#chart-legend").innerHTML = "";
+          empty.textContent = !state.rows.length
+            ? "Your charts will appear here when you upload a dataset or explore the sample data."
+            : rows.length ? "Choose suitable columns for this chart, or select another chart type." : "No rows match the current search or filter. Adjust them to update the chart.";
+          empty.classList.add("show");
+          $("#chart-title").textContent = chartType ? `${$("#chart-type").selectedOptions[0].textContent}` : "Your data chart";
+          $("#chart-caption").textContent = "The chart updates with your selected columns and table filters.";
+          $("#chart-tooltip").style.display = "none";
+          return;
+        }
+        empty.classList.remove("show");
+        const width = 700;
+        const height = 290;
+        const margin = { top: 20, right: 20, bottom: 62, left: 58 };
+        const chartWidth = width - margin.left - margin.right;
+        const chartHeight = height - margin.top - margin.bottom;
+        const chartColors = colors;
+        const tooltip = $("#chart-tooltip");
+        const safeLabel = (label, limit = 14) => escapeHTML(label.length > limit ? `${label.slice(0, limit - 1)}…` : label);
+        const attachTooltips = () => svg.querySelectorAll("[data-label]").forEach((mark) => {
+          const show = () => {
+            tooltip.textContent = `${mark.dataset.label}: ${mark.dataset.value}`;
+            tooltip.style.display = "block";
+            const bounds = $(".chart-wrap").getBoundingClientRect();
+            const markBounds = mark.getBoundingClientRect();
+            tooltip.style.left = `${Math.max(4, Math.min(bounds.width - 150, markBounds.left - bounds.left + markBounds.width / 2))}px`;
+            tooltip.style.top = `${Math.max(4, markBounds.top - bounds.top - 30)}px`;
+          };
+          mark.addEventListener("mouseenter", show);
+          mark.addEventListener("focus", show);
+          mark.addEventListener("mouseleave", () => { tooltip.style.display = "none"; });
+          mark.addEventListener("blur", () => { tooltip.style.display = "none"; });
+        });
+        const formatAxisValue = (value) => escapeHTML(formatCompact(value));
+        const createAxes = (values, xLabel, yLabel, includeZero = true) => {
+          const max = Math.max(...values, includeZero ? 0 : -Infinity);
+          const min = Math.min(...values, includeZero ? 0 : Infinity);
+          const range = max - min || 1;
+          const y = (value) => margin.top + ((max - value) / range) * chartHeight;
+          const baseline = includeZero ? y(0) : margin.top + chartHeight;
+          const grid = Array.from({ length: 5 }, (_, index) => {
+            const value = max - range * index / 4;
+            const position = margin.top + chartHeight * index / 4;
+            return `<line x1="${margin.left}" y1="${position}" x2="${width - margin.right}" y2="${position}" stroke="#f0f1f6" stroke-width="1"/><text x="${margin.left - 9}" y="${position + 3}" text-anchor="end" fill="#a1a5b4" font-size="9">${formatAxisValue(value)}</text>`;
+          }).join("");
+          const labels = `<text x="${margin.left + chartWidth / 2}" y="${height - 8}" text-anchor="middle" fill="#858a9e" font-size="10">${escapeHTML(xLabel)}</text><text transform="translate(13 ${margin.top + chartHeight / 2}) rotate(-90)" text-anchor="middle" fill="#858a9e" font-size="10">${escapeHTML(yLabel)}</text>`;
+          return { y, baseline, grid, labels, min, max };
+        };
+        let title;
+        let caption;
+        let marks = "";
+        let axes = "";
+        let legend = "";
+
+        if (chartType === "histogram") {
+          const values = rows.map((row) => numericValue(row[group])).filter((value) => value !== null);
+          if (!values.length) {
+            empty.textContent = `No valid numeric values are available in ${group} for this chart.`;
+            empty.classList.add("show");
+            svg.innerHTML = "";
+            $("#chart-legend").innerHTML = "";
+            return;
+          }
+          const { min: minValue, max: maxValue } = getMinMax(values);
+          const binCount = minValue === maxValue ? 1 : Math.min(12, Math.max(2, Math.ceil(Math.sqrt(values.length))));
+          const binWidth = minValue === maxValue ? 1 : (maxValue - minValue) / binCount;
+          const bins = Array.from({ length: binCount }, (_, index) => ({
+            start: minValue + index * binWidth,
+            end: index === binCount - 1 ? maxValue : minValue + (index + 1) * binWidth,
+            count: 0
+          }));
+          values.forEach((value) => {
+            const index = minValue === maxValue ? 0 : Math.min(binCount - 1, Math.floor((value - minValue) / binWidth));
+            bins[index].count += 1;
+          });
+          const labels = bins.map((bin) => minValue === maxValue
+            ? formatNumber(bin.start, 3)
+            : `${formatNumber(bin.start, 3)}–${formatNumber(bin.end, 3)}`);
+          const chartValues = bins.map((bin) => bin.count);
+          const scale = createAxes(chartValues, group, "Rows in range", true);
+          const step = chartWidth / bins.length;
+          const barWidth = Math.max(2, step - 2);
+          marks = bins.map((bin, index) => {
+            const x = margin.left + index * step + 1;
+            const valueY = scale.y(bin.count);
+            const markLabel = `${labels[index]} · ${formatNumber(bin.count)} rows`;
+            return `<rect x="${x}" y="${Math.min(valueY, scale.baseline)}" width="${barWidth}" height="${Math.max(1, Math.abs(scale.baseline - valueY))}" rx="3" fill="${chartColors[0]}" opacity=".9" tabindex="0" role="graphics-symbol" aria-label="${escapeHTML(markLabel)}" data-label="${escapeHTML(labels[index])}" data-value="${escapeHTML(formatNumber(bin.count))}"><title>${escapeHTML(markLabel)}</title></rect><text x="${x + barWidth / 2}" y="${height - 31}" text-anchor="middle" fill="#858a9e" font-size="8">${safeLabel(labels[index], 11)}</text>`;
+          }).join("");
+          axes = `${scale.grid}${marks}${scale.labels}`;
+          title = `Distribution of ${group}`;
+          caption = `${formatNumber(values.length)} numeric values · ${formatNumber(binCount)} value ranges · follows current table filters`;
+          legend = `<span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${chartColors[0]}"></span><span>Rows per range</span></span>`;
+        } else if (chartType === "scatter") {
+          const points = rows.map((row) => ({ x: numericValue(row[group]), y: numericValue(row[metric]) })).filter((point) => point.x !== null && point.y !== null);
+          if (!points.length) {
+            empty.textContent = `No complete numeric pairs are available for ${group} and ${metric}.`;
+            empty.classList.add("show");
+            svg.innerHTML = "";
+            $("#chart-legend").innerHTML = "";
+            return;
+          }
+          const { min: xMin, max: xMax } = getMinMax(points.map((point) => point.x));
+          const { min: yMin, max: yMax } = getMinMax(points.map((point) => point.y));
+          const xRange = xMax - xMin || 1;
+          const yRange = yMax - yMin || 1;
+          const sx = (value) => margin.left + ((value - xMin) / xRange) * chartWidth;
+          const sy = (value) => margin.top + ((yMax - value) / yRange) * chartHeight;
+          const grid = Array.from({ length: 5 }, (_, index) => {
+            const x = margin.left + chartWidth * index / 4;
+            const y = margin.top + chartHeight * index / 4;
+            return `<line x1="${x}" y1="${margin.top}" x2="${x}" y2="${height - margin.bottom}" stroke="#f0f1f6" stroke-width="1"/><line x1="${margin.left}" y1="${y}" x2="${width - margin.right}" y2="${y}" stroke="#f0f1f6" stroke-width="1"/><text x="${x}" y="${height - margin.bottom + 15}" text-anchor="middle" fill="#858a9e" font-size="8">${formatAxisValue(xMin + xRange * index / 4)}</text><text x="${margin.left - 8}" y="${y + 3}" text-anchor="end" fill="#a1a5b4" font-size="8">${formatAxisValue(yMax - yRange * index / 4)}</text>`;
+          }).join("");
+          marks = points.map((point, index) => `<circle cx="${sx(point.x)}" cy="${sy(point.y)}" r="4.5" fill="${chartColors[index % chartColors.length]}" fill-opacity=".78" stroke="#fff" stroke-width="1" tabindex="0" role="graphics-symbol" aria-label="${escapeHTML(`${group}: ${formatNumber(point.x, 4)}, ${metric}: ${formatNumber(point.y, 4)}`)}" data-label="${escapeHTML(`${group}: ${formatNumber(point.x, 4)}`)}" data-value="${escapeHTML(`${metric}: ${formatNumber(point.y, 4)}`)}"><title>${escapeHTML(`${group}: ${formatNumber(point.x, 4)} · ${metric}: ${formatNumber(point.y, 4)}`)}</title></circle>`).join("");
+          axes = `${grid}<text x="${margin.left + chartWidth / 2}" y="${height - 8}" text-anchor="middle" fill="#858a9e" font-size="10">${escapeHTML(group)}</text><text transform="translate(13 ${margin.top + chartHeight / 2}) rotate(-90)" text-anchor="middle" fill="#858a9e" font-size="10">${escapeHTML(metric)}</text>${marks}`;
+          title = `${metric} vs. ${group}`;
+          caption = `${formatNumber(points.length)} complete pairs · follows current table filters`;
+          legend = `<span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${chartColors[0]}"></span><span>Each point is one row</span></span>`;
+        } else {
+          const aggregates = new Map();
+          rows.forEach((row) => {
+            const value = numericValue(row[metric]);
+            if (value === null) return;
+            const label = String(row[group] ?? "").trim() || "(blank)";
+            aggregates.set(label, (aggregates.get(label) || 0) + value);
+          });
+          let data = [...aggregates.entries()];
+          if (chartType === "line") data.sort((a, b) => a[0].localeCompare(b[0], undefined, { numeric: true, sensitivity: "base" }));
+          else data.sort((a, b) => b[1] - a[1]);
+          if (data.length > 10) {
+            const top = data.slice(0, 9);
+            const other = data.slice(9).reduce((sum, item) => sum + item[1], 0);
+            data = [...top, ["Other", other]];
+          }
+          if (!data.length) {
+            empty.textContent = `No valid numeric values are available in ${metric}.`;
+            empty.classList.add("show");
+            svg.innerHTML = "";
+            $("#chart-legend").innerHTML = "";
+            return;
+          }
+          title = chartType === "pie" ? `${metric} distribution by ${group}` : `${metric} by ${group}`;
+          caption = `${formatNumber(rows.length)} filtered rows · ${chartType === "pie" ? "share of total" : `follows current table filters`}`;
+          if (chartType === "pie") {
+            const total = data.reduce((sum, [, value]) => sum + value, 0);
+            if (data.some(([, value]) => value < 0) || total <= 0) {
+              empty.textContent = "Pie charts need non-negative values with a positive total. Choose another measure or chart type.";
+              empty.classList.add("show");
+              svg.innerHTML = "";
+              $("#chart-legend").innerHTML = "";
+              return;
+            }
+            const chartData = [...data];
+            if (chartData.length > 8) {
+              const top = chartData.slice(0, 7);
+              chartData.splice(0, chartData.length, ...top, ["Other", total - top.reduce((sum, item) => sum + item[1], 0)]);
+            }
+            const centerX = 235;
+            const centerY = 137;
+            const radius = 98;
+            let angle = -Math.PI / 2;
+            marks = chartData.map(([label, value], index) => {
+              const share = value / total;
+              const nextAngle = angle + share * Math.PI * 2;
+              const startX = centerX + Math.cos(angle) * radius;
+              const startY = centerY + Math.sin(angle) * radius;
+              const endX = centerX + Math.cos(nextAngle) * radius;
+              const endY = centerY + Math.sin(nextAngle) * radius;
+              const largeArc = share > .5 ? 1 : 0;
+              const path = value === total
+                ? `<circle cx="${centerX}" cy="${centerY}" r="${radius}" fill="${chartColors[index % chartColors.length]}" stroke="var(--surface)" stroke-width="2"/>`
+                : `<path d="M${centerX} ${centerY} L${startX} ${startY} A${radius} ${radius} 0 ${largeArc} 1 ${endX} ${endY} Z" fill="${chartColors[index % chartColors.length]}" stroke="var(--surface)" stroke-width="2"/>`;
+              const description = `${label}: ${formatNumber(value)} (${formatNumber(share * 100, 1)}%)`;
+              angle = nextAngle;
+              return `${path.replace("/>", ` tabindex="0" role="graphics-symbol" aria-label="${escapeHTML(description)}" data-label="${escapeHTML(label)}" data-value="${escapeHTML(`${formatNumber(value)} · ${formatNumber(share * 100, 1)}%`)}"><title>${escapeHTML(description)}</title></${path.startsWith("<circle") ? "circle" : "path"}>`)}`;
+            }).join("");
+            legend = chartData.map(([label, value], index) => `<span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${chartColors[index % chartColors.length]}"></span><span>${safeLabel(label, 24)} · ${formatNumber((value / total) * 100, 1)}%</span></span>`).join("");
+            axes = `<g font-family="inherit">${marks}</g>`;
+          } else {
+            const values = data.map((entry) => entry[1]);
+            const scale = createAxes(values, group, metric, true);
+            const step = chartWidth / data.length;
+            if (chartType === "bar") {
+              const barWidth = Math.min(40, step * .62);
+              marks = data.map(([label, value], index) => {
+                const x = margin.left + step * index + (step - barWidth) / 2;
+                const valueY = scale.y(value);
+                const description = `${label}: ${formatNumber(value)}`;
+                return `<rect x="${x}" y="${Math.min(valueY, scale.baseline)}" width="${barWidth}" height="${Math.max(1, Math.abs(scale.baseline - valueY))}" rx="4" fill="${chartColors[index % chartColors.length]}" tabindex="0" role="graphics-symbol" aria-label="${escapeHTML(description)}" data-label="${escapeHTML(label)}" data-value="${escapeHTML(formatNumber(value))}"><title>${escapeHTML(description)}</title></rect><text x="${x + barWidth / 2}" y="${height - 31}" text-anchor="middle" fill="#858a9e" font-size="9">${safeLabel(label)}</text>`;
+              }).join("");
+              axes = `${scale.grid}${marks}${scale.labels}`;
+              legend = data.map(([label], index) => `<span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${chartColors[index % chartColors.length]}"></span><span>${safeLabel(label, 24)}</span></span>`).join("");
+            } else {
+              const points = data.map((entry, index) => `${margin.left + step * (index + .5)},${scale.y(entry[1])}`).join(" ");
+              marks = `<polyline points="${points}" fill="none" stroke="#8068ee" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>` + data.map(([label, value], index) => {
+                const cx = margin.left + step * (index + .5);
+                const cy = scale.y(value);
+                const description = `${label}: ${formatNumber(value)}`;
+                return `<circle cx="${cx}" cy="${cy}" r="4.5" fill="var(--surface)" stroke="${chartColors[index % chartColors.length]}" stroke-width="2.5" tabindex="0" role="graphics-symbol" aria-label="${escapeHTML(description)}" data-label="${escapeHTML(label)}" data-value="${escapeHTML(formatNumber(value))}"><title>${escapeHTML(description)}</title></circle><text x="${cx}" y="${height - 31}" text-anchor="middle" fill="#858a9e" font-size="9">${safeLabel(label)}</text>`;
+              }).join("");
+              axes = `${scale.grid}${marks}${scale.labels}`;
+              legend = data.map(([label], index) => `<span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${chartColors[index % chartColors.length]}"></span><span>${safeLabel(label, 24)}</span></span>`).join("");
+            }
+          }
+        }
+        $("#chart-title").textContent = title;
+        $("#chart-caption").textContent = caption;
+        $("#chart-legend").innerHTML = legend;
+        svg.innerHTML = `<g font-family="inherit">${axes}</g>`;
+        svg.setAttribute("aria-label", `${$("#chart-type").selectedOptions[0]?.textContent || "Data"}: ${title}. ${caption}`);
+        attachTooltips();
+      }
+
+      function setDataset(parsed, name, sample = false, fileFormat = sample ? "Sample" : "Pasted") {
+        state.headers = [...parsed.headers];
+        state.rows = parsed.rows.map((row) => ({ ...row }));
+        state.selectedColumns = [...parsed.headers];
+        state.cleaningPreview = null;
+        state.cleaningUndo = null;
+        state.page = 1;
+        state.query = "";
+        state.filterColumn = "";
+        state.filterValue = "";
+        state.sortColumn = "";
+        state.sortDirection = "asc";
+        state.datasetName = name;
+        state.sample = sample;
+        state.fileFormat = fileFormat;
+        state.sheetName = parsed.sheetName || "";
+        state.history.push({ name, rows: parsed.rows.length, columns: parsed.headers.length, time: new Date().toLocaleString() });
+        searchInput.value = "";
+        $("#filter-value").value = "";
+        renderCleaningControls();
+        renderColumnChoices();
+        renderTable();
+        navigateToPage("data");
+        showMessage(`${sample ? "Student sample loaded." : `${name} is ready to explore.`} Your data was processed in this browser.`, true);
+      }
+
+      function loadSampleData() {
+        setDataset({ headers: Object.keys(sampleData[0]), rows: sampleData }, "Student academic performance sample", true, "Sample");
+      }
+
+      function chooseSampleDataset() {
+        if (state.headers.length) {
+          requestConfirmation(
+            "Restore the original student sample?",
+            "This replaces the current in-memory dataset and any cleaning changes. Your uploaded source file stays unchanged, and you can export it before switching.",
+            "Restore sample",
+            loadSampleData
+          );
+          return;
+        }
+        loadSampleData();
+      }
+
+      let spreadsheetLibraryPromise;
+      function loadSpreadsheetLibrary() {
+        if (window.XLSX) return Promise.resolve(window.XLSX);
+        if (!spreadsheetLibraryPromise) {
+          spreadsheetLibraryPromise = new Promise((resolve, reject) => {
+            const script = document.createElement("script");
+            script.src = "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js";
+            script.async = true;
+            script.onload = () => {
+              if (window.XLSX) resolve(window.XLSX);
+              else reject(new Error("The Excel reader loaded but could not be initialized."));
+            };
+            script.onerror = () => {
+              spreadsheetLibraryPromise = null;
+              reject(new Error("The Excel reader could not be downloaded. Check your internet connection or save the workbook as CSV."));
+            };
+            document.head.append(script);
+          });
+        }
+        return spreadsheetLibraryPromise;
+      }
+
+      async function parseSpreadsheet(file) {
+        const XLSX = await loadSpreadsheetLibrary();
+        const workbook = XLSX.read(await file.arrayBuffer(), { type: "array", cellDates: false });
+        const sheetName = workbook.SheetNames.find((name) => {
+          const sheet = workbook.Sheets[name];
+          return sheet && XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: false }).some((row) => row.some((cell) => String(cell ?? "").trim() !== ""));
+        });
+        if (!sheetName) throw new Error("This workbook does not contain a worksheet with data.");
+        const matrix = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+          header: 1,
+          raw: false,
+          defval: "",
+          blankrows: false,
+          dateNF: "yyyy-mm-dd"
+        });
+        return { ...parseMatrix(matrix), sheetName };
+      }
+
+      function setProcessing(active, text = "") {
+        const indicator = $("#loading-indicator");
+        indicator.classList.toggle("visible", active);
+        indicator.setAttribute("aria-hidden", String(!active));
+        $("#dropzone").setAttribute("aria-busy", String(active));
+        $("#cleaning-section").setAttribute("aria-busy", String(active));
+        if (active && text) $("#loading-text").textContent = text;
+        $("#file-input").disabled = active;
+      }
+
+      function requestConfirmation(title, description, confirmLabel, action) {
+        $("#confirmation-title").textContent = title;
+        $("#confirmation-description").textContent = description;
+        $("#confirmation-accept").textContent = confirmLabel;
+        pendingConfirmation = action;
+        confirmationDialog.showModal();
+      }
+
+      function clearAnalysis() {
+        state.rows = [];
+        state.headers = [];
+        state.selectedColumns = [];
+        state.page = 1;
+        state.query = "";
+        state.filterColumn = "";
+        state.filterValue = "";
+        state.sortColumn = "";
+        state.sortDirection = "asc";
+        state.chartType = "bar";
+        state.datasetName = "";
+        state.sample = false;
+        state.fileFormat = "";
+        state.sheetName = "";
+        state.cleaningPreview = null;
+        state.cleaningUndo = null;
+        searchInput.value = "";
+        $("#filter-value").value = "";
+        $("#file-input").value = "";
+        $("#summary-mode").value = "all";
+        $("#sort-direction").textContent = "↑";
+        $("#sort-direction").setAttribute("aria-label", "Sort ascending");
+        showCleaningMessage("");
+        renderCleaningControls();
+        renderColumnChoices();
+        renderTable();
+        navigateToPage("dashboard");
+        showMessage("The current analysis was cleared. Your uploaded source file and previous history entries were not changed.", true);
+      }
+
+      const pageTitles = {
+        dashboard: "Dashboard",
+        data: "My data",
+        cleaning: "Clean data",
+        statistics: "Statistics",
+        visualize: "Visualize",
+        reports: "Reports"
+      };
+
+      function navigateToPage(page, updateHash = true) {
+        if (!Object.prototype.hasOwnProperty.call(pageTitles, page)) return false;
+        document.querySelectorAll("[data-page-view]").forEach((view) => {
+          view.hidden = view.dataset.pageView !== page;
+        });
+        document.querySelectorAll("[data-page-nav]").forEach((button) => {
+          const active = button.dataset.pageNav === page;
+          button.classList.toggle("active", active);
+          if (active) button.setAttribute("aria-current", "page");
+          else button.removeAttribute("aria-current");
+        });
+        $("#breadcrumb-title").textContent = pageTitles[page];
+        if (updateHash && window.location.hash !== `#${page}`) window.location.hash = page;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return true;
+      }
+
+      function showMessage(text, success = false) {
+        message.textContent = text;
+        message.classList.toggle("success", success);
+        message.classList.add("show");
+        message.setAttribute("role", success ? "status" : "alert");
+        message.setAttribute("aria-live", success ? "polite" : "assertive");
+        window.clearTimeout(showMessage.timer);
+        showMessage.timer = window.setTimeout(() => message.classList.remove("show"), 6000);
+      }
+
+      function exportCSV() {
+        const rows = filteredRows();
+        if (!rows.length) {
+          showMessage("There are no matching rows to export. Clear your search or add more data.");
+          return;
+        }
+        const columns = analyzedHeaders();
+        const quote = (value) => `"${String(value ?? "").replace(/"/g, '""')}"`;
+        const csv = [columns, ...rows.map((row) => columns.map((header) => row[header] ?? ""))]
+          .map((row) => row.map(quote).join(",")).join("\r\n");
+        const url = URL.createObjectURL(new Blob(["\uFEFF", csv], { type: "text/csv;charset=utf-8" }));
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${state.datasetName.replace(/[^a-z0-9-_]+/gi, "-").replace(/^-|-$/g, "") || "dataglow-data"}-export.csv`;
+        document.body.append(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+        showMessage("The filtered table view was downloaded as CSV.", true);
+      }
+
+      function downloadFile(contents, fileName, type) {
+        const url = URL.createObjectURL(new Blob([contents], { type }));
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = fileName;
+        document.body.append(link);
+        link.click();
+        link.remove();
+        window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+
+      function exportCleanedCSV() {
+        if (!state.headers.length) {
+          showCleaningMessage("Load a dataset before exporting a cleaned CSV.");
+          return;
+        }
+        const quote = (value) => `"${String(value ?? "").replace(/"/g, '""')}"`;
+        const csv = [state.headers, ...state.rows.map((row) => state.headers.map((header) => row[header] ?? ""))]
+          .map((row) => row.map(quote).join(",")).join("\r\n");
+        const fileBase = state.datasetName.replace(/\.[^.]+$/, "").replace(/[^a-z0-9-_]+/gi, "-").replace(/^-|-$/g, "") || "dataglow-data";
+        downloadFile(`\uFEFF${csv}`, `${fileBase}-cleaned.csv`, "text/csv;charset=utf-8");
+        showCleaningMessage("Downloaded the current working copy as a CSV. The source file was not changed.", true);
+      }
+
+      function exportAnalysisReport() {
+        if (!state.rows.length) return;
+        const { report } = datasetFindings(filteredRows());
+        const fileBase = state.datasetName.replace(/\.[^.]+$/, "").replace(/[^a-z0-9-_]+/gi, "-").replace(/^-|-$/g, "") || "dataglow-data";
+        downloadFile(report, `${fileBase}-analysis-report.txt`, "text/plain;charset=utf-8");
+        showMessage("Your rule-based analysis report was downloaded.", true);
+      }
+
+      async function loadFile(file) {
+        if (!file) return;
+        const extension = file.name.split(".").pop().toLocaleLowerCase();
+        const isCSV = extension === "csv" || file.type === "text/csv";
+        const isExcel = ["xls", "xlsx", "xlsm", "xlsb"].includes(extension);
+        if (!isCSV && !isExcel) {
+          showMessage("Please choose a CSV or Excel workbook (.xls, .xlsx, .xlsm, or .xlsb). You can also paste copied spreadsheet data.");
+          return;
+        }
+        if (file.size > 15 * 1024 * 1024) {
+          showMessage("This file is larger than 15 MB. Try a smaller file for a smooth browser-based preview.");
+          return;
+        }
+        setProcessing(true, isExcel ? `Opening ${file.name}…` : `Reading ${file.name}…`);
+        try {
+          const parsed = isExcel
+            ? await parseSpreadsheet(file)
+            : parseData(await file.text());
+          setDataset(parsed, file.name, false, isExcel ? "Excel" : "CSV");
+        } catch (error) {
+          showMessage(error.message || `We couldn't read ${file.name}. Check its format and try again.`);
+        } finally {
+          setProcessing(false);
+        }
+      }
+
+      $("#file-input").addEventListener("change", (event) => {
+        loadFile(event.target.files[0]);
+        event.target.value = "";
+      });
+      const dropzone = $("#dropzone");
+      ["dragenter", "dragover"].forEach((type) => dropzone.addEventListener(type, (event) => {
+        event.preventDefault();
+        dropzone.classList.add("dragover");
+      }));
+      ["dragleave", "drop"].forEach((type) => dropzone.addEventListener(type, (event) => {
+        event.preventDefault();
+        dropzone.classList.remove("dragover");
+      }));
+      dropzone.addEventListener("drop", (event) => {
+        const file = event.dataTransfer.files[0];
+        if (file) loadFile(file);
+      });
+      searchInput.addEventListener("input", () => {
+        state.query = searchInput.value.trim();
+        state.page = 1;
+        renderTable();
+      });
+      $("#filter-value").addEventListener("input", (event) => {
+        state.filterValue = event.target.value.trim();
+        state.page = 1;
+        renderTable();
+      });
+      $("#filter-column").addEventListener("change", (event) => {
+        state.filterColumn = event.target.value;
+        state.page = 1;
+        renderTable();
+      });
+      $("#sort-select").addEventListener("change", (event) => {
+        state.sortColumn = event.target.value;
+        state.page = 1;
+        renderTable();
+      });
+      $("#sort-direction").addEventListener("click", (event) => {
+        state.sortDirection = state.sortDirection === "asc" ? "desc" : "asc";
+        event.currentTarget.textContent = state.sortDirection === "asc" ? "↑" : "↓";
+        event.currentTarget.setAttribute("aria-label", `Sort ${state.sortDirection === "asc" ? "ascending" : "descending"}`);
+        event.currentTarget.title = `Sort ${state.sortDirection === "asc" ? "ascending" : "descending"}`;
+        renderTable();
+      });
+      $("#column-picker-menu").addEventListener("change", (event) => {
+        if (!event.target.matches("input[type='checkbox']")) return;
+        const selected = [...$("#column-picker-menu").querySelectorAll("input:checked")].map((input) => input.value);
+        if (!selected.length) {
+          event.target.checked = true;
+          return;
+        }
+        state.selectedColumns = state.headers.filter((header) => selected.includes(header));
+        renderColumnChoices();
+        renderTable();
+      });
+      tableHead.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-sort-header]");
+        if (!button) return;
+        const column = button.dataset.sortHeader;
+        if (state.sortColumn === column) {
+          state.sortDirection = state.sortDirection === "asc" ? "desc" : "asc";
+          $("#sort-direction").textContent = state.sortDirection === "asc" ? "↑" : "↓";
+          $("#sort-direction").setAttribute("aria-label", `Sort ${state.sortDirection === "asc" ? "ascending" : "descending"}`);
+        } else {
+          state.sortColumn = column;
+          state.sortDirection = "asc";
+          $("#sort-select").value = column;
+          $("#sort-direction").textContent = "↑";
+          $("#sort-direction").setAttribute("aria-label", "Sort ascending");
+        }
+        renderTable();
+      });
+      $("#summary-mode").addEventListener("change", renderMetrics);
+      $("#clean-action").addEventListener("change", () => {
+        state.cleaningPreview = null;
+        showCleaningMessage("");
+        renderCleaningControls();
+        renderCleaning();
+      });
+      $("#clean-preview-button").addEventListener("click", makeCleaningPreview);
+      $("#clean-undo-button").addEventListener("click", undoCleaningChange);
+      $("#chart-type").addEventListener("change", (event) => {
+        state.chartType = event.target.value;
+        renderChart();
+      });
+      $("#group-select").addEventListener("change", renderChart);
+      $("#value-select").addEventListener("change", renderChart);
+      $("#prev-page").addEventListener("click", () => {
+        if (state.page > 1) { state.page -= 1; renderTable(); }
+      });
+      $("#next-page").addEventListener("click", () => {
+        const pages = Math.max(1, Math.ceil(filteredRows().length / state.pageSize));
+        if (state.page < pages) { state.page += 1; renderTable(); }
+      });
+      $("#export-button").addEventListener("click", exportCSV);
+      $("#clean-export-button").addEventListener("click", exportCleanedCSV);
+      $("#download-report-button").addEventListener("click", exportAnalysisReport);
+      $("#confirmation-accept").addEventListener("click", () => {
+        const action = pendingConfirmation;
+        pendingConfirmation = null;
+        confirmationDialog.close();
+        if (action) action();
+      });
+      [$("#confirmation-cancel"), $("#confirmation-close")].forEach((button) => button.addEventListener("click", () => {
+        pendingConfirmation = null;
+        confirmationDialog.close();
+      }));
+      confirmationDialog.addEventListener("cancel", () => { pendingConfirmation = null; });
+      $("#theme-toggle").addEventListener("click", (event) => {
+        const button = event.currentTarget;
+        const dark = document.documentElement.dataset.theme !== "dark";
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+        button.setAttribute("aria-pressed", String(dark));
+        button.setAttribute("aria-label", `Switch to ${dark ? "light" : "dark"} mode`);
+        button.title = `Switch to ${dark ? "light" : "dark"} mode`;
+        renderChart();
+      });
+      document.querySelectorAll("[data-page-nav]").forEach((button) => button.addEventListener("click", () => {
+        navigateToPage(button.dataset.pageNav);
+      }));
+      window.addEventListener("hashchange", () => {
+        const requestedPage = window.location.hash.slice(1);
+        if (requestedPage !== "main") navigateToPage(pageTitles[requestedPage] ? requestedPage : "dashboard", false);
+      });
+      document.querySelectorAll("[data-action]").forEach((button) => button.addEventListener("click", () => {
+        if (button.dataset.action === "upload") $("#file-input").click();
+        if (button.dataset.action === "sample" || button.dataset.action === "restore-sample") chooseSampleDataset();
+        if (button.dataset.action === "reset-analysis" && state.headers.length) {
+          requestConfirmation(
+            "Clear the current analysis?",
+            "This removes the current dataset and its working-copy changes from DataGlow. Your uploaded source file and previous history entries are not modified.",
+            "Clear analysis",
+            clearAnalysis
+          );
+        }
+        if (button.dataset.action === "paste") {
+          $("#dialog-error").textContent = "";
+          dialog.showModal();
+          $("#paste-input").focus();
+        }
+        if (button.dataset.action === "close-dialog") dialog.close();
+        if (button.dataset.action === "help") {
+          showMessage("To start: upload or paste a CSV/Excel file, or explore the student sample. Select columns in the data preview, use Clean data to preview fixes, and visit Reports for plain-English findings. Your files stay in this browser.", true);
+        }
+      }));
+      $("#paste-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const submitButton = $("#paste-form").querySelector("[type='submit']");
+        const pasteLoading = $("#paste-loading");
+        submitButton.disabled = true;
+        pasteLoading.classList.add("visible");
+        pasteLoading.setAttribute("aria-hidden", "false");
+        try {
+          await new Promise((resolve) => window.requestAnimationFrame(resolve));
+          const parsed = parseData($("#paste-input").value);
+          setDataset(parsed, "Pasted data");
+          dialog.close();
+        } catch (error) {
+          $("#dialog-error").textContent = error.message || "We couldn't parse that table.";
+        } finally {
+          submitButton.disabled = false;
+          pasteLoading.classList.remove("visible");
+          pasteLoading.setAttribute("aria-hidden", "true");
+        }
+      });
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+      window.addEventListener("resize", () => {
+        if (window.matchMedia("(max-width: 600px)").matches && $("#chart").innerHTML) renderChart();
+      });
+      renderCleaningControls();
+      renderTable();
+      const initialPage = window.location.hash.slice(1);
+      navigateToPage(pageTitles[initialPage] ? initialPage : "dashboard", false);
+    })();
+  </script>
 </body>
 </html>
